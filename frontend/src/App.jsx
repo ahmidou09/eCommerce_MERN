@@ -1,7 +1,21 @@
 import React from "react";
+import Navbar from "./components/Navbar";
+import styled from "styled-components";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+
+const AppContainer = styled.div``;
 
 function App() {
-  return <h1>welcome to frontend</h1>;
+  return (
+    <AppContainer>
+      <Navbar />
+      <main>
+        <Home />
+      </main>
+      <Footer />
+    </AppContainer>
+  );
 }
 
 export default App;
