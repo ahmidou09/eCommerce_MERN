@@ -6,9 +6,7 @@ const FooterContainer = styled.footer`
   padding: 2rem;
   background-color: var(--color-primary-1);
   color: var(--color-white);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+
   font-size: 1.2rem;
 `;
 
