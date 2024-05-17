@@ -148,7 +148,7 @@ const SwipeCarousel = ({ slideData }) => {
                 <FaArrowRight />
               </button>
             </ContentContainer>
-            <img src="./images/hero.jpg" alt="Product" />
+            <img src={product.image} alt="Product" />
           </SlideContainer>
         ))}
       </CarouselMotionDiv>

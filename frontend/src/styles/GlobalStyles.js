@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
   --color-primary-3: #011627;
   /* color secondary */
   --color-grey-0: #999D9E;
-  --color-grey-1: #607B96;
+  --color-grey-1: #f5f5f5;
   --color-teal-1: #3C9D93;
   --color-purple-1 : #263B50;
   --color-purple-2 : #5565E8;

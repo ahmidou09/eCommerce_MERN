@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const NavBar = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -92,10 +93,18 @@ function Navbar() {
             <span>eCommerceShop</span>
           </div>
           <ul className="navbar_links">
-            <li className="navbar_link">Home</li>
-            <li className="navbar_link">Contact</li>
-            <li className="navbar_link">About</li>
-            <li className="navbar_link">Sign Up</li>
+            <li className="navbar_link">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="navbar_link">
+              <Link to="/contact">Contact</Link>
+            </li>
+            <li className="navbar_link">
+              <Link to="/about">About</Link>
+            </li>
+            <li className="navbar_link">
+              <Link to="/signup">Sign Up</Link>
+            </li>
           </ul>
 
           <ul className="navbar_icons">

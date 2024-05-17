@@ -5,7 +5,7 @@ import GlobalStyles from "./styles/GlobalStyles.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <GlobalStyles />
-      <App />
+    <GlobalStyles />
+    <App />
   </React.StrictMode>
 );

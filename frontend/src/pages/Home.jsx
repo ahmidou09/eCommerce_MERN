@@ -9,6 +9,7 @@ const HomeContainer = styled.div``;
 const Herder = styled.header`
   display: flex;
   gap: 2rem;
+  margin-bottom: 6rem;
 `;
 
 const Container = styled.div`
