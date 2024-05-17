@@ -19,7 +19,7 @@ const Container = styled.div`
 
 const Title = styled.h2`
   font-size: 3.4rem;
-  color: var(--color-primary-1);
+  color: var(--color-black);
 `;
 
 const CountdownWrapper = styled.div`
@@ -42,7 +42,7 @@ const CountdownItemWrapper = styled.div`
     &::before {
       content: ":";
       font-size: 4rem;
-      color: var(--color-button-red-1);
+      color: var(--color-primary-1);
       left: -40%;
       top: 55%;
       transform: translateY(-50%);
@@ -57,7 +57,7 @@ const NumberWrapper = styled.div`
 
 const Number = styled.span`
   font-size: 3.8rem;
-  color: var(--color-primary-1);
+  color: var(--color-black);
   font-weight: 700;
 `;
 
@@ -65,7 +65,7 @@ const Text = styled.span`
   font-size: 1.2rem;
   text-transform: capitalize;
   font-weight: 700;
-  color: var(--color-primary-1);
+  color: var(--color-black);
   width: 100%;
 `;
 

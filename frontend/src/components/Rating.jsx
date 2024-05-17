@@ -5,7 +5,6 @@ import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 const StarsContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 8px;
 `;
 
 const Star = styled(FaStar)`
@@ -19,14 +18,14 @@ const HalfStar = styled(FaStarHalfAlt)`
 `;
 
 const EmptyStar = styled(FaStar)`
-  color: var(--color-grey-0);
+  color: var(--color-grey-1);
   margin-right: 2px;
 `;
 
 const RatingNumber = styled.span`
   margin-left: 8px;
   font-size: 1em;
-  color: var(--color-grey-0);
+  color: var(--color-grey-1);
 `;
 
 const Rating = ({ rating, totalReviews }) => {
@@ -45,7 +44,7 @@ const Rating = ({ rating, totalReviews }) => {
           <EmptyStar key={`empty-${i}`} />
         )
       )}
-      <RatingNumber>({totalReviews})</RatingNumber>
+      <RatingNumber>({totalReviews} reviews)</RatingNumber>
     </StarsContainer>
   );
 };

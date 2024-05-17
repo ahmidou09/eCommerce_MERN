@@ -17,7 +17,7 @@ const FlashSalesHeader = styled.div`
 const Today = styled.span`
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--color-button-red-1);
+  color: var(--color-primary-1);
   position: relative;
   padding: 0.5rem;
   padding-left: 3rem;
@@ -26,7 +26,7 @@ const Today = styled.span`
     content: "";
     width: 2rem;
     height: 100%;
-    background-color: var(--color-button-red-1);
+    background-color: var(--color-primary-1);
     display: inline-block;
     position: absolute;
     border-radius: 0.5rem;

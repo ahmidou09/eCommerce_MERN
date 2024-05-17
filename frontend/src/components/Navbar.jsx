@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  color: var(--color-primary-1);
+  color: var(--color-black);
 `;
 
 const NavbarContainer = styled.nav`
@@ -36,7 +36,7 @@ const NavbarContainer = styled.nav`
       cursor: pointer;
 
       &_user {
-        background-color: var(--color-button-red-1);
+        background-color: var(--color-primary-1);
         border-radius: 50%;
         width: 3rem;
         height: 3rem;
@@ -68,7 +68,7 @@ const NavbarContainer = styled.nav`
         align-items: center;
         color: var(--color-white);
         padding: 0.5rem;
-        background-color: var(--color-button-red-1);
+        background-color: var(--color-primary-1);
         font-size: 1.2rem;
       }
 

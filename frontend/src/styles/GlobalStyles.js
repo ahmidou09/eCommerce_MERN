@@ -3,12 +3,14 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
 :root {
   /* color primary */
-  --color-primary-1: #01080E;
+  --color-primary-1: #db4444;
   --color-primary-2: #011221;
   --color-primary-3: #011627;
   /* color secondary */
-  --color-grey-0: #999D9E;
-  --color-grey-1: #f5f5f5;
+  --color-grey-0: #f5f5f5;
+  --color-grey-1: #999D9E;
+  --color-grey-3: #333;
+  --color-grey-4: #666;
   --color-teal-1: #3C9D93;
   --color-purple-1 : #263B50;
   --color-purple-2 : #5565E8;
@@ -25,7 +27,6 @@ const GlobalStyles = createGlobalStyle`
   --color-white-2 : #e5e9f0;
 
   /*color button */
-  --color-button-red-1 : #db4444;
   --color-button-red-2 : #f44336b3;
   --color-button-d-1: #FEA55F;
   --color-button-d-2: #FFAC6B;

@@ -9,7 +9,7 @@ const Container = styled.div`
   margin: 0 auto;
   width: 100%;
   padding: 1rem;
-  background-color: var(--color-primary-1);
+  background-color: var(--color-black);
   color: var(--color-white-2);
 `;
 
@@ -170,7 +170,7 @@ const Dot = ({ isActive, ...props }) => (
     {...props}
     style={{
       backgroundColor: isActive
-        ? "var(--color-button-red-1)"
+        ? "var(--color-primary-1)"
         : "var(--color-grey-0)",
       border: isActive ? "2px solid var(--color-white)" : "none",
     }}

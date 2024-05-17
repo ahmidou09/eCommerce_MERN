@@ -3,6 +3,9 @@ const productsData = [
     _id: "1",
     name: "Airpods Wireless Bluetooth Headphones",
     image: "/images/airpods.png",
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
     description:
       "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working",
     brand: "Apple",
@@ -11,7 +14,7 @@ const productsData = [
     countInStock: 10,
     oldPrice: 119.99,
     discount: 10,
-    rating: 1,
+    rating: 3.5,
     numReviews: 12,
   },
   {
@@ -27,6 +30,9 @@ const productsData = [
     oldPrice: 799.99,
     rating: 3.5,
     numReviews: 8,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "3",
@@ -42,6 +48,9 @@ const productsData = [
     discount: 10,
     rating: 3,
     numReviews: 12,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "4",
@@ -57,6 +66,9 @@ const productsData = [
     discount: 10,
     rating: 5,
     numReviews: 12,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "5",
@@ -71,6 +83,9 @@ const productsData = [
     oldPrice: 59.99,
     rating: 3.5,
     numReviews: 10,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "6",
@@ -85,6 +100,9 @@ const productsData = [
     oldPrice: 39.99,
     rating: 4,
     numReviews: 12,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "7",
@@ -99,6 +117,9 @@ const productsData = [
     oldPrice: 1399.99,
     rating: 4.7,
     numReviews: 15,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "8",
@@ -113,6 +134,9 @@ const productsData = [
     oldPrice: 399.99,
     rating: 4.8,
     numReviews: 20,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "9",
@@ -127,6 +151,9 @@ const productsData = [
     oldPrice: 1199.99,
     rating: 4.6,
     numReviews: 10,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "10",
@@ -141,6 +168,9 @@ const productsData = [
     oldPrice: 299.99,
     rating: 4.3,
     numReviews: 7,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     _id: "11",
@@ -156,6 +186,9 @@ const productsData = [
     oldPrice: 999.99,
     rating: 4.5,
     numReviews: 10,
+    images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
+    colors: ["red", "green", "blue"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
   },
 ];
 

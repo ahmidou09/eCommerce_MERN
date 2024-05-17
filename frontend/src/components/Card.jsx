@@ -14,7 +14,7 @@ const ProductCard = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  background-color: var(--color-grey-1);
+  background-color: var(--color-grey-0);
   margin-bottom: 1rem;
   min-height: 30rem;
   width: 100%;
@@ -56,14 +56,14 @@ const ProductName = styled.h3`
 const ProductPrice = styled.div`
   font-size: 1.6rem;
   margin-bottom: 0.5rem;
-  color: var(--color-button-red-1);
+  color: var(--color-primary-1);
   font-weight: 500;
   padding-left: 1rem;
 `;
 
 const ProductOldPrice = styled.span`
   text-decoration: line-through;
-  color: var(--color-grey-0);
+  color: var(--color-grey-1);
   margin-left: 0.5rem;
 `;
 
@@ -72,7 +72,7 @@ const ProductDiscount = styled.div`
   font-size: 1.2rem;
   top: 1rem;
   left: 1rem;
-  background-color: var(--color-button-red-1);
+  background-color: var(--color-primary-1);
   color: var(--color-white);
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -97,7 +97,7 @@ const HeartButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: var(--color-button-red-1);
+    color: var(--color-primary-1);
   }
 `;
 
