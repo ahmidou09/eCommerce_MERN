@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import SwipeCarousel from "./SwipeCarousel";
-import productsData from "../data/productsData";
 
 const SlideContainer = styled.div`
   width: 80%;
@@ -9,9 +9,17 @@ const SlideContainer = styled.div`
 `;
 
 function Slide() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const getProducts = async () => {
+      const { data } = await axios.get("http://localhost:5000/api/products");
+      setProducts(data);
+    };
+    getProducts();
+  });
   return (
     <SlideContainer>
-      <SwipeCarousel slideData={productsData} />
+      <SwipeCarousel slideData={products} />
     </SlideContainer>
   );
 }

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { useParams } from "react-router-dom";
-import productsData from "../data/productsData";
 import { FaPlus, FaMinus, FaRegHeart, FaTruck, FaUndo } from "react-icons/fa";
 import Rating from "./Rating";
 
@@ -74,7 +74,7 @@ const Review = styled.div`
 
 const Stock = styled.p`
   font-size: 1.2rem;
-  color: green;
+  color: var(--color-green-1);
   margin-bottom: 1rem;
 `;
 
@@ -104,6 +104,7 @@ const SizeOption = styled.div`
   padding: 0.5rem 1rem;
   margin-left: 1rem;
   border: 1px solid var(--color-grey-1);
+  border-radius: 5px;
   margin-right: 0.5rem;
   cursor: pointer;
   background-color: ${(props) =>
@@ -121,6 +122,7 @@ const QuantityControl = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid var(--color-grey-1);
+  border-radius: 5px;
 
   button:first-child {
     border-right: 1px solid var(--color-grey-1);
@@ -151,6 +153,7 @@ const Quantity = styled.span`
 const BuyButton = styled.button`
   padding: 1rem 1.5rem;
   background-color: var(--color-primary-1);
+  border-radius: 5px;
   color: var(--color-white);
   border: none;
   cursor: pointer;
@@ -161,17 +164,32 @@ const WishListButton = styled.button`
   background-color: transparent;
   color: var(--color-grey-3);
   border: 1px solid var(--color-grey-1);
+  border-radius: 5px;
   cursor: pointer;
+`;
+
+const DeliveryInfoContainer = styled.div`
+  border: 1px solid var(--color-grey-1);
+  border-radius: 5px;
+
+  &:first-child {
+    border-bottom: 1px solid var(--color-grey-1);
+  }
 `;
 
 const DeliveryInfo = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  gap: 2rem;
+  padding: 2rem;
 `;
 
 const DeliveryIcon = styled.div`
   margin-right: 0.5rem;
+
+  svg {
+    font-size: 2rem;
+  }
 `;
 
 const DeliveryText = styled.p`
@@ -181,12 +199,30 @@ const DeliveryText = styled.p`
 
 function ProductView() {
   const { id } = useParams();
-  const product = productsData.find((product) => product._id === id);
-
-  const [selectedImage, setSelectedImage] = useState(product.images[0]);
+  const [product, setProduct] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/products/${id}`
+        );
+        setProduct(data);
+        setSelectedImage(data.images[0]);
+        setSelectedColor(data.colors[0]);
+        setSelectedSize(data.sizes[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (!product) return <div>Loading...</div>;
 
   const handleIncreaseQuantity = () => setQuantity(quantity + 1);
   const handleDecreaseQuantity = () =>
@@ -259,18 +295,24 @@ function ProductView() {
               <FaRegHeart />
             </WishListButton>
           </ProductActions>
-          <DeliveryInfo>
-            <DeliveryIcon>
-              <FaTruck />
-            </DeliveryIcon>
-            <DeliveryText>Free Delivery</DeliveryText>
-          </DeliveryInfo>
-          <DeliveryInfo>
-            <DeliveryIcon>
-              <FaUndo />
-            </DeliveryIcon>
-            <DeliveryText>Free 30 Days Delivery Returns. Details</DeliveryText>
-          </DeliveryInfo>
+          <DeliveryInfoContainer>
+            <DeliveryInfo
+              style={{ borderBottom: "1px solid var(--color-grey-1)" }}
+            >
+              <DeliveryIcon>
+                <FaTruck />
+              </DeliveryIcon>
+              <DeliveryText>Free Delivery</DeliveryText>
+            </DeliveryInfo>
+            <DeliveryInfo>
+              <DeliveryIcon>
+                <FaUndo />
+              </DeliveryIcon>
+              <DeliveryText>
+                Free 30 Days Delivery Returns. Details
+              </DeliveryText>
+            </DeliveryInfo>
+          </DeliveryInfoContainer>
         </ProductDetails>
       </ProductContainer>
     </Container>

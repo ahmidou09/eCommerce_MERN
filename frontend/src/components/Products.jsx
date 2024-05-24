@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Card from "./Card";
 import ShiftingCountdown from "./ShiftingCountdown";
-import productsData from "../data/productsData";
 
 const Container = styled.div`
   max-width: 120rem;
@@ -42,6 +42,16 @@ const ProductsGrid = styled.div`
 `;
 
 const Products = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const { data } = await axios.get("http://localhost:5000/api/products");
+      setProducts(data);
+    };
+    getProducts();
+  }, []);
+
   return (
     <Container>
       <FlashSalesHeader>
@@ -49,7 +59,7 @@ const Products = () => {
         <ShiftingCountdown />
       </FlashSalesHeader>
       <ProductsGrid>
-        <Card productsData={productsData} />
+        <Card products={products} />
       </ProductsGrid>
     </Container>
   );

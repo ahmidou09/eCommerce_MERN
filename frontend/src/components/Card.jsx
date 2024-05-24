@@ -101,11 +101,11 @@ const HeartButton = styled.button`
   }
 `;
 
-function Card({ productsData }) {
+function Card({ products }) {
   return (
     <>
-      {productsData.map((product) => (
-        <ProductCard key={product._id}>
+      {products.map((product) => (
+        <ProductCard key={product.name}>
           <Link to={`/products/${product._id}`}>
             <ImageContainer>
               {product.discount && (
