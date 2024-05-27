@@ -107,17 +107,17 @@ const SwipeCarousel = ({ slideData }) => {
     const intervalRef = setInterval(() => {
       if (dragX.get() === 0) {
         setSlidesIndex((prevIndex) =>
-          prevIndex === slideData.length - 1 ? 0 : prevIndex + 1
+          prevIndex === slideData?.length - 1 ? 0 : prevIndex + 1
         );
       }
     }, AUTO_DELAY);
 
     return () => clearInterval(intervalRef);
-  }, [dragX, slideData.length]);
+  }, [dragX, slideData?.length]);
 
   const handleDragEnd = () => {
     const x = dragX.get();
-    if (x <= -DRAG_BUFFER && slidesIndex < slideData.length - 1) {
+    if (x <= -DRAG_BUFFER && slidesIndex < slideData?.length - 1) {
       setSlidesIndex(slidesIndex + 1);
     } else if (x >= DRAG_BUFFER && slidesIndex > 0) {
       setSlidesIndex(slidesIndex - 1);
@@ -134,7 +134,7 @@ const SwipeCarousel = ({ slideData }) => {
         transition={SPRING_OPTIONS}
         onDragEnd={handleDragEnd}
       >
-        {slideData.map((product, idx) => (
+        {slideData?.map((product, idx) => (
           <SlideContainer
             key={idx}
             animate={{ scale: slidesIndex === idx ? 0.95 : 0.85 }}
@@ -153,7 +153,7 @@ const SwipeCarousel = ({ slideData }) => {
         ))}
       </CarouselMotionDiv>
       <DotsContainer>
-        {slideData.map((_, idx) => (
+        {slideData?.map((_, idx) => (
           <Dot
             key={idx}
             onClick={() => setSlidesIndex(idx)}

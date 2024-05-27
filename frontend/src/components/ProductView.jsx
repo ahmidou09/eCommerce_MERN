@@ -1,9 +1,126 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { useGetProductByIdQuery } from "../redux/slices/productsApiSlice";
 import { useParams } from "react-router-dom";
 import { FaPlus, FaMinus, FaRegHeart, FaTruck, FaUndo } from "react-icons/fa";
 import Rating from "./Rating";
+import Loading from "./Loading";
+import Errors from "./Errors";
+
+function ProductView() {
+  const { id } = useParams();
+  const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+
+  useEffect(() => {
+    if (product) {
+      setSelectedImage(product.images[0]);
+      setSelectedColor(product.colors[0]);
+      setSelectedSize(product.sizes[0]);
+    }
+  }, [product]);
+
+  const handleIncreaseQuantity = () => setQuantity(quantity + 1);
+  const handleDecreaseQuantity = () =>
+    quantity > 1 && setQuantity(quantity - 1);
+
+  if (isLoading) return <Loading height={"100vh"} />;
+  if (isError)
+    return <Errors message="An error occurred" style={{ height: "50vh" }} />;
+
+  return (
+    <Container>
+      <ProductContainer>
+        <ImageGallery>
+          <div>
+            {product.images.map((image, index) => (
+              <Thumbnail
+                key={index}
+                src={image}
+                onClick={() => setSelectedImage(image)}
+                selected={selectedImage === image}
+              />
+            ))}
+          </div>
+          <MainImage src={selectedImage} />
+        </ImageGallery>
+        <ProductDetails>
+          <Title>{product.name}</Title>
+          <Review>
+            <Rating rating={product.rating} totalReviews={product.numReviews} />
+          </Review>
+          <Stock>In Stock</Stock>
+          <Price>${product.price.toFixed(2)}</Price>
+          <Description>{product.description}</Description>
+          <ColorOptions>
+            <span>Colours: </span>
+            {product.colors.map((color, index) => (
+              <ColorOption
+                key={index}
+                color={color}
+                onClick={() => setSelectedColor(color)}
+                style={{
+                  border:
+                    selectedColor === color
+                      ? "2px solid var(--color-black)"
+                      : "none",
+                }}
+              />
+            ))}
+          </ColorOptions>
+          <SizeOptions>
+            <span>Size: </span>
+            {product.sizes.map((size, index) => (
+              <SizeOption
+                key={index}
+                selected={selectedSize === size}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </SizeOption>
+            ))}
+          </SizeOptions>
+          <ProductActions>
+            <QuantityControl>
+              <QuantityButton onClick={handleDecreaseQuantity}>
+                <FaMinus />
+              </QuantityButton>
+              <Quantity>{quantity}</Quantity>
+              <QuantityButton onClick={handleIncreaseQuantity}>
+                <FaPlus />
+              </QuantityButton>
+            </QuantityControl>
+            <BuyButton>Buy Now</BuyButton>
+            <WishListButton>
+              <FaRegHeart />
+            </WishListButton>
+          </ProductActions>
+          <DeliveryInfoContainer>
+            <DeliveryInfo
+              style={{ borderBottom: "1px solid var(--color-grey-1)" }}
+            >
+              <DeliveryIcon>
+                <FaTruck />
+              </DeliveryIcon>
+              <DeliveryText>Free Delivery</DeliveryText>
+            </DeliveryInfo>
+            <DeliveryInfo>
+              <DeliveryIcon>
+                <FaUndo />
+              </DeliveryIcon>
+              <DeliveryText>
+                Free 30 Days Delivery Returns. Details
+              </DeliveryText>
+            </DeliveryInfo>
+          </DeliveryInfoContainer>
+        </ProductDetails>
+      </ProductContainer>
+    </Container>
+  );
+}
 
 const Container = styled.div`
   max-width: 1200px;
@@ -196,127 +313,5 @@ const DeliveryText = styled.p`
   font-size: 1.2rem;
   color: var(--color-grey-3);
 `;
-
-function ProductView() {
-  const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/products/${id}`
-        );
-        setProduct(data);
-        setSelectedImage(data.images[0]);
-        setSelectedColor(data.colors[0]);
-        setSelectedSize(data.sizes[0]);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProduct();
-  }, [id]);
-
-  if (!product) return <div>Loading...</div>;
-
-  const handleIncreaseQuantity = () => setQuantity(quantity + 1);
-  const handleDecreaseQuantity = () =>
-    quantity > 1 && setQuantity(quantity - 1);
-
-  return (
-    <Container>
-      <ProductContainer>
-        <ImageGallery>
-          <div>
-            {product.images.map((image, index) => (
-              <Thumbnail
-                key={index}
-                src={image}
-                onClick={() => setSelectedImage(image)}
-                selected={selectedImage === image}
-              />
-            ))}
-          </div>
-          <MainImage src={selectedImage} />
-        </ImageGallery>
-        <ProductDetails>
-          <Title>{product.name}</Title>
-          <Review>
-            <Rating rating={product.rating} totalReviews={product.numReviews} />
-          </Review>
-          <Stock>In Stock</Stock>
-          <Price>${product.price.toFixed(2)}</Price>
-          <Description>{product.description}</Description>
-          <ColorOptions>
-            <span>Colours: </span>
-            {product.colors.map((color, index) => (
-              <ColorOption
-                key={index}
-                color={color}
-                onClick={() => setSelectedColor(color)}
-                style={{
-                  border:
-                    selectedColor === color
-                      ? "2px solid var(--color-black)"
-                      : "none",
-                }}
-              />
-            ))}
-          </ColorOptions>
-          <SizeOptions>
-            <span>Size: </span>
-            {product.sizes.map((size, index) => (
-              <SizeOption
-                key={index}
-                selected={selectedSize === size}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </SizeOption>
-            ))}
-          </SizeOptions>
-          <ProductActions>
-            <QuantityControl>
-              <QuantityButton onClick={handleDecreaseQuantity}>
-                <FaMinus />
-              </QuantityButton>
-              <Quantity>{quantity}</Quantity>
-              <QuantityButton onClick={handleIncreaseQuantity}>
-                <FaPlus />
-              </QuantityButton>
-            </QuantityControl>
-            <BuyButton>Buy Now</BuyButton>
-            <WishListButton>
-              <FaRegHeart />
-            </WishListButton>
-          </ProductActions>
-          <DeliveryInfoContainer>
-            <DeliveryInfo
-              style={{ borderBottom: "1px solid var(--color-grey-1)" }}
-            >
-              <DeliveryIcon>
-                <FaTruck />
-              </DeliveryIcon>
-              <DeliveryText>Free Delivery</DeliveryText>
-            </DeliveryInfo>
-            <DeliveryInfo>
-              <DeliveryIcon>
-                <FaUndo />
-              </DeliveryIcon>
-              <DeliveryText>
-                Free 30 Days Delivery Returns. Details
-              </DeliveryText>
-            </DeliveryInfo>
-          </DeliveryInfoContainer>
-        </ProductDetails>
-      </ProductContainer>
-    </Container>
-  );
-}
 
 export default ProductView;

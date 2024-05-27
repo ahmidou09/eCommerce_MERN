@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 import Card from "./Card";
 import ShiftingCountdown from "./ShiftingCountdown";
+import { useGetProductsQuery } from "../redux/slices/productsApiSlice";
+import Loading from "./Loading";
+import Errors from "./Errors";
 
 const Container = styled.div`
   max-width: 120rem;
@@ -42,15 +44,7 @@ const ProductsGrid = styled.div`
 `;
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const getProducts = async () => {
-      const { data } = await axios.get("http://localhost:5000/api/products");
-      setProducts(data);
-    };
-    getProducts();
-  }, []);
+  const { data: products, isLoading, isError } = useGetProductsQuery();
 
   return (
     <Container>
@@ -59,7 +53,13 @@ const Products = () => {
         <ShiftingCountdown />
       </FlashSalesHeader>
       <ProductsGrid>
-        <Card products={products} />
+        {isLoading ? (
+          <Loading height={"80vh"} />
+        ) : isError ? (
+          <Errors message="An error occurred" style={{ height: "20vh" }} />
+        ) : (
+          <Card products={products} />
+        )}
       </ProductsGrid>
     </Container>
   );
