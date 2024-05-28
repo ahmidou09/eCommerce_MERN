@@ -102,7 +102,10 @@ function ProductView() {
           {product.countInStock > 0 && (
             <ProductActions>
               <QuantityControl>
-                <QuantityButton onClick={handleDecreaseQuantity}>
+                <QuantityButton
+                  onClick={handleDecreaseQuantity}
+                  disabled={quantity <= 0}
+                >
                   <FaMinus />
                 </QuantityButton>
                 <Quantity
@@ -110,10 +113,11 @@ function ProductView() {
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   min="1"
+                />
+                <QuantityButton
+                  onClick={handleIncreaseQuantity}
+                  disabled={quantity >= product.countInStock}
                 >
-                  {quantity}
-                </Quantity>
-                <QuantityButton onClick={handleIncreaseQuantity}>
                   <FaPlus />
                 </QuantityButton>
               </QuantityControl>
@@ -283,13 +287,23 @@ const QuantityButton = styled.button`
   cursor: pointer;
   font-size: 1.5rem;
   padding: 1rem;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
-const Quantity = styled.span`
+const Quantity = styled.input`
   font-size: 1.6rem;
   width: 5rem;
   text-align: center;
   margin: 0 0.5rem;
+  border: none;
+  background-color: var(--color-grey-0);
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const BuyButton = styled.button`
