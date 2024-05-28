@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetProductByIdQuery } from "../redux/slices/productsApiSlice";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
 import { FaPlus, FaMinus, FaRegHeart, FaTruck, FaUndo } from "react-icons/fa";
 import Rating from "./Rating";
 import Loading from "./Loading";
@@ -9,6 +11,7 @@ import Errors from "./Errors";
 
 function ProductView() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
   const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -26,6 +29,17 @@ function ProductView() {
   const handleIncreaseQuantity = () => setQuantity(quantity + 1);
   const handleDecreaseQuantity = () =>
     quantity > 1 && setQuantity(quantity - 1);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        ...product,
+        quantity: Number(quantity),
+        selectedColor,
+        selectedSize,
+      })
+    );
+  };
 
   if (isLoading) return <Loading height={"100vh"} />;
   if (isError)
@@ -52,7 +66,9 @@ function ProductView() {
           <Review>
             <Rating rating={product.rating} totalReviews={product.numReviews} />
           </Review>
-          <Stock>In Stock</Stock>
+          <Stock color={product.countInStock > 0 ? "green" : "red"}>
+            {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
+          </Stock>
           <Price>${product.price.toFixed(2)}</Price>
           <Description>{product.description}</Description>
           <ColorOptions>
@@ -83,21 +99,30 @@ function ProductView() {
               </SizeOption>
             ))}
           </SizeOptions>
-          <ProductActions>
-            <QuantityControl>
-              <QuantityButton onClick={handleDecreaseQuantity}>
-                <FaMinus />
-              </QuantityButton>
-              <Quantity>{quantity}</Quantity>
-              <QuantityButton onClick={handleIncreaseQuantity}>
-                <FaPlus />
-              </QuantityButton>
-            </QuantityControl>
-            <BuyButton>Buy Now</BuyButton>
-            <WishListButton>
-              <FaRegHeart />
-            </WishListButton>
-          </ProductActions>
+          {product.countInStock > 0 && (
+            <ProductActions>
+              <QuantityControl>
+                <QuantityButton onClick={handleDecreaseQuantity}>
+                  <FaMinus />
+                </QuantityButton>
+                <Quantity
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  min="1"
+                >
+                  {quantity}
+                </Quantity>
+                <QuantityButton onClick={handleIncreaseQuantity}>
+                  <FaPlus />
+                </QuantityButton>
+              </QuantityControl>
+              <BuyButton onClick={handleAddToCart}>Add to Cart</BuyButton>
+              <WishListButton>
+                <FaRegHeart />
+              </WishListButton>
+            </ProductActions>
+          )}
           <DeliveryInfoContainer>
             <DeliveryInfo
               style={{ borderBottom: "1px solid var(--color-grey-1)" }}
@@ -191,7 +216,7 @@ const Review = styled.div`
 
 const Stock = styled.p`
   font-size: 1.2rem;
-  color: var(--color-green-1);
+  color: ${(props) => props.color};
   margin-bottom: 1rem;
 `;
 
