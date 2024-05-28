@@ -104,7 +104,7 @@ function ProductView() {
               <QuantityControl>
                 <QuantityButton
                   onClick={handleDecreaseQuantity}
-                  disabled={quantity <= 0}
+                  disabled={quantity <= 1}
                 >
                   <FaMinus />
                 </QuantityButton>
@@ -299,7 +299,14 @@ const Quantity = styled.input`
   text-align: center;
   margin: 0 0.5rem;
   border: none;
-  background-color: var(--color-grey-0);
+  background-color: transparent;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
   &:focus {
     outline: none;
