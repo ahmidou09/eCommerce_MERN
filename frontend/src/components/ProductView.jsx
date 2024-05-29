@@ -19,6 +19,7 @@ function ProductView() {
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
 
+  console.log(product);
   useEffect(() => {
     if (product) {
       setSelectedImage(product.images[0]);
@@ -73,34 +74,38 @@ function ProductView() {
           </Stock>
           <Price>${product.price.toFixed(2)}</Price>
           <Description>{product.description}</Description>
-          <ColorOptions>
-            <span>Colours: </span>
-            {product.colors.map((color, index) => (
-              <ColorOption
-                key={index}
-                color={color}
-                onClick={() => setSelectedColor(color)}
-                style={{
-                  border:
-                    selectedColor === color
-                      ? "2px solid var(--color-black)"
-                      : "none",
-                }}
-              />
-            ))}
-          </ColorOptions>
-          <SizeOptions>
-            <span>Size: </span>
-            {product.sizes.map((size, index) => (
-              <SizeOption
-                key={index}
-                selected={selectedSize === size}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </SizeOption>
-            ))}
-          </SizeOptions>
+          {product.colors.length > 0 && (
+            <ColorOptions>
+              <span>Color: </span>
+              {product.colors.map((color, index) => (
+                <ColorOption
+                  key={index}
+                  color={color}
+                  onClick={() => setSelectedColor(color)}
+                  style={{
+                    border:
+                      selectedColor === color
+                        ? "2px solid var(--color-black)"
+                        : "none",
+                  }}
+                />
+              ))}
+            </ColorOptions>
+          )}
+          {product?.sizes.length > 0 && (
+            <SizeOptions>
+              <span>Size: </span>
+              {product.sizes.map((size, index) => (
+                <SizeOption
+                  key={index}
+                  selected={selectedSize === size}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </SizeOption>
+              ))}
+            </SizeOptions>
+          )}
           {product.countInStock > 0 && (
             <ProductActions>
               <QuantityControl>

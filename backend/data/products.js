@@ -4,7 +4,6 @@ const products = [
     image: "/images/airpods.png",
     images: ["/images/airpods.png", "/images/iPhone.png", "/images/camera.png"],
     colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
     description:
       "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working",
     brand: "Apple",
@@ -30,8 +29,7 @@ const products = [
     rating: 3.5,
     numReviews: 8,
     images: ["/images/iPhone.png", "/images/iPhone.png", "/images/camera.png"],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["red", "green"],
   },
   {
     name: "Cannon EOS 80D DSLR Camera",
@@ -47,8 +45,6 @@ const products = [
     rating: 3,
     numReviews: 12,
     images: ["/images/camera.png", "/images/iPhone.png", "/images/camera.png"],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     name: "Sony Playstation 4 Pro White Version",
@@ -68,8 +64,6 @@ const products = [
       "/images/iPhone.png",
       "/images/playstation.png",
     ],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     name: "Logitech G-Series Gaming Mouse",
@@ -86,7 +80,6 @@ const products = [
     numReviews: 10,
     images: ["/images/mouse.png", "/images/iPhone.png", "/images/mouse.png"],
     colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     name: "Amazon Echo Dot 3rd Generation",
@@ -103,7 +96,6 @@ const products = [
     numReviews: 12,
     images: ["/images/alexa.png", "/images/iPhone.png", "/images/alexa.png"],
     colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     name: "Samsung Galaxy S20 Ultra",
@@ -123,8 +115,7 @@ const products = [
       "/images/iPhone.png",
       "/images/samsung.png",
     ],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["red", "blue"],
   },
   {
     name: "Sony WH-1000XM4 Noise Cancelling Headphones",
@@ -144,8 +135,6 @@ const products = [
       "/images/iPhone.png",
       "/images/sonyheadphones.png",
     ],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     name: "Dell XPS 13 Laptop",
@@ -165,8 +154,6 @@ const products = [
       "/images/iPhone.png",
       "/images/dellxps13.png",
     ],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
     name: "Modern Smartwatch",
@@ -186,7 +173,6 @@ const products = [
       "/images/iPhone.png",
       "/images/smartwatch.png",
     ],
-    colors: ["red", "green", "blue"],
     sizes: ["S", "M", "L", "XL", "XXL"],
   },
   {
@@ -203,8 +189,7 @@ const products = [
     rating: 4.5,
     numReviews: 10,
     images: ["/images/tv.png", "/images/iPhone.png", "/images/tv.png"],
-    colors: ["red", "green", "blue"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    sizes: ["32", "42", "52", "65", "75"],
   },
 ];
 

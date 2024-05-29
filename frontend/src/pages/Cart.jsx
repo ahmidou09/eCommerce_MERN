@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { addToCart } from "../redux/slices/cartSlice";
+import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
@@ -13,8 +13,12 @@ const Cart = () => {
 
   const handleQuantityChange = (id, quantity) => {
     const item = cartItems.find((item) => item._id === id);
-    if (item && quantity >= 1 && quantity <= 10) {
-      dispatch(addToCart({ ...item, quantity }));
+    if (item) {
+      if (quantity <= 0) {
+        dispatch(removeFromCart(id));
+      } else {
+        dispatch(addToCart({ ...item, quantity }));
+      }
     }
   };
 
@@ -46,7 +50,6 @@ const Cart = () => {
                 <QuantityControl>
                   <QuantityButton
                     onClick={() => decrementQuantity(item._id, item.quantity)}
-                    disabled={item.quantity <= 1}
                   >
                     -
                   </QuantityButton>
