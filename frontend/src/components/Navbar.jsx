@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavBar = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -85,6 +86,10 @@ const Container = styled.div`
 `;
 
 function Navbar() {
+  const cartItemsCount = useSelector((state) =>
+    state.cart.cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  );
+
   return (
     <NavBar>
       <Container>
@@ -112,10 +117,14 @@ function Navbar() {
               <FaRegHeart />
             </li>
             <li className="navbar_icon">
-              <div className="navbar_icon_container">
-                <span className="navbar_icon_count">4</span>
-                <AiOutlineShoppingCart />
-              </div>
+              <Link to="/cart">
+                <div className="navbar_icon_container">
+                  {cartItemsCount > 0 && (
+                    <span className="navbar_icon_count">{cartItemsCount}</span>
+                  )}
+                  <AiOutlineShoppingCart />
+                </div>
+              </Link>
             </li>
             <li className="navbar_icon navbar_icons_user">
               <FaRegUser />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetProductByIdQuery } from "../redux/slices/productsApiSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { FaPlus, FaMinus, FaRegHeart, FaTruck, FaUndo } from "react-icons/fa";
@@ -11,6 +11,7 @@ import Errors from "./Errors";
 
 function ProductView() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,6 +40,7 @@ function ProductView() {
         selectedSize,
       })
     );
+    navigate("/cart");
   };
 
   if (isLoading) return <Loading height={"100vh"} />;
@@ -300,7 +302,6 @@ const Quantity = styled.input`
   margin: 0 0.5rem;
   border: none;
   background-color: transparent;
-  -moz-appearance: textfield;
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {

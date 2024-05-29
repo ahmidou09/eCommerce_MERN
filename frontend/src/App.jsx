@@ -6,6 +6,7 @@ import Contact from "./pages/Contact";
 import AppLayout from "./ui/AppLayout";
 import Products from "./components/Products";
 import ProductView from "./components/ProductView";
+import Cart from "./pages/Cart";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="products" element={<Products />} />
             <Route path="products/:id" element={<ProductView />} />
+            <Route path="cart" element={<Cart />} />
             <Route path="contact" element={<Contact />} />
             <Route path="signUp" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
