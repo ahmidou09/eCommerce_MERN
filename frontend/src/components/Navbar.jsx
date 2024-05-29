@@ -113,9 +113,12 @@ function Navbar() {
           </ul>
 
           <ul className="navbar_icons">
-            <li className="navbar_icon">
-              <FaRegHeart />
-            </li>
+            <Link to="/wishList">
+              <li className="navbar_icon">
+                <FaRegHeart />
+              </li>
+            </Link>
+
             <li className="navbar_icon">
               <Link to="/cart">
                 <div className="navbar_icon_container">

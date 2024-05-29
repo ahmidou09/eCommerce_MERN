@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useGetProductByIdQuery } from "../redux/slices/productsApiSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/slices/cartSlice";
+import { addToCart, addToWishList } from "../redux/slices/cartSlice";
 import { FaPlus, FaMinus, FaRegHeart, FaTruck, FaUndo } from "react-icons/fa";
 import Rating from "./Rating";
 import Loading from "./Loading";
@@ -42,6 +42,10 @@ function ProductView() {
       })
     );
     navigate("/cart");
+  };
+
+  const handleAddToWishList = (product) => {
+    dispatch(addToWishList(product));
   };
 
   if (isLoading) return <Loading height={"100vh"} />;
@@ -129,7 +133,7 @@ function ProductView() {
                 </QuantityButton>
               </QuantityControl>
               <BuyButton onClick={handleAddToCart}>Add to Cart</BuyButton>
-              <WishListButton>
+              <WishListButton onClick={() => handleAddToWishList(product)}>
                 <FaRegHeart />
               </WishListButton>
             </ProductActions>

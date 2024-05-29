@@ -9,6 +9,7 @@ import ProductView from "./components/ProductView";
 import Cart from "./pages/Cart";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import WishList from "./pages/WishList";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="products" element={<Products />} />
             <Route path="products/:id" element={<ProductView />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="wishList" element={<WishList />} />
             <Route path="contact" element={<Contact />} />
             <Route path="signUp" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />

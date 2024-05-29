@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems, itemsPrice, shippingPrice, totalPrice } = useSelector(
-    (state) => state.cart
-  );
+  const { cartItems, itemsPrice, shippingPrice, taxPrice, totalPrice } =
+    useSelector((state) => state.cart);
   const [coupon, setCoupon] = useState("");
 
   const handleQuantityChange = (id, quantity) => {
@@ -30,20 +30,29 @@ const Cart = () => {
     handleQuantityChange(id, currentQuantity - 1);
   };
 
+  const handleRemoveItem = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
   return (
     <Container>
       <Table>
         <thead>
           <tr>
+            <Th>Image</Th>
             <Th>Product</Th>
             <Th>Price</Th>
             <Th>Quantity</Th>
             <Th>Subtotal</Th>
+            <Th>Actions</Th>
           </tr>
         </thead>
         <tbody>
           {cartItems.map((item) => (
             <tr key={item._id}>
+              <Td>
+                <ProductImage src={item.image} alt={item.name} />
+              </Td>
               <Td>{item.name}</Td>
               <Td>${item.price.toFixed(2)}</Td>
               <Td>
@@ -63,6 +72,11 @@ const Cart = () => {
                 </QuantityControl>
               </Td>
               <Td>${(item.price * item.quantity).toFixed(2)}</Td>
+              <Td>
+                <RemoveButton onClick={() => handleRemoveItem(item._id)}>
+                  <FaTrash />
+                </RemoveButton>
+              </Td>
             </tr>
           ))}
         </tbody>
@@ -87,6 +101,7 @@ const Cart = () => {
         <div>
           <p>Subtotal: ${itemsPrice}</p>
           <p>Shipping: {shippingPrice === 0 ? "Free" : `$${shippingPrice}`}</p>
+          <p>Tax: ${taxPrice}</p>
           <p>Total: ${totalPrice}</p>
         </div>
         <Button onClick={() => console.log("Proceed to checkout")}>
@@ -121,6 +136,12 @@ const Td = styled.td`
   border-bottom: 1px solid var(--color-grey-0);
 `;
 
+const ProductImage = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+`;
+
 const QuantityControl = styled.div`
   display: flex;
   align-items: center;
@@ -144,6 +165,18 @@ const QuantityButton = styled.button`
 
 const QuantityValue = styled.span`
   font-size: 1rem;
+`;
+
+const RemoveButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: var(--color-danger);
+  cursor: pointer;
+  font-size: 1.2rem;
+
+  &:hover {
+    color: var(--color-danger-dark);
+  }
 `;
 
 const Actions = styled.div`

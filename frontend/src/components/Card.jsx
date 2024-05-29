@@ -1,8 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "./Rating";
 import { FaRegHeart } from "react-icons/fa";
+import { addToWishList } from "../redux/slices/cartSlice";
 
 const ProductCard = styled.div`
   width: 22%;
@@ -90,7 +92,7 @@ const AddToCartButton = styled.button`
 const HeartButton = styled.button`
   background: none;
   border: none;
-  color: var(--color-grey-0);
+  color: var(--color-grey-3);
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -102,6 +104,11 @@ const HeartButton = styled.button`
 `;
 
 function Card({ products }) {
+  const dispatch = useDispatch();
+  const handleAddToWishList = (product) => {
+    dispatch(addToWishList(product));
+  };
+
   return (
     <>
       {products.map((product) => (
@@ -123,7 +130,7 @@ function Card({ products }) {
             </ProductPrice>
             <Rating rating={product.rating} totalReviews={product.numReviews} />
           </Link>
-          <HeartButton>
+          <HeartButton onClick={() => handleAddToWishList(product)}>
             <FaRegHeart size={24} />
           </HeartButton>
         </ProductCard>
