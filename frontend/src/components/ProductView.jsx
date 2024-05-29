@@ -2,9 +2,20 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetProductByIdQuery } from "../redux/slices/productsApiSlice";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToCart, addToWishList } from "../redux/slices/cartSlice";
-import { FaPlus, FaMinus, FaRegHeart, FaTruck, FaUndo } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  addToWishList,
+  removeFromWishList,
+} from "../redux/slices/cartSlice";
+import {
+  FaPlus,
+  FaMinus,
+  FaRegHeart,
+  FaTruck,
+  FaUndo,
+  FaHeart,
+} from "react-icons/fa";
 import Rating from "./Rating";
 import Loading from "./Loading";
 import Errors from "./Errors";
@@ -44,8 +55,18 @@ function ProductView() {
     navigate("/cart");
   };
 
+  const wishListItems = useSelector((state) => state.cart.wishListItems);
+
   const handleAddToWishList = (product) => {
-    dispatch(addToWishList(product));
+    if (wishListItems.find((x) => x._id === product._id)) {
+      dispatch(removeFromWishList(product._id));
+    } else {
+      dispatch(addToWishList(product));
+    }
+  };
+
+  const isProductInWishList = (productId) => {
+    return wishListItems.some((item) => item._id === productId);
   };
 
   if (isLoading) return <Loading height={"100vh"} />;
@@ -134,7 +155,14 @@ function ProductView() {
               </QuantityControl>
               <BuyButton onClick={handleAddToCart}>Add to Cart</BuyButton>
               <WishListButton onClick={() => handleAddToWishList(product)}>
-                <FaRegHeart />
+                {isProductInWishList(product._id) ? (
+                  <FaHeart
+                    size={24}
+                    style={{ color: "var(--color-primary-1)" }}
+                  />
+                ) : (
+                  <FaRegHeart size={24} />
+                )}
               </WishListButton>
             </ProductActions>
           )}

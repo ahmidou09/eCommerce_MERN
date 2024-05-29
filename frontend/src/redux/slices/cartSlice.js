@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { updateCart } from "../../utils/cartUtil";
+import { toast } from "react-toastify";
 
 const initialState = {
   cartItems: localStorage.getItem("cart")
@@ -30,11 +31,12 @@ const cartSlice = createSlice({
       } else {
         state.cartItems = [...state.cartItems, item];
       }
-
+      toast.success("Product added to cart!");
       return updateCart(state);
     },
     removeFromCart(state, action) {
       state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+      toast.success("Product removed from cart!");
       return updateCart(state);
     },
     addToWishList(state, action) {
@@ -43,12 +45,14 @@ const cartSlice = createSlice({
         state.wishListItems = [...state.wishListItems, item];
       }
       localStorage.setItem("wishList", JSON.stringify(state.wishListItems));
+      toast.success("Product added to wish list!");
     },
     removeFromWishList(state, action) {
       state.wishListItems = state.wishListItems.filter(
         (x) => x._id !== action.payload
       );
       localStorage.setItem("wishList", JSON.stringify(state.wishListItems));
+      toast.success("Product removed from wish list!");
     },
   },
 });

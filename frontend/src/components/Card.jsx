@@ -1,10 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "./Rating";
-import { FaRegHeart } from "react-icons/fa";
-import { addToWishList } from "../redux/slices/cartSlice";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { addToWishList, removeFromWishList } from "../redux/slices/cartSlice";
 
 const ProductCard = styled.div`
   width: 22%;
@@ -105,8 +105,18 @@ const HeartButton = styled.button`
 
 function Card({ products }) {
   const dispatch = useDispatch();
+  const wishListItems = useSelector((state) => state.cart.wishListItems);
+
   const handleAddToWishList = (product) => {
-    dispatch(addToWishList(product));
+    if (wishListItems.find((x) => x._id === product._id)) {
+      dispatch(removeFromWishList(product._id));
+    } else {
+      dispatch(addToWishList(product));
+    }
+  };
+
+  const isProductInWishList = (productId) => {
+    return wishListItems.some((item) => item._id === productId);
   };
 
   return (
@@ -131,7 +141,11 @@ function Card({ products }) {
             <Rating rating={product.rating} totalReviews={product.numReviews} />
           </Link>
           <HeartButton onClick={() => handleAddToWishList(product)}>
-            <FaRegHeart size={24} />
+            {isProductInWishList(product._id) ? (
+              <FaHeart size={24} style={{ color: "var(--color-primary-1)" }} />
+            ) : (
+              <FaRegHeart size={24} />
+            )}
           </HeartButton>
         </ProductCard>
       ))}
