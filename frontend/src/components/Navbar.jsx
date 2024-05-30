@@ -87,7 +87,10 @@ const Container = styled.div`
 
 function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
+  const { wishListItems } = useSelector((state) => state.wishList);
   const cartItemsCount = cartItems.length;
+
+  const wishListItemsCount = wishListItems.length;
 
   return (
     <NavBar>
@@ -112,11 +115,18 @@ function Navbar() {
           </ul>
 
           <ul className="navbar_icons">
-            <Link to="/wishList">
-              <li className="navbar_icon">
-                <FaRegHeart />
-              </li>
-            </Link>
+            <li className="navbar_icon">
+              <Link to="/wishList">
+                <div className="navbar_icon_container">
+                  {wishListItemsCount > 0 && (
+                    <span className="navbar_icon_count">
+                      {wishListItemsCount}
+                    </span>
+                  )}
+                  <FaRegHeart />
+                </div>
+              </Link>
+            </li>
 
             <li className="navbar_icon">
               <Link to="/cart">

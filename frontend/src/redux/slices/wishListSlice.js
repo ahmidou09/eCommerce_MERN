@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-  wishListItems: Array.isArray(localStorage.getItem("wishList"))
+  wishListItems: localStorage.getItem("wishList")
     ? JSON.parse(localStorage.getItem("wishList"))
     : [],
 };

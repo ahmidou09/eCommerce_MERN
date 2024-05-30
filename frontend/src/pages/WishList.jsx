@@ -9,7 +9,6 @@ import { FaTrash, FaCartPlus } from "react-icons/fa";
 const WishList = () => {
   const dispatch = useDispatch();
   const { wishListItems } = useSelector((state) => state.wishList);
-  console.log(wishListItems);
 
   const handleAddToCart = (item) => {
     dispatch(addToCart({ ...item, quantity: 1 }));
