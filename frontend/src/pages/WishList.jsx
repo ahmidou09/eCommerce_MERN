@@ -1,13 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { addToCart, removeFromWishList } from "../redux/slices/cartSlice";
+import { addToCart } from "../redux/slices/cartSlice";
+import { removeFromWishList } from "../redux/slices/wishListSlice";
 import { Link } from "react-router-dom";
 import { FaTrash, FaCartPlus } from "react-icons/fa";
 
 const WishList = () => {
   const dispatch = useDispatch();
-  const { wishListItems } = useSelector((state) => state.cart);
+  const { wishListItems } = useSelector((state) => state.wishList);
+  console.log(wishListItems);
 
   const handleAddToCart = (item) => {
     dispatch(addToCart({ ...item, quantity: 1 }));

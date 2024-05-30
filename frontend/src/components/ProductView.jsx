@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetProductByIdQuery } from "../redux/slices/productsApiSlice";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
 import {
-  addToCart,
   addToWishList,
   removeFromWishList,
-} from "../redux/slices/cartSlice";
+} from "../redux/slices/wishListSlice";
 import {
   FaPlus,
   FaMinus,
@@ -22,7 +22,6 @@ import Errors from "./Errors";
 
 function ProductView() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -30,7 +29,6 @@ function ProductView() {
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
 
-  console.log(product);
   useEffect(() => {
     if (product) {
       setSelectedImage(product.images[0]);
@@ -52,10 +50,9 @@ function ProductView() {
         selectedSize,
       })
     );
-    navigate("/cart");
   };
 
-  const wishListItems = useSelector((state) => state.cart.wishListItems);
+  const { wishListItems } = useSelector((state) => state.wishList);
 
   const handleAddToWishList = (product) => {
     if (wishListItems.find((x) => x._id === product._id)) {

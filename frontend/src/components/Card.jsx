@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "./Rating";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { addToWishList, removeFromWishList } from "../redux/slices/cartSlice";
+import {
+  removeFromWishList,
+  addToWishList,
+} from "../redux/slices/wishListSlice";
 
 const ProductCard = styled.div`
   width: 22%;
@@ -105,7 +108,7 @@ const HeartButton = styled.button`
 
 function Card({ products }) {
   const dispatch = useDispatch();
-  const wishListItems = useSelector((state) => state.cart.wishListItems);
+  const { wishListItems } = useSelector((state) => state.wishList);
 
   const handleAddToWishList = (product) => {
     if (wishListItems.find((x) => x._id === product._id)) {

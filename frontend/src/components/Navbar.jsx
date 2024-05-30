@@ -86,9 +86,8 @@ const Container = styled.div`
 `;
 
 function Navbar() {
-  const cartItemsCount = useSelector((state) =>
-    state.cart.cartItems.reduce((acc, item) => acc + item.quantity, 0)
-  );
+  const { cartItems } = useSelector((state) => state.cart);
+  const cartItemsCount = cartItems.length;
 
   return (
     <NavBar>

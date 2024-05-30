@@ -6,9 +6,6 @@ const initialState = {
   cartItems: localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
     : [],
-  wishListItems: localStorage.getItem("wishList")
-    ? JSON.parse(localStorage.getItem("wishList"))
-    : [],
   shippingAddress: {},
   paymentMethod: "",
   itemsPrice: 0,
@@ -30,8 +27,8 @@ const cartSlice = createSlice({
         );
       } else {
         state.cartItems = [...state.cartItems, item];
+        toast.success("Product added to cart!");
       }
-      toast.success("Product added to cart!");
       return updateCart(state);
     },
     removeFromCart(state, action) {
@@ -39,24 +36,8 @@ const cartSlice = createSlice({
       toast.success("Product removed from cart!");
       return updateCart(state);
     },
-    addToWishList(state, action) {
-      const item = action.payload;
-      if (!state.wishListItems.find((x) => x._id === item._id)) {
-        state.wishListItems = [...state.wishListItems, item];
-      }
-      localStorage.setItem("wishList", JSON.stringify(state.wishListItems));
-      toast.success("Product added to wish list!");
-    },
-    removeFromWishList(state, action) {
-      state.wishListItems = state.wishListItems.filter(
-        (x) => x._id !== action.payload
-      );
-      localStorage.setItem("wishList", JSON.stringify(state.wishListItems));
-      toast.success("Product removed from wish list!");
-    },
   },
 });
 
-export const { addToCart, removeFromCart, addToWishList, removeFromWishList } =
-  cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;

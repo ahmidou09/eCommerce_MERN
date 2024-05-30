@@ -22,7 +22,7 @@ export const updateCart = (state) => {
   ).toFixed(2);
 
   // Save cart to localStorage
-  localStorage.setItem("cart", JSON.stringify(state));
+  localStorage.setItem("cart", JSON.stringify(state.cartItems));
 
   return state;
 };
