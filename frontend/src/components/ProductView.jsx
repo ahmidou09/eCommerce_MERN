@@ -92,7 +92,9 @@ function ProductView() {
             <Rating rating={product.rating} totalReviews={product.numReviews} />
           </Review>
           <Stock color={product.countInStock > 0 ? "green" : "red"}>
-            {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
+            {product.countInStock > 0
+              ? ` In Stock : (${product.countInStock})`
+              : "Out of Stock"}
           </Stock>
           <Price>${product.price.toFixed(2)}</Price>
           <Description>{product.description}</Description>
@@ -145,7 +147,7 @@ function ProductView() {
                 />
                 <QuantityButton
                   onClick={handleIncreaseQuantity}
-                  disabled={quantity >= product.countInStock}
+                  disabled={quantity >= product.countInStock || quantity >= 10}
                 >
                   <FaPlus />
                 </QuantityButton>
