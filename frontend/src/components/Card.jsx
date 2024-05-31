@@ -16,6 +16,7 @@ const ProductCard = styled.div`
   position: relative;
   padding-bottom: 1rem;
   transition: all 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 const ImageContainer = styled.div`
@@ -46,10 +47,12 @@ const ImageContainer = styled.div`
 
 const ProductImage = styled.img`
   margin-top: 3rem;
-  width: 100%;
+  width: 95%;
   height: auto;
   margin-bottom: 1rem;
   margin-right: auto;
+  margin-left: auto;
+  padding: 1rem;
 `;
 
 const ProductName = styled.h3`
@@ -75,8 +78,8 @@ const ProductOldPrice = styled.span`
 const ProductDiscount = styled.div`
   position: absolute;
   font-size: 1.2rem;
-  top: 1rem;
-  left: 1rem;
+  top: 1.5rem;
+  left: 1.5rem;
   background-color: var(--color-primary-1);
   color: var(--color-white);
   padding: 0.5rem;
@@ -97,8 +100,8 @@ const HeartButton = styled.button`
   border: none;
   color: var(--color-grey-3);
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.5rem;
+  right: 1.5rem;
   cursor: pointer;
 
   &:hover {
