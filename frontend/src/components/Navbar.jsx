@@ -97,7 +97,9 @@ function Navbar() {
       <Container>
         <NavbarContainer>
           <div className="logo">
-            <span>eCommerceShop</span>
+            <Link to="/">
+              <span>eCommerceShop</span>
+            </Link>
           </div>
           <ul className="navbar_links">
             <li className="navbar_link">
