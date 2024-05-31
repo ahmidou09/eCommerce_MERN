@@ -26,8 +26,15 @@ const wishListSlice = createSlice({
       localStorage.setItem("wishList", JSON.stringify(state.wishListItems));
       toast.success("Product removed from wish list!");
     },
+
+    clearWishList(state) {
+      state.wishListItems = [];
+      localStorage.setItem("wishList", JSON.stringify(state.wishListItems));
+      toast.success("Wish list cleared!");
+    },
   },
 });
 
-export const { addToWishList, removeFromWishList } = wishListSlice.actions;
+export const { addToWishList, removeFromWishList, clearWishList } =
+  wishListSlice.actions;
 export default wishListSlice.reducer;

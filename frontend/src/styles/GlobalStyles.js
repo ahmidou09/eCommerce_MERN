@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
   /* color secondary */
   --color-grey-0: #f5f5f5;
   --color-grey-1: #999D9E;
+  --color-grey-2: #ddd;
   --color-grey-3: #333;
   --color-grey-4: #666;
   --color-teal-1: #3C9D93;

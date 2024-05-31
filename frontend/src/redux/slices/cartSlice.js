@@ -2,16 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import { updateCart } from "../../utils/cartUtil";
 import { toast } from "react-toastify";
 
-const initialState = {
-  cartItems: localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart"))
-    : [],
-  shippingAddress: {},
-  paymentMethod: "",
-  itemsPrice: 0,
-  shippingPrice: 0,
-  taxPrice: 0,
-  totalPrice: 0,
+const initialState = () => {
+  const storedState = JSON.parse(localStorage.getItem("cart"));
+  if (storedState && typeof storedState === "object") {
+    return storedState;
+  } else {
+    return {
+      cartItems: [],
+      shippingAddress: {},
+      paymentMethod: "",
+      itemsPrice: 0,
+      shippingPrice: 0,
+      taxPrice: 0,
+      totalPrice: 0,
+    };
+  }
 };
 
 const cartSlice = createSlice({
