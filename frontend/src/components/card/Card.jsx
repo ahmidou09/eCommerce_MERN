@@ -2,12 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Rating from "./Rating";
+import Rating from "../Rating";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import {
   removeFromWishList,
   addToWishList,
-} from "../redux/slices/wishListSlice";
+} from "../../redux/slices/wishListSlice";
 
 const ProductCard = styled.div`
   width: 22%;

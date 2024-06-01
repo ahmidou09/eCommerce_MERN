@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Card";
-import ShiftingCountdown from "./ShiftingCountdown";
-import { useGetProductsQuery } from "../redux/slices/productsApiSlice";
-import Loading from "./Loading";
-import Errors from "./Errors";
+import Card from "../card/Card";
+import ShiftingCountdown from "../ShiftingCountdown";
+import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
+import Loading from "../Loading";
+import Errors from "../Errors";
 
 const Container = styled.div`
   max-width: 120rem;

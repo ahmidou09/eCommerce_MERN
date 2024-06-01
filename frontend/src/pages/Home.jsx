@@ -1,8 +1,8 @@
 import React from "react";
-import Products from "../components/Products";
+import Products from "../components/products/Products";
 import Filter from "../components/Filter";
 import styled from "styled-components";
-import Slide from "../components/Slide";
+import Slide from "../components/slide/Slide";
 
 const HomeContainer = styled.div``;
 
