@@ -8,6 +8,7 @@ import {
   removeFromWishList,
   addToWishList,
 } from "../../redux/slices/wishListSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 const ProductCard = styled.div`
   width: 22%;
@@ -17,6 +18,20 @@ const ProductCard = styled.div`
   padding-bottom: 1rem;
   transition: all 0.3s;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  .button-container {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(120%);
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+  }
+
+  &:hover .button-container {
+    opacity: 1;
+    transform: translateY(100%);
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -27,22 +42,6 @@ const ImageContainer = styled.div`
   position: relative;
   overflow: hidden;
   transition: all 0.3s;
-
-  .button-container {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    transform: translateY(100%);
-    transition: all 0.2s ease-in-out;
-  }
-
-  &:hover {
-    opacity: 0.8;
-    .button-container {
-      transform: translateY(0);
-    }
-  }
 `;
 
 const ProductImage = styled.img`
@@ -55,10 +54,16 @@ const ProductImage = styled.img`
   padding: 1rem;
 `;
 
+const ProductDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 0.75rem;
+`;
+
 const ProductName = styled.h3`
   font-size: 1.8rem;
   margin-bottom: 1rem;
-  padding-left: 1rem;
 `;
 
 const ProductPrice = styled.div`
@@ -66,7 +71,6 @@ const ProductPrice = styled.div`
   margin-bottom: 0.5rem;
   color: var(--color-primary-1);
   font-weight: 500;
-  padding-left: 1rem;
 `;
 
 const ProductOldPrice = styled.span`
@@ -113,6 +117,10 @@ function Card({ products }) {
   const dispatch = useDispatch();
   const { wishListItems } = useSelector((state) => state.wishList);
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart({ ...product, quantity: 1 }));
+  };
+
   const handleAddToWishList = (product) => {
     if (wishListItems.find((x) => x._id === product._id)) {
       dispatch(removeFromWishList(product._id));
@@ -135,17 +143,21 @@ function Card({ products }) {
                 <ProductDiscount>-{product.discount}%</ProductDiscount>
               )}
               <ProductImage src={product.image} alt={product.name} />
-              <div className="button-container">
-                <AddToCartButton>Add to Cart</AddToCartButton>
-              </div>
             </ImageContainer>
+          </Link>
+          <div className="button-container">
+            <AddToCartButton onClick={() => handleAddToCart(product)}>
+              Add to Cart
+            </AddToCartButton>
+          </div>
+          <ProductDetails>
             <ProductName>{product.name}</ProductName>
             <ProductPrice>
               ${product.price}{" "}
               <ProductOldPrice>${product.oldPrice}</ProductOldPrice>
             </ProductPrice>
             <Rating rating={product.rating} totalReviews={product.numReviews} />
-          </Link>
+          </ProductDetails>
           <HeartButton onClick={() => handleAddToWishList(product)}>
             {isProductInWishList(product._id) ? (
               <FaHeart size={24} style={{ color: "var(--color-primary-1)" }} />
