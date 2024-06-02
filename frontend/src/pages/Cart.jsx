@@ -69,31 +69,39 @@ const Cart = () => {
                       {item.name}
                     </Link>
                   </Td>
-                  <Td>${item.price.toFixed(2)}</Td>
+                  <Td>{item.countInStock > 0 ? `$${item.price}` : "-"}</Td>
                   <Td>
-                    <QuantityControl>
-                      <QuantityButton
-                        onClick={() =>
-                          decrementQuantity(item._id, item.quantity)
-                        }
-                      >
-                        <FaMinus />
-                      </QuantityButton>
-                      <QuantityValue>{item.quantity}</QuantityValue>
-                      <QuantityButton
-                        onClick={() =>
-                          incrementQuantity(item._id, item.quantity)
-                        }
-                        disabled={
-                          item.quantity >= item.countInStock ||
-                          item.quantity >= 10
-                        }
-                      >
-                        <FaPlus />
-                      </QuantityButton>
-                    </QuantityControl>
+                    {item.countInStock > 0 ? (
+                      <QuantityControl>
+                        <QuantityButton
+                          onClick={() =>
+                            decrementQuantity(item._id, item.quantity)
+                          }
+                        >
+                          <FaMinus />
+                        </QuantityButton>
+                        <QuantityValue>{item.quantity}</QuantityValue>
+                        <QuantityButton
+                          onClick={() =>
+                            incrementQuantity(item._id, item.quantity)
+                          }
+                          disabled={
+                            item.quantity >= item.countInStock ||
+                            item.quantity >= 10
+                          }
+                        >
+                          <FaPlus />
+                        </QuantityButton>
+                      </QuantityControl>
+                    ) : (
+                      "out of stock"
+                    )}
                   </Td>
-                  <Td>${(item.price * item.quantity).toFixed(2)}</Td>
+                  <Td>
+                    {item.countInStock > 0
+                      ? `$${(item.price * item.quantity).toFixed(2)}`
+                      : "-"}
+                  </Td>
                   <Td>
                     <RemoveButton onClick={() => handleRemoveItem(item._id)}>
                       <FaTrash />
@@ -139,9 +147,11 @@ const Cart = () => {
                   <span>Total:</span> <span>${totalPrice}</span>
                 </p>
               </div>
-              <Button onClick={() => console.log("Proceed to checkout")}>
-                Proceed to checkout
-              </Button>
+              {totalPrice > 0 && (
+                <Button onClick={() => console.log("Proceed to checkout")}>
+                  Proceed to checkout
+                </Button>
+              )}
             </CartTotal>
           </CartTotalContainer>
         </>
