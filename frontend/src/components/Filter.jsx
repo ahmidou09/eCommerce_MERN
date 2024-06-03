@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const FilterContainer = styled.div`
   width: 20%;
@@ -24,7 +25,9 @@ function Filter() {
       <ul className="filter_list">
         <li>Woman’s Fashion</li>
         <li>Man’s Fashion</li>
-        <li>Electronics</li>
+        <li>
+          <Link to="/products">Electronics</Link>
+        </li>
         <li>Home & Lifestyle</li>
         <li>Medicine</li>
         <li>Sports & Outdoor</li>
