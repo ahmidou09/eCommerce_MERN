@@ -10,8 +10,9 @@ import Products from "./components/products/Products";
 import ProductView from "./components/productView/ProductView";
 import Cart from "./pages/Cart";
 import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
+import Login from "./pages/Login";
 import WishList from "./pages/WishList";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -27,8 +28,8 @@ function App() {
             <Route path="wishList" element={<WishList />} />
             <Route path="contact" element={<Contact />} />
             <Route path="signUp" element={<SignUp />} />
-            <Route path="login" element={<LogIn />} />
-            <Route path="*" element={<div>Not Found</div>} />
+            <Route path="login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
