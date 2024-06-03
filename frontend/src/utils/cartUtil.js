@@ -18,9 +18,6 @@ export const updateCart = (state) => {
   state.shippingPrice =
     state.itemsPrice > 100 || +state.itemsPrice === 0 ? 0 : 10;
 
-  console.log("itemsPrice", +state.itemsPrice);
-  console.log("shippingPrice", state.shippingPrice);
-
   // Calculate tax price
   state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
 
