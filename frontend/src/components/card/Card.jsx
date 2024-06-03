@@ -23,14 +23,14 @@ const ProductCard = styled.div`
     width: 100%;
     top: 50%;
     left: 0;
-    transform: translateY(120%);
+    transform: translateY(180%);
     transition: all 0.2s ease-in-out;
     opacity: 0;
   }
 
   &:hover .button-container {
     opacity: 1;
-    transform: translateY(100%);
+    transform: translateY(120%);
   }
 `;
 
