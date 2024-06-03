@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartItems, itemsPrice, shippingPrice, taxPrice, totalPrice } =
     useSelector((state) => state.cart);
@@ -148,7 +149,10 @@ const Cart = () => {
                 </p>
               </div>
               {totalPrice > 0 && (
-                <Button onClick={() => console.log("Proceed to checkout")}>
+                <Button
+                  type="submit"
+                  onClick={() => navigate("/login?redirect=shipping")}
+                >
                   Proceed to checkout
                 </Button>
               )}
