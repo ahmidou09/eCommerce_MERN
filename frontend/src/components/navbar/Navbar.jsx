@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -130,10 +130,31 @@ function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
   const { wishListItems } = useSelector((state) => state.wishList);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const userIconRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
+  const handleClickOutside = (event) => {
+    if (
+      dropdownOpen &&
+      userIconRef.current &&
+      !userIconRef.current.contains(event.target) &&
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
 
   return (
     <NavBar>
@@ -175,10 +196,10 @@ function Navbar() {
                 <AiOutlineShoppingCart />
               </Link>
             </IconContainer>
-            <UserIcon onClick={toggleDropdown}>
+            <UserIcon ref={userIconRef} onClick={toggleDropdown}>
               <FaRegUser />
               {dropdownOpen && (
-                <DropdownMenu>
+                <DropdownMenu ref={dropdownRef}>
                   <DropdownItem to="/account">
                     <FaRegUser />
                     Manage My Account
