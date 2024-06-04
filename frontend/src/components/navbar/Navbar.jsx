@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -137,24 +137,27 @@ function Navbar() {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      dropdownOpen &&
-      userIconRef.current &&
-      !userIconRef.current.contains(event.target) &&
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target)
-    ) {
-      setDropdownOpen(false);
-    }
-  };
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (
+        dropdownOpen &&
+        userIconRef.current &&
+        !userIconRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+    },
+    [dropdownOpen]
+  );
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownOpen]);
+  }, [handleClickOutside]);
 
   return (
     <NavBar>
