@@ -38,9 +38,10 @@ const Today = styled.span`
 `;
 
 const ProductsGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  grid-gap: 4rem;
+  align-items: center;
 `;
 
 const Products = () => {
