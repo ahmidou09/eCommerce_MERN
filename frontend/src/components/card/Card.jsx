@@ -11,13 +11,11 @@ import {
 import { addToCart } from "../../redux/slices/cartSlice";
 
 const ProductCard = styled.div`
-  width: 22%;
   border-radius: 0.5rem;
-  margin-bottom: 2rem;
   position: relative;
-  padding-bottom: 1rem;
   transition: all 0.3s;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
   .button-container {
     position: absolute;
     width: 100%;
