@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -37,6 +37,7 @@ const NavbarContainer = styled.nav`
       cursor: pointer;
 
       &_user {
+        position: relative;
         background-color: var(--color-primary-1);
         border-radius: 50%;
         width: 3rem;
@@ -49,6 +50,38 @@ const NavbarContainer = styled.nav`
         svg {
           color: var(--color-white);
           font-size: 1.6rem !important;
+        }
+      }
+
+      &_dropdown {
+        position: absolute;
+        top: 3.5rem;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        width: 15rem;
+      }
+
+      &_dropdown_item {
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: var(--color-black);
+        text-decoration: none;
+
+        &:hover {
+          background-color: var(--color-primary-1);
+          color: var(--color-white);
+        }
+
+        svg {
+          font-size: 1.4rem;
         }
       }
     }
@@ -89,8 +122,13 @@ function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
   const { wishListItems } = useSelector((state) => state.wishList);
   const cartItemsCount = cartItems.length;
-
   const wishListItemsCount = wishListItems.length;
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <NavBar>
@@ -140,8 +178,38 @@ function Navbar() {
                 </div>
               </Link>
             </li>
-            <li className="navbar_icon navbar_icons_user">
+            <li
+              className="navbar_icon navbar_icons_user"
+              onClick={toggleDropdown}
+            >
               <FaRegUser />
+              {dropdownOpen && (
+                <div className="navbar_icons_dropdown">
+                  <Link to="/account" className="navbar_icons_dropdown_item">
+                    <FaRegUser />
+                    Manage My Account
+                  </Link>
+                  <Link to="/orders" className="navbar_icons_dropdown_item">
+                    <AiOutlineShoppingCart />
+                    My Order
+                  </Link>
+                  <Link
+                    to="/cancellations"
+                    className="navbar_icons_dropdown_item"
+                  >
+                    <FaRegHeart />
+                    My Cancellations
+                  </Link>
+                  <Link to="/reviews" className="navbar_icons_dropdown_item">
+                    <FaRegHeart />
+                    My Reviews
+                  </Link>
+                  <Link to="/logout" className="navbar_icons_dropdown_item">
+                    <FaRegUser />
+                    Logout
+                  </Link>
+                </div>
+              )}
             </li>
           </ul>
         </NavbarContainer>
