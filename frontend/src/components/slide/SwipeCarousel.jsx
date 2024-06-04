@@ -11,6 +11,7 @@ const Container = styled.div`
   padding: 1rem;
   background-color: var(--color-black);
   color: var(--color-white-2);
+  z-index: -1;
 `;
 
 const CarouselMotionDiv = styled(motion.div)`
