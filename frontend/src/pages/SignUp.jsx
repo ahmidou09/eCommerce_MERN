@@ -1,5 +1,100 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../redux/slices/authSlice";
+import { useRegisterMutation } from "../redux/slices/usersApiSlice";
+import Loading from "../components/Loading";
+import { toast } from "react-toastify";
+
+const SignUp = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [register, { isLoading }] = useRegisterMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const { search } = useLocation();
+  const redirectInUrl = new URLSearchParams(search).get("redirect");
+  const redirect = redirectInUrl ? redirectInUrl : "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    try {
+      const res = await register({ name, email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect || "/");
+    } catch (err) {
+      toast.error(err.data.message);
+    }
+  };
+
+  return (
+    <Container>
+      <SignUpContainer>
+        <ImageContainer>
+          <SVGImage src="/loginImage.svg" alt="SignUp Illustration" />
+        </ImageContainer>
+        <SignUpFormContainer>
+          <Title>Sign Up to Exclusive</Title>
+
+          <Form onSubmit={submitHandler}>
+            <Input
+              type="text"
+              placeholder="Full Name"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+              type="email"
+              placeholder="Email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            {isLoading ? <Loading /> : <Button type="submit">Sign Up</Button>}
+          </Form>
+          <AlreadyHaveAccount>
+            Already have an account?
+            <LoginLink to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+              Log in here
+            </LoginLink>
+          </AlreadyHaveAccount>
+        </SignUpFormContainer>
+      </SignUpContainer>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   max-width: 1200px;
@@ -71,11 +166,10 @@ const Button = styled.button`
 const AlreadyHaveAccount = styled.div`
   margin-top: 1rem;
   font-size: 1.4rem;
-  text-align: center;
   color: var(--color-grey-3);
 `;
 
-const LoginLink = styled.a`
+const LoginLink = styled(Link)`
   color: var(--color-primary-1);
   cursor: pointer;
   margin-left: 0.5rem;
@@ -84,31 +178,5 @@ const LoginLink = styled.a`
     text-decoration: underline;
   }
 `;
-
-const SignUp = () => {
-  return (
-    <Container>
-      <SignUpContainer>
-        <ImageContainer>
-          <SVGImage src="/loginImage.svg" alt="SignUp Illustration" />
-        </ImageContainer>
-        <SignUpFormContainer>
-          <Title>Sign Up to Exclusive</Title>
-          <Form>
-            <Input type="text" placeholder="Full Name" />
-            <Input type="email" placeholder="Email" />
-            <Input type="password" placeholder="Password" />
-            <Input type="password" placeholder="Confirm Password" />
-            <Button type="submit">Sign Up</Button>
-          </Form>
-          <AlreadyHaveAccount>
-            Already have an account?
-            <LoginLink href="/login">Log in here</LoginLink>
-          </AlreadyHaveAccount>
-        </SignUpFormContainer>
-      </SignUpContainer>
-    </Container>
-  );
-};
 
 export default SignUp;
