@@ -1,5 +1,83 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../redux/slices/authSlice";
+import { useLoginMutation } from "../redux/slices/usersApiSlice";
+import Loading from "../components/Loading";
+import { toast } from "react-toastify";
+
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+      toast.success("Login Successful");
+    } catch (err) {
+      toast.error(err.data.message);
+    }
+  };
+
+  return (
+    <Container>
+      <LoginContainer>
+        <ImageContainer>
+          <SVGImage src="/loginImage.svg" alt="Login Illustration" />
+        </ImageContainer>
+        <LoginFormContainer>
+          <Title>Log in to Exclusive</Title>
+          <Form onSubmit={handleSubmit}>
+            <Input
+              type="text"
+              placeholder="Email or Phone Number"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button disabled={isLoading} type="submit">
+              Log In
+            </Button>
+            {isLoading && <Loading />}
+          </Form>
+          <LoginForgotPassword>
+            <Link to={"forgotpassword"}>Forget Password?</Link>
+          </LoginForgotPassword>
+          <LoginForgotPassword>
+            Don't have an account?{" "}
+            <Link to={redirect ? `/signup?redirect=${redirect}` : "/signup"}>
+              Sign Up
+            </Link>
+          </LoginForgotPassword>
+        </LoginFormContainer>
+      </LoginContainer>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   max-width: 1200px;
@@ -68,37 +146,19 @@ const Button = styled.button`
   }
 `;
 
-const ForgotPassword = styled.a`
-  margin-top: 1rem;
-  font-size: 1.4rem;
-  color: var(--color-primary-1);
-  text-align: right;
-  cursor: pointer;
+const LoginForgotPassword = styled.div`
+  margin-bottom: 1rem;
+  a {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    color: var(--color-primary-1);
+    text-align: right;
+    cursor: pointer;
 
-  &:hover {
-    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
-
-const Login = () => {
-  return (
-    <Container>
-      <LoginContainer>
-        <ImageContainer>
-          <SVGImage src="/loginImage.svg" alt="Login Illustration" />
-        </ImageContainer>
-        <LoginFormContainer>
-          <Title>Log in to Exclusive</Title>
-          <Form>
-            <Input type="text" placeholder="Email or Phone Number" />
-            <Input type="password" placeholder="Password" />
-            <Button type="submit">Log In</Button>
-          </Form>
-          <ForgotPassword href="#">Forget Password?</ForgotPassword>
-        </LoginFormContainer>
-      </LoginContainer>
-    </Container>
-  );
-};
 
 export default Login;
