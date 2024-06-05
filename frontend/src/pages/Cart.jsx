@@ -151,7 +151,7 @@ const Cart = () => {
               {totalPrice > 0 && (
                 <Button
                   type="submit"
-                  onClick={() => navigate("/login?redirect=shipping")}
+                  onClick={() => navigate("/login?redirect=/shipping")}
                 >
                   Proceed to checkout
                 </Button>
