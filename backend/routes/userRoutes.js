@@ -16,7 +16,7 @@ import { protect, admin } from "../middleware/authMiddleware.js";
 // @desc    get all users and register new user
 // @route   GET /api/users OR POST /api/users
 // @access  private/admin
-router.route("/").post(registerUser).get(protect, admin, getUsers);
+router.route("/").get(protect, admin, getUsers);
 
 // @desc    user login and get token
 // @route   POST /api/users/login
@@ -26,7 +26,7 @@ router.post("/login", loginUser);
 // @desc    user register
 // @route   POST /api/users
 // @access  Public
-// router.post("/register", protect, registerUser);
+router.post("/signup", registerUser);
 
 // @desc    user logout and clear cookie
 // @route   POST /api/users/logout
