@@ -10,7 +10,7 @@ const initialState = () => {
     return {
       cartItems: [],
       shippingAddress: {},
-      paymentMethod: "",
+      paymentMethod: "PayPal",
       itemsPrice: 0,
       shippingPrice: 0,
       taxPrice: 0,
@@ -41,8 +41,13 @@ const cartSlice = createSlice({
       toast.success("Product removed from cart!");
       return updateCart(state);
     },
+    saveSheppingAddress(state, action) {
+      state.shippingAddress = action.payload;
+      return updateCart(state);
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveSheppingAddress } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -4,13 +4,13 @@ import styled from "styled-components";
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import CartTotal from "../components/CartTotal";
 
 const Cart = () => {
+  const [coupon, setCoupon] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { cartItems, itemsPrice, shippingPrice, taxPrice, totalPrice } =
-    useSelector((state) => state.cart);
-  const [coupon, setCoupon] = useState("");
+  const { cartItems, totalPrice } = useSelector((state) => state.cart);
 
   const handleQuantityChange = (id, quantity) => {
     const item = cartItems.find((item) => item._id === id);
@@ -117,7 +117,7 @@ const Cart = () => {
               <Link to="/products">Return To Shop</Link>
             </Button>
           </Actions>
-          <CartTotalContainer>
+          <CartWrapper>
             <CouponSection>
               <CouponInput
                 type="text"
@@ -129,35 +129,20 @@ const Cart = () => {
                 Apply Coupon
               </Button>
             </CouponSection>
-            <CartTotal>
-              <h3>Cart Totals</h3>
-              <div>
-                <p>
-                  <span>Subtotal:</span> <span>${itemsPrice}</span>
-                </p>
-                <p>
-                  <span>Shipping:</span>{" "}
-                  <span>
-                    {shippingPrice === 0 ? "Free" : `$${shippingPrice}`}
-                  </span>
-                </p>
-                <p>
-                  <span>Tax:</span> <span>${taxPrice}</span>
-                </p>
-                <p style={{ fontWeight: "bold", fontSize: "1.9rem" }}>
-                  <span>Total:</span> <span>${totalPrice}</span>
-                </p>
-              </div>
-              {totalPrice > 0 && (
-                <Button
-                  type="submit"
-                  onClick={() => navigate("/login?redirect=/shipping")}
-                >
-                  Proceed to checkout
-                </Button>
-              )}
-            </CartTotal>
-          </CartTotalContainer>
+            <div className="wrapper">
+              <CartTotal />
+              <ProcceedToCheckout>
+                {totalPrice > 0 && (
+                  <Button
+                    type="submit"
+                    onClick={() => navigate("/login?redirect=/checkout")}
+                  >
+                    Proceed to checkout
+                  </Button>
+                )}
+              </ProcceedToCheckout>{" "}
+            </div>
+          </CartWrapper>
         </>
       )}
     </Container>
@@ -269,6 +254,37 @@ const Actions = styled.div`
   margin-bottom: 4rem;
 `;
 
+const CartWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 1rem;
+  }
+`;
+
+const CouponSection = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-self: flex-start;
+`;
+
+const CouponInput = styled.input`
+  padding: 1rem;
+  border: 1px solid var(--color-grey-2);
+  border-radius: 5px;
+`;
+
+const ProcceedToCheckout = styled.div`
+  align-self: flex-end;
+  justify-self: flex-end;
+`;
+
 const Button = styled.button`
   padding: 1rem 1.5rem;
   background-color: var(--color-primary-1);
@@ -280,45 +296,6 @@ const Button = styled.button`
 
   &:hover {
     background-color: var(--color-primary-2);
-  }
-`;
-
-const CouponSection = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-`;
-
-const CartTotalContainer = styled.div`
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-`;
-
-const CouponInput = styled.input`
-  padding: 1rem;
-  border: 1px solid var(--color-grey-2);
-  border-radius: 5px;
-`;
-
-const CartTotal = styled.div`
-  border: 1px solid var(--color-grey-2);
-  flex: 0.7;
-  gap: 1rem;
-  border-radius: 5px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  p {
-    margin: 0.5rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--color-grey-2);
-    padding: 1rem;
-
-    display: flex;
-    justify-content: space-between;
   }
 `;
 
