@@ -12,7 +12,7 @@ const Checkout = () => {
   const { cartItems, shippingAddress } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const [formFields, setFormFields] = useState({
+  const [shippingFormFields, setShippingFormFields] = useState({
     name: shippingAddress.name || "",
     phone: shippingAddress.phone || "",
     email: shippingAddress.email || "",
@@ -22,11 +22,23 @@ const Checkout = () => {
     country: shippingAddress.country || "",
   });
 
+  const [paymentFormFields, setPaymentFormFields] = useState({
+    nameOnCard: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+  });
+
   const [saveShipping, setSaveShipping] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleShippingInputChange = (e) => {
     const { id, value } = e.target;
-    setFormFields({ ...formFields, [id]: value });
+    setShippingFormFields({ ...shippingFormFields, [id]: value });
+  };
+
+  const handlePaymentInputChange = (e) => {
+    const { id, value } = e.target;
+    setPaymentFormFields({ ...paymentFormFields, [id]: value });
   };
 
   const handleCheckboxChange = (e) => {
@@ -36,7 +48,7 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (saveShipping) {
-      dispatch(saveSheppingAddress(formFields));
+      dispatch(saveSheppingAddress(shippingFormFields));
     }
   };
 
@@ -48,8 +60,8 @@ const Checkout = () => {
       <CheckoutFormContainer>
         <CheckoutForm onSubmit={handleSubmit}>
           <ShippingForm
-            formFields={formFields}
-            handleInputChange={handleInputChange}
+            formFields={shippingFormFields}
+            handleInputChange={handleShippingInputChange}
             saveShipping={saveShipping}
             handleCheckboxChange={handleCheckboxChange}
           />
@@ -63,8 +75,8 @@ const Checkout = () => {
             </Table>
             <CartTotal style={{ marginTop: "2rem", border: "none" }} />
             <PaymentForm
-              formFields={formFields}
-              handleInputChange={handleInputChange}
+              formFields={paymentFormFields}
+              handleInputChange={handlePaymentInputChange}
             />
             <SubmitButton type="submit">Proceed to Confirmation</SubmitButton>
           </PaymentFormContainer>
