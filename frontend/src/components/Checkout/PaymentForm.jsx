@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import FormFields from "./FormFields";
 import { FaRegCreditCard, FaPaypal } from "react-icons/fa";
@@ -11,29 +11,65 @@ const PaymentForm = ({ formFields, handleInputChange }) => {
     { id: "cvv", label: "CVV", type: "text" },
   ];
 
+  const payPalFormFields = [
+    { id: "paypalEmail", label: "PayPal Email", type: "email" },
+    { id: "paypalPassword", label: "PayPal Password", type: "password" },
+  ];
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("creditCard");
+
+  const handlePaymentMethodChange = (e) => {
+    setSelectedPaymentMethod(e.target.value);
+  };
+
   return (
     <div>
       <PaymentOptions>
         <PaymentOption>
-          <input type="radio" id="creditCard" name="paymentMethod" />
+          <input
+            type="radio"
+            id="creditCard"
+            name="paymentMethod"
+            value="creditCard"
+            checked={selectedPaymentMethod === "creditCard"}
+            onChange={handlePaymentMethodChange}
+          />
           <label htmlFor="creditCard">
             <FaRegCreditCard />
             <span>Credit Card</span>
           </label>
         </PaymentOption>
         <PaymentOption>
-          <input type="radio" id="paypal" name="paymentMethod" />
+          <input
+            type="radio"
+            id="paypal"
+            name="paymentMethod"
+            value="paypal"
+            checked={selectedPaymentMethod === "paypal"}
+            onChange={handlePaymentMethodChange}
+          />
           <label htmlFor="paypal">
             <FaPaypal />
             <span>PayPal</span>
           </label>
         </PaymentOption>
       </PaymentOptions>
-      <FormFields
-        fields={paymentFormFieldsPayment}
-        formFields={formFields}
-        handleInputChange={handleInputChange}
-      />
+      {selectedPaymentMethod === "creditCard" ? (
+        <CreditCardForm>
+          <FormFields
+            fields={paymentFormFieldsPayment}
+            formFields={formFields}
+            handleInputChange={handleInputChange}
+          />
+        </CreditCardForm>
+      ) : (
+        <FormFields
+          fields={payPalFormFields}
+          formFields={formFields}
+          handleInputChange={handleInputChange}
+        />
+      )}
     </div>
   );
 };
@@ -60,5 +96,7 @@ const PaymentOption = styled.div`
     cursor: pointer;
   }
 `;
+
+const CreditCardForm = styled.div``;
 
 export default PaymentForm;
