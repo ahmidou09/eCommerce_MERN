@@ -73,11 +73,11 @@ const Checkout = () => {
                 ))}
               </tbody>
             </Table>
-            <CartTotal style={{ marginTop: "2rem", border: "none" }} />
             <PaymentForm
               formFields={paymentFormFields}
               handleInputChange={handlePaymentInputChange}
             />
+            <CartTotal />
             <SubmitButton type="submit">Proceed to Confirmation</SubmitButton>
           </PaymentFormContainer>
         </CheckoutForm>
