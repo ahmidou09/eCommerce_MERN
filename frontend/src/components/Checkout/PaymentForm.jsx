@@ -16,8 +16,7 @@ const PaymentForm = ({ formFields, handleInputChange }) => {
     { id: "paypalPassword", label: "PayPal Password", type: "password" },
   ];
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("creditCard");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("paypal");
 
   const handlePaymentMethodChange = (e) => {
     setSelectedPaymentMethod(e.target.value);
@@ -29,20 +28,6 @@ const PaymentForm = ({ formFields, handleInputChange }) => {
         <PaymentOption>
           <input
             type="radio"
-            id="creditCard"
-            name="paymentMethod"
-            value="creditCard"
-            checked={selectedPaymentMethod === "creditCard"}
-            onChange={handlePaymentMethodChange}
-          />
-          <label htmlFor="creditCard">
-            <FaRegCreditCard />
-            <span>Credit Card</span>
-          </label>
-        </PaymentOption>
-        <PaymentOption>
-          <input
-            type="radio"
             id="paypal"
             name="paymentMethod"
             value="paypal"
@@ -50,12 +35,63 @@ const PaymentForm = ({ formFields, handleInputChange }) => {
             onChange={handlePaymentMethodChange}
           />
           <label htmlFor="paypal">
-            <FaPaypal />
-            <span>PayPal</span>
+            <FaPaypal
+              color={
+                selectedPaymentMethod === "paypal"
+                  ? "var(--color-purple-2)"
+                  : "var(--color-grey-4)"
+              }
+            />
+            <span
+              style={
+                selectedPaymentMethod === "paypal"
+                  ? {
+                      color: "var(--color-purple-2)",
+                      fontWeight: "bold",
+                    }
+                  : { color: "var(--color-grey-4)" }
+              }
+            >
+              PayPal
+            </span>
+          </label>
+        </PaymentOption>
+        <PaymentOption>
+          <input
+            type="radio"
+            id="creditCard"
+            name="paymentMethod"
+            value="creditCard"
+            checked={selectedPaymentMethod === "creditCard"}
+            onChange={handlePaymentMethodChange}
+          />
+          <label htmlFor="creditCard">
+            <FaRegCreditCard
+              color={
+                selectedPaymentMethod === "creditCard"
+                  ? "var(--color-primary-1)"
+                  : "var(--color-grey-4)"
+              }
+            />
+            <span
+              style={
+                selectedPaymentMethod === "creditCard"
+                  ? { color: "var(--color-primary-1)", fontWeight: "bold" }
+                  : { color: "var(--color-grey-4)" }
+              }
+            >
+              Credit Card
+            </span>
           </label>
         </PaymentOption>
       </PaymentOptions>
-      {selectedPaymentMethod === "creditCard" ? (
+      {selectedPaymentMethod === "paypal" ? (
+        <FormFields
+          fields={payPalFormFields}
+          formFields={formFields}
+          handleInputChange={handleInputChange}
+        />
+      ) : (
         <CreditCardForm>
           <FormFields
             fields={paymentFormFieldsPayment}
@@ -63,12 +99,6 @@ const PaymentForm = ({ formFields, handleInputChange }) => {
             handleInputChange={handleInputChange}
           />
         </CreditCardForm>
-      ) : (
-        <FormFields
-          fields={payPalFormFields}
-          formFields={formFields}
-          handleInputChange={handleInputChange}
-        />
       )}
     </div>
   );
@@ -76,7 +106,7 @@ const PaymentForm = ({ formFields, handleInputChange }) => {
 
 const PaymentOptions = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 4rem;
   margin-bottom: 4rem;
 `;
 
