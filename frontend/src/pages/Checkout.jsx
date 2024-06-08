@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { saveSheppingAddress } from "../redux/slices/cartSlice";
-import { Link } from "react-router-dom";
+import {
+  saveSheppingAddress,
+  savePaymentMethod,
+} from "../redux/slices/cartSlice";
+
+import { Link, useNavigate } from "react-router-dom";
 import CartTotal from "../components/CartTotal";
 import CartItem from "../components/Checkout/CartItem";
 import ShippingForm from "../components/Checkout/ShippingForm";
 import PaymentForm from "../components/Checkout/PaymentForm";
+import { clearCart } from "../redux/slices/cartSlice";
+import { useCreateOrderMutation } from "../redux/slices/ordersApiSlice";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
-  const { cartItems, shippingAddress } = useSelector((state) => state.cart);
+  const {
+    cartItems,
+    shippingAddress,
+    itemsPrice,
+    shippingPrice,
+    taxPrice,
+    totalPrice,
+  } = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
 
   const [shippingFormFields, setShippingFormFields] = useState({
     name: shippingAddress.name || "",
@@ -22,12 +39,7 @@ const Checkout = () => {
     country: shippingAddress.country || "",
   });
 
-  const [paymentFormFields, setPaymentFormFields] = useState({
-    nameOnCard: "",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-  });
+  const [paymentFormFields, setPaymentFormFields] = useState();
 
   const [saveShipping, setSaveShipping] = useState(false);
 
@@ -45,10 +57,30 @@ const Checkout = () => {
     setSaveShipping(e.target.checked);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (saveShipping) {
       dispatch(saveSheppingAddress(shippingFormFields));
+    }
+
+    dispatch(savePaymentMethod(paymentFormFields));
+
+    try {
+      const res = await createOrder({
+        cartItems,
+        shipping: shippingFormFields,
+        payment: paymentFormFields,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
+      }).unwrap();
+
+      dispatch(clearCart());
+      navigate(`/order/${res._id}`);
+      toast.success("Order created successfully");
+    } catch (err) {
+      toast.error(err.data.message);
     }
   };
 
@@ -73,12 +105,15 @@ const Checkout = () => {
                 ))}
               </tbody>
             </Table>
+            <CartTotal style={{ marginBottom: "2rem", paddingLeft: "2rem" }} />
             <PaymentForm
               formFields={paymentFormFields}
               handleInputChange={handlePaymentInputChange}
             />
-            <CartTotal />
-            <SubmitButton type="submit">Proceed to Confirmation</SubmitButton>
+            {isError && "something went wrong"}
+            <SubmitButton type="submit" disabled={isLoading}>
+              {isLoading ? "ordering..." : "Proceed to Confirmation"}
+            </SubmitButton>
           </PaymentFormContainer>
         </CheckoutForm>
       </CheckoutFormContainer>
