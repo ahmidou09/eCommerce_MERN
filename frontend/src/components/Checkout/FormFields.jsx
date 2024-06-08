@@ -14,7 +14,9 @@ const FormFields = ({ fields, formFields, handleInputChange }) => {
           value={formFields[field.id]}
           onChange={handleInputChange}
         />
-        <label htmlFor={field.id}>{field.label}</label>
+        <label htmlFor={field.id}>
+          {field.label} <span style={{ color: "var(--color-primary-1)" }}>*</span>
+        </label>
       </div>
     </FormField>
   ));
