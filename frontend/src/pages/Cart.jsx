@@ -11,6 +11,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartItems, totalPrice } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const handleQuantityChange = (id, quantity) => {
     const item = cartItems.find((item) => item._id === id);
@@ -135,7 +136,9 @@ const Cart = () => {
                 {totalPrice > 0 && (
                   <Button
                     type="submit"
-                    onClick={() => navigate("/login?redirect=/checkout")}
+                    onClick={() =>
+                      navigate(`${userInfo ? "/checkout" : "/login"}`)
+                    }
                   >
                     Proceed to checkout
                   </Button>
