@@ -5,7 +5,6 @@ import {
   saveSheppingAddress,
   savePaymentMethod,
 } from "../redux/slices/cartSlice";
-
 import { Link, useNavigate } from "react-router-dom";
 import CartTotal from "../components/CartTotal";
 import CartItem from "../components/Checkout/CartItem";
@@ -39,18 +38,16 @@ const Checkout = () => {
     country: shippingAddress.country || "",
   });
 
-  const [paymentFormFields, setPaymentFormFields] = useState();
-
   const [saveShipping, setSaveShipping] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("paypal");
+
+  const handlePaymentMethodChange = (e) => {
+    setSelectedPaymentMethod(e.target.value);
+  };
 
   const handleShippingInputChange = (e) => {
     const { id, value } = e.target;
     setShippingFormFields({ ...shippingFormFields, [id]: value });
-  };
-
-  const handlePaymentInputChange = (e) => {
-    const { id, value } = e.target;
-    setPaymentFormFields({ ...paymentFormFields, [id]: value });
   };
 
   const handleCheckboxChange = (e) => {
@@ -59,17 +56,18 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (saveShipping) {
       dispatch(saveSheppingAddress(shippingFormFields));
     }
 
-    dispatch(savePaymentMethod(paymentFormFields));
+    dispatch(savePaymentMethod(selectedPaymentMethod));
 
     try {
       const res = await createOrder({
-        cartItems,
+        orderIems: cartItems,
         shipping: shippingFormFields,
-        payment: paymentFormFields,
+        payment: selectedPaymentMethod,
         itemsPrice,
         shippingPrice,
         taxPrice,
@@ -107,13 +105,15 @@ const Checkout = () => {
             </Table>
             <CartTotal style={{ marginBottom: "2rem", paddingLeft: "2rem" }} />
             <PaymentForm
-              formFields={paymentFormFields}
-              handleInputChange={handlePaymentInputChange}
+              selectedPaymentMethod={selectedPaymentMethod}
+              handlePaymentMethodChange={handlePaymentMethodChange}
             />
+
             {isError && "something went wrong"}
             <SubmitButton type="submit" disabled={isLoading}>
-              {isLoading ? "ordering..." : "Proceed to Confirmation"}
+              place order
             </SubmitButton>
+            {isLoading && "loading..."}
           </PaymentFormContainer>
         </CheckoutForm>
       </CheckoutFormContainer>
