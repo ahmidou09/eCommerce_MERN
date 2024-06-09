@@ -10,7 +10,7 @@ const initialState = () => {
     return {
       cartItems: [],
       shippingAddress: {},
-      paymentMethod: "PayPal",
+      paymentMethod: "",
       itemsPrice: 0,
       shippingPrice: 0,
       taxPrice: 0,
