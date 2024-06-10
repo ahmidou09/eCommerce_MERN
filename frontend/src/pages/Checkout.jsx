@@ -4,15 +4,16 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   saveSheppingAddress,
   savePaymentMethod,
+  clearCart,
 } from "../redux/slices/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CartTotal from "../components/CartTotal";
 import CartItem from "../components/Checkout/CartItem";
 import ShippingForm from "../components/Checkout/ShippingForm";
 import PaymentForm from "../components/Checkout/PaymentForm";
-import { clearCart } from "../redux/slices/cartSlice";
 import { useCreateOrderMutation } from "../redux/slices/ordersApiSlice";
 import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 
 const Checkout = () => {
   const {
@@ -65,20 +66,23 @@ const Checkout = () => {
 
     try {
       const res = await createOrder({
-        orderIems: cartItems,
-        shipping: shippingFormFields,
-        payment: selectedPaymentMethod,
+        orderItems: cartItems,
+        shippingAddress: shippingFormFields,
+        paymentMethod: selectedPaymentMethod,
         itemsPrice,
         shippingPrice,
         taxPrice,
         totalPrice,
       }).unwrap();
 
-      dispatch(clearCart());
-      navigate(`/order/${res._id}`);
       toast.success("Order created successfully");
+      console.log("Order created:", res);
+
+      dispatch(clearCart());
+      navigate(`/`);
     } catch (err) {
-      toast.error(err.data.message);
+      console.error("Order creation error:", err);
+      toast.error(err.data.message || "An error occurred");
     }
   };
 
@@ -109,11 +113,14 @@ const Checkout = () => {
               handlePaymentMethodChange={handlePaymentMethodChange}
             />
 
-            {isError && "something went wrong"}
-            <SubmitButton type="submit" disabled={isLoading}>
-              place order
+            {isError && "Something went wrong"}
+            <SubmitButton
+              type="submit"
+              disabled={isLoading || !cartItems.length}
+            >
+              Place Order
             </SubmitButton>
-            {isLoading && "loading..."}
+            {isLoading && <Loading />}
           </PaymentFormContainer>
         </CheckoutForm>
       </CheckoutFormContainer>
