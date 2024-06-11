@@ -21,12 +21,11 @@ const app = express();
 // body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// cors middleware
-app.use(cors());
-
 // cookies parser middleware
 app.use(cookieParser());
+
+// cors middleware
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 // routes
 app.use("/api/products", productRoutes);
