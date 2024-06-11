@@ -8,7 +8,6 @@ import {
   removeFromWishList,
   addToWishList,
 } from "../../redux/slices/wishListSlice";
-import { addToCart } from "../../redux/slices/cartSlice";
 
 const ProductCard = styled.div`
   border-radius: 0.5rem;
@@ -115,10 +114,6 @@ function Card({ products }) {
   const dispatch = useDispatch();
   const { wishListItems } = useSelector((state) => state.wishList);
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart({ ...product, quantity: 1 }));
-  };
-
   const handleAddToWishList = (product) => {
     if (wishListItems.find((x) => x._id === product._id)) {
       dispatch(removeFromWishList(product._id));
@@ -142,12 +137,11 @@ function Card({ products }) {
               )}
               <ProductImage src={product.image} alt={product.name} />
             </ImageContainer>
+
+            <div className="button-container">
+              <AddToCartButton>Add to Cart</AddToCartButton>
+            </div>
           </Link>
-          <div className="button-container">
-            <AddToCartButton onClick={() => handleAddToCart(product)}>
-              Add to Cart
-            </AddToCartButton>
-          </div>
           <ProductDetails>
             <ProductName>{product.name}</ProductName>
             <ProductPrice>
