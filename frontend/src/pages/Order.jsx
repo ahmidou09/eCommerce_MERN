@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetOrderDetailsQuery } from "../redux/slices/ordersApiSlice";
+import {
+  useGetOrderDetailsQuery,
+  usePayOrderMutation,
+  useGetPaypalClientIdQuery,
+} from "../redux/slices/ordersApiSlice";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { toast } from "react-toastify";
 import { FaRegCreditCard, FaPaypal } from "react-icons/fa";
 import Loading from "../components/Loading";
 import Errors from "../components/Errors";
@@ -8,11 +14,73 @@ import styled from "styled-components";
 
 const Order = () => {
   const { id: orderId } = useParams();
+
   const {
-    data: orderDetails,
+    data: order,
+    refetch,
     isLoading,
     isError,
   } = useGetOrderDetailsQuery(orderId);
+
+  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const {
+    data: paypal,
+    isLoading: loadingPayPal,
+    error: errorPayPal,
+  } = useGetPaypalClientIdQuery();
+
+  useEffect(() => {
+    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+      const loadPaypalScript = async () => {
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": paypal.clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+      };
+      if (order && !order.isPaid) {
+        if (!window.paypal) {
+          loadPaypalScript();
+        }
+      }
+    }
+  }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details });
+        refetch();
+        toast.success("Order is paid");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    });
+  };
+
+  const onError = (err) => {
+    toast.error(err.message);
+  };
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: order.totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  };
 
   return isLoading ? (
     <Loading height={"20rem"} />
@@ -28,43 +96,41 @@ const Order = () => {
           <Section>
             <SectionHeader>Shipping</SectionHeader>
             <Detail>
-              <strong>Name:</strong> {orderDetails.user.name}
+              <strong>Name:</strong> {order.user.name}
             </Detail>
             <Detail>
-              <strong>Email:</strong> {orderDetails.user.email}
+              <strong>Email:</strong> {order.user.email}
             </Detail>
             <Detail>
-              <strong>Address:</strong> {orderDetails.shippingAddress.address}{" "}
-              {orderDetails.shippingAddress.city}{" "}
-              {orderDetails.shippingAddress.postalCode}{" "}
-              {orderDetails.shippingAddress.country}
+              <strong>Address:</strong> {order.shippingAddress.address}{" "}
+              {order.shippingAddress.city} {order.shippingAddress.postalCode}{" "}
+              {order.shippingAddress.country}
             </Detail>
           </Section>
-          <Section>
-            {renderStatus(orderDetails.isDelivered, orderDetails.isPaid)}
-          </Section>
+          <Section>{renderStatus(order.isDelivered, order.isPaid)}</Section>
 
           <Section>
             <SectionHeader>Payment Method</SectionHeader>
             <Detail>
               <strong>Method:</strong>
               <span>
-                {orderDetails.paymentMethod === "paypal" ? (
+                {order.paymentMethod === "paypal" ? (
                   <>
                     Paypal <FaPaypal />
                   </>
-                ) : (
+                ) : null}
+                {order.paymentMethod === "creditCard" ? (
                   <>
                     <FaRegCreditCard />
                     Credit Card
                   </>
-                )}
+                ) : null}
               </span>
             </Detail>
           </Section>
           <Section>
             <SectionHeader>Order Items</SectionHeader>
-            {orderDetails.orderItems.map((item, index) => (
+            {order.orderItems.map((item, index) => (
               <Link to={`/products/${item.product}`} key={index}>
                 <ItemDetail key={index}>
                   <ItemImg src={item.image} alt={item.name} />
@@ -83,21 +149,36 @@ const Order = () => {
             <SummaryHeader>Order Summary</SummaryHeader>
             <SummaryDetail>
               <strong>Items:</strong>{" "}
-              <span>${orderDetails.itemsPrice.toFixed(2)}</span>
+              <span>${order.itemsPrice.toFixed(2)}</span>
             </SummaryDetail>
             <SummaryDetail>
               <strong>Shipping:</strong>
-              <span>${orderDetails.shippingPrice.toFixed(2)}</span>
+              <span>${order.shippingPrice.toFixed(2)}</span>
             </SummaryDetail>
             <SummaryDetail>
-              <strong>Tax:</strong>{" "}
-              <span>${orderDetails.taxPrice.toFixed(2)}</span>
+              <strong>Tax:</strong> <span>${order.taxPrice.toFixed(2)}</span>
             </SummaryDetail>
             <SummaryTotal>
               <strong>Total:</strong>
-              <span>${orderDetails.totalPrice.toFixed(2)}</span>
+              <span>${order.totalPrice.toFixed(2)}</span>
             </SummaryTotal>
           </OrderSummary>
+          {!order.isPaid && (
+            <div>
+              {loadingPay && <Loading />}
+              {isPending ? (
+                <Loading />
+              ) : (
+                <div>
+                  <PayPalButtons
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    onError={onError}
+                  ></PayPalButtons>
+                </div>
+              )}
+            </div>
+          )}
         </OrderSummaryWrapper>
       </OrderContainer>
     </Container>
