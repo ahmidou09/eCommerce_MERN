@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useMotionValue } from "framer-motion";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 
 const Container = styled.div`
@@ -11,7 +12,7 @@ const Container = styled.div`
   padding: 1rem;
   background-color: var(--color-black);
   color: var(--color-white-2);
-  z-index: -1;
+  z-index: 1;
 `;
 
 const CarouselMotionDiv = styled(motion.div)`
@@ -58,11 +59,14 @@ const ContentContainer = styled.div`
   button {
     background-color: transparent;
     border: none;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     cursor: pointer;
+
+    a {
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
     span {
       border-bottom: 1px solid var(--color-white-2);
@@ -143,10 +147,12 @@ const SwipeCarousel = ({ slideData }) => {
           >
             <ContentContainer>
               <h3>{product.name}</h3>
-              <h1>Up to 10% off Voucher</h1>
-              <button type="button">
-                <span>Shop Now</span>
-                <FaArrowRight />
+              <h1>Up to {product.discount}% off Voucher</h1>
+              <button type="button" onClick={() => console.log("Shop Now")}>
+                <Link to={`/products/${product._id}`}>
+                  <span>Shop Now</span>
+                  <FaArrowRight />
+                </Link>
               </button>
             </ContentContainer>
             <img src={product.image} alt="Product" />

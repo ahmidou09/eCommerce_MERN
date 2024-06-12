@@ -191,6 +191,7 @@ const NavIcons = styled.ul`
   display: flex;
   align-items: center;
   gap: 2rem;
+  z-index: 10;
 `;
 
 const IconContainer = styled.li`
