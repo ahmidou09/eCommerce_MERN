@@ -30,7 +30,7 @@ function Navbar() {
       dispatch(logout());
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
     }
   };
 
