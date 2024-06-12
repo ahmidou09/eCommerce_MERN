@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import WishList from "./pages/WishList";
+import Order from "./pages/Order";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 
@@ -35,6 +36,7 @@ function App() {
 
             <Route element={<PrivateRoute />}>
               <Route path="checkout" element={<Checkout />} />
+              <Route path="orders/:id" element={<Order />} />
             </Route>
           </Route>
         </Routes>
