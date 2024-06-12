@@ -76,12 +76,10 @@ const Checkout = () => {
       }).unwrap();
 
       toast.success("Order created successfully");
-      console.log("Order created:", res);
 
       dispatch(clearCart());
-      navigate(`/`);
+      navigate(`/orders/${res._id}`);
     } catch (err) {
-      console.error("Order creation error:", err);
       toast.error(err.data.message || "An error occurred");
     }
   };
