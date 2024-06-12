@@ -8,8 +8,8 @@ import Loading from "../components/Loading";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("mehdi@email.com");
+  const [password, setPassword] = useState("123456");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
