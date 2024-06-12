@@ -126,6 +126,10 @@ function Card({ products }) {
     return wishListItems.some((item) => item._id === productId);
   };
 
+  const truncateString = (str, num) => {
+    return str.length > num ? str.slice(0, num) + "..." : str;
+  };
+
   return (
     <>
       {products.map((product) => (
@@ -143,7 +147,7 @@ function Card({ products }) {
             </div>
           </Link>
           <ProductDetails>
-            <ProductName>{product.name}</ProductName>
+            <ProductName>{truncateString(product.name, 20)} </ProductName>
             <ProductPrice>
               ${product.price}{" "}
               <ProductOldPrice>${product.oldPrice}</ProductOldPrice>
