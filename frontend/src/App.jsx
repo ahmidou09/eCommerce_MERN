@@ -16,6 +16,7 @@ import WishList from "./pages/WishList";
 import Order from "./pages/Order";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
+import MyAccount from "./pages/MyAccount";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
 
             <Route element={<PrivateRoute />}>
+              <Route path="myAccount" element={<MyAccount />} />
               <Route path="checkout" element={<Checkout />} />
               <Route path="orders/:id" element={<Order />} />
             </Route>
