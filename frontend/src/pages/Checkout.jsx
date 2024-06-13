@@ -25,14 +25,13 @@ const Checkout = () => {
     totalPrice,
   } = useSelector((state) => state.cart);
 
+  console.log(shippingAddress);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
 
   const [shippingFormFields, setShippingFormFields] = useState({
-    name: shippingAddress.name || "",
-    phone: shippingAddress.phone || "",
-    email: shippingAddress.email || "",
     address: shippingAddress.address || "",
     city: shippingAddress.city || "",
     postalCode: shippingAddress.postalCode || "",
@@ -128,7 +127,7 @@ const Checkout = () => {
 
 const Container = styled.div`
   max-width: 120rem;
-  min-height: 100vh;
+  min-height: 85vh;
   margin: 0 auto;
   padding: 2rem;
 `;

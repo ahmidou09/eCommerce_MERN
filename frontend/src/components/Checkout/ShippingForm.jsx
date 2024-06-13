@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import FormFields from "./FormFields";
+import FormFields from "../FormFields";
 
 const ShippingForm = ({
   formFields,
@@ -9,9 +9,6 @@ const ShippingForm = ({
   handleCheckboxChange,
 }) => {
   const formFieldsShipping = [
-    { id: "name", label: "full Name", type: "text" },
-    { id: "phone", label: "Phone", type: "text" },
-    { id: "email", label: "Email", type: "text" },
     { id: "address", label: "Address", type: "text" },
     { id: "city", label: "City", type: "text" },
     { id: "postalCode", label: "Code Postal", type: "text" },
