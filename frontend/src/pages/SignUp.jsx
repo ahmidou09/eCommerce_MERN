@@ -6,12 +6,15 @@ import { setCredentials } from "../redux/slices/authSlice";
 import { useRegisterMutation } from "../redux/slices/usersApiSlice";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import FormFields from "../components/FormFields"; // Ensure the path is correct
 
 const SignUp = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,20 +32,59 @@ const SignUp = () => {
     }
   }, [navigate, redirect, userInfo]);
 
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [id]: value,
+    }));
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (formFields.password !== formFields.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
     try {
-      const res = await register({ name, email, password }).unwrap();
+      const res = await register({
+        name: formFields.name,
+        email: formFields.email,
+        password: formFields.password,
+      }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate(redirect || "/");
     } catch (err) {
       toast.error(err.data.message);
     }
   };
+
+  const fields = [
+    {
+      id: "name",
+      type: "text",
+      label: "Full Name",
+      required: true,
+    },
+    {
+      id: "email",
+      type: "email",
+      label: "Email",
+      required: true,
+    },
+    {
+      id: "password",
+      type: "password",
+      label: "Password",
+      required: true,
+    },
+    {
+      id: "confirmPassword",
+      type: "password",
+      label: "Confirm Password",
+      required: true,
+    },
+  ];
 
   return (
     <Container>
@@ -54,33 +96,10 @@ const SignUp = () => {
           <Title>Sign Up to Exclusive</Title>
 
           <Form onSubmit={submitHandler}>
-            <Input
-              type="text"
-              placeholder="Full Name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Input
-              type="email"
-              placeholder="Email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Confirm Password"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+            <FormFields
+              fields={fields}
+              formFields={formFields}
+              handleInputChange={handleInputChange}
             />
             {isLoading ? <Loading /> : <Button type="submit">Sign Up</Button>}
           </Form>
@@ -130,7 +149,7 @@ const SignUpFormContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
   font-size: 2.4rem;
   color: var(--color-grey-3);
 `;
@@ -138,14 +157,6 @@ const Title = styled.h1`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-`;
-
-const Input = styled.input`
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  font-size: 1.6rem;
-  border: 1px solid var(--color-grey-4);
-  border-radius: 4px;
 `;
 
 const Button = styled.button`

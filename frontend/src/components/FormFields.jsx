@@ -1,22 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const FormFields = ({ fields, formFields, handleInputChange }) => {
+  const [showPassword, setShowPassword] = useState({});
+
+  const togglePasswordVisibility = (id) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
   return fields.map((field) => (
     <FormField key={field.id}>
       <div
         className={`input-wrapper ${formFields[field.id] ? "has-content" : ""}`}
       >
         <input
-          type={field.type}
+          type={
+            field.type === "password" && showPassword[field.id]
+              ? "text"
+              : field.type
+          }
           id={field.id}
-          required
+          required={field.required}
           value={formFields[field.id]}
           onChange={handleInputChange}
         />
         <label htmlFor={field.id}>
-          {field.label} <span style={{ color: "var(--color-primary-1)" }}>*</span>
+          {field.label}{" "}
+          {field.required && (
+            <span style={{ color: "var(--color-primary-1)" }}>*</span>
+          )}
         </label>
+        {field.type === "password" && (
+          <span
+            className="password-toggle"
+            onClick={() => togglePasswordVisibility(field.id)}
+          >
+            {showPassword[field.id] ? <FaEye /> : <FaEyeSlash />}
+          </span>
+        )}
       </div>
     </FormField>
   ));
@@ -56,6 +81,17 @@ const FormField = styled.div`
     color: var(--color-primary-2);
     top: -20%;
     font-size: 1.2rem;
+  }
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--color-grey-4);
+    &:hover {
+      color: var(--color-primary-2);
+    }
   }
 `;
 

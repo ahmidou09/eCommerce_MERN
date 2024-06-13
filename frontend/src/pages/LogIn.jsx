@@ -6,10 +6,14 @@ import { setCredentials } from "../redux/slices/authSlice";
 import { useLoginMutation } from "../redux/slices/usersApiSlice";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import FormFields from "../components/FormFields"; // Ensure the path is correct
 
 const Login = () => {
-  const [email, setEmail] = useState("mehdi@email.com");
-  const [password, setPassword] = useState("123456");
+  const [formFields, setFormFields] = useState({
+    email: "a@a.com",
+    password: "111111",
+  });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
@@ -25,11 +29,21 @@ const Login = () => {
     }
   }, [userInfo, redirect, navigate]);
 
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [id]: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await login({
+        email: formFields.email,
+        password: formFields.password,
+      }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
       toast.success("Login Successful");
@@ -37,6 +51,21 @@ const Login = () => {
       toast.error(err.data.message);
     }
   };
+
+  const fields = [
+    {
+      id: "email",
+      type: "text",
+      label: "Email",
+      required: true,
+    },
+    {
+      id: "password",
+      type: "password",
+      label: "Password",
+      required: true,
+    },
+  ];
 
   return (
     <Container>
@@ -47,17 +76,10 @@ const Login = () => {
         <LoginFormContainer>
           <Title>Log in to Exclusive</Title>
           <Form onSubmit={handleSubmit}>
-            <Input
-              type="text"
-              placeholder="Email or Phone Number"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            <FormFields
+              fields={fields}
+              formFields={formFields}
+              handleInputChange={handleInputChange}
             />
             <Button disabled={isLoading} type="submit">
               Log In
@@ -113,7 +135,7 @@ const LoginFormContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
   font-size: 2.4rem;
   color: var(--color-grey-3);
 `;
@@ -121,14 +143,6 @@ const Title = styled.h1`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-`;
-
-const Input = styled.input`
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  font-size: 1.6rem;
-  border: 1px solid var(--color-grey-4);
-  border-radius: 4px;
 `;
 
 const Button = styled.button`

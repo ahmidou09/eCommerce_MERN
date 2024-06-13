@@ -30,7 +30,7 @@ const GlobalStyles = createGlobalStyle`
 
   /*color button */
   --color-red-1 : #f44336b3;
-  --color-green-1 : #4caf50;
+  --color-green-1 : #78e08f;
 
   --break-point-mob: 768px;
   --break-point-tab: 1024px;

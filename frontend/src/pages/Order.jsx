@@ -144,25 +144,28 @@ const Order = () => {
             ))}
           </Section>
         </OrderDetailsWrapper>
+
         <OrderSummaryWrapper>
-          <OrderSummary>
-            <SummaryHeader>Order Summary</SummaryHeader>
-            <SummaryDetail>
-              <strong>Items:</strong>{" "}
-              <span>${order.itemsPrice.toFixed(2)}</span>
-            </SummaryDetail>
-            <SummaryDetail>
-              <strong>Shipping:</strong>
-              <span>${order.shippingPrice.toFixed(2)}</span>
-            </SummaryDetail>
-            <SummaryDetail>
-              <strong>Tax:</strong> <span>${order.taxPrice.toFixed(2)}</span>
-            </SummaryDetail>
-            <SummaryTotal>
-              <strong>Total:</strong>
-              <span>${order.totalPrice.toFixed(2)}</span>
-            </SummaryTotal>
-          </OrderSummary>
+          <Section>
+            <OrderSummary>
+              <SummaryHeader>Order Summary</SummaryHeader>
+              <SummaryDetail>
+                <strong>Items:</strong>{" "}
+                <span>${order.itemsPrice.toFixed(2)}</span>
+              </SummaryDetail>
+              <SummaryDetail>
+                <strong>Shipping:</strong>
+                <span>${order.shippingPrice.toFixed(2)}</span>
+              </SummaryDetail>
+              <SummaryDetail>
+                <strong>Tax:</strong> <span>${order.taxPrice.toFixed(2)}</span>
+              </SummaryDetail>
+              <SummaryTotal>
+                <strong>Total:</strong>
+                <span>${order.totalPrice.toFixed(2)}</span>
+              </SummaryTotal>
+            </OrderSummary>
+          </Section>
           {!order.isPaid && (
             <div>
               {loadingPay && <Loading />}

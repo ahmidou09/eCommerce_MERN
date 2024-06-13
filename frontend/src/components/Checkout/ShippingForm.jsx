@@ -9,10 +9,10 @@ const ShippingForm = ({
   handleCheckboxChange,
 }) => {
   const formFieldsShipping = [
-    { id: "address", label: "Address", type: "text" },
-    { id: "city", label: "City", type: "text" },
-    { id: "postalCode", label: "Code Postal", type: "text" },
-    { id: "country", label: "Country", type: "text" },
+    { id: "address", label: "Address", type: "text", required: true },
+    { id: "city", label: "City", type: "text", required: true },
+    { id: "postalCode", label: "Code Postal", type: "text", required: true },
+    { id: "country", label: "Country", type: "text", required: true },
   ];
 
   return (
