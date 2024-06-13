@@ -96,11 +96,24 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
+
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    if (req.body.password) {
-      user.password = req.body.password;
+
+    if (req.body.currentPassword) {
+      const isMatch = await user.matchPassword(req.body.currentPassword);
+      if (isMatch) {
+        if (req.body.newPassword === req.body.confirmNewPassword) {
+          user.password = req.body.newPassword;
+        } else {
+          res.status(400);
+          throw new Error("New passwords do not match");
+        }
+      } else {
+        res.status(401);
+        throw new Error("Current password is incorrect");
+      }
     }
 
     const updatedUser = await user.save();
@@ -113,7 +126,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("user not found");
+    throw new Error("User not found");
   }
 });
 
