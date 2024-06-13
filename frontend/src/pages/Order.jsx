@@ -85,7 +85,7 @@ const Order = () => {
   return isLoading ? (
     <Loading height={"20rem"} />
   ) : isError ? (
-    <Errors message="An error occurred" />
+    <Errors message="An error occurred" style={{ height: "73.8vh" }} />
   ) : (
     <Container>
       <OrderContainer>
@@ -208,7 +208,7 @@ const renderStatus = (isDelivered, isPaid) => {
 
 const Container = styled.div`
   max-width: 120rem;
-  min-height: 100vh;
+  min-height: 85vh;
   margin: 0 auto;
   padding: 2rem;
 `;
