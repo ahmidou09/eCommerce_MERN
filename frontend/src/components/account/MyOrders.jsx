@@ -2,6 +2,8 @@ import React from "react";
 import { useGetMyOrdersQuery } from "../../redux/slices/ordersApiSlice";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { truncateString } from "../../utils/cartUtil";
 
 const MyOrders = () => {
@@ -12,7 +14,12 @@ const MyOrders = () => {
   } = useGetMyOrdersQuery();
 
   if (loadingOrders) {
-    return <div>Loading...</div>;
+    return (
+      <SkeletonContainer>
+        {" "}
+        <Skeleton count={5} height={50} style={{ marginBottom: "2rem" }} />
+      </SkeletonContainer>
+    );
   }
 
   if (errorOrders) {
@@ -67,6 +74,13 @@ const MyOrders = () => {
 };
 
 const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 85vh;
+  padding: 2rem;
+`;
+
+const SkeletonContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   height: 85vh;

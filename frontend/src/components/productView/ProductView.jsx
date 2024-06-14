@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetProductByIdQuery } from "../../redux/slices/productsApiSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
 import {
@@ -12,12 +12,14 @@ import ImageGallery from "./ImageGallery";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
 import DeliveryInfo from "./DeliveryInfo";
-import Loading from "../ui/Loading";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
 
 function ProductView() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
   const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -45,6 +47,7 @@ function ProductView() {
         selectedSize,
       })
     );
+    navigate("/cart");
   };
 
   const { wishListItems } = useSelector((state) => state.wishList);
@@ -61,11 +64,15 @@ function ProductView() {
     return wishListItems.some((item) => item._id === productId);
   };
 
-  if (isLoading) return <Loading height={"100vh"} />;
-  if (isError)
-    return <Errors message="An error occurred" style={{ height: "50vh" }} />;
-
-  return (
+  return isLoading ? (
+    <Container>
+      <Skeleton count={10} height={50} style={{ marginBottom: "2rem" }} />
+    </Container>
+  ) : isError ? (
+    <Container>
+      <Errors message="An error occurred" style={{ height: "50vh" }} />
+    </Container>
+  ) : (
     <Container>
       <ProductContainer>
         <ImageGallery

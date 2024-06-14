@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { FaRegCreditCard, FaPaypal } from "react-icons/fa";
 import { truncateString } from "../utils/cartUtil";
 import Loading from "../components/ui/Loading";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../components/ui/Errors";
 import styled from "styled-components";
 
@@ -84,9 +86,9 @@ const Order = () => {
   };
 
   return isLoading ? (
-    <Loading height={"20rem"} />
+    <Loading height={"85vh"} />
   ) : isError ? (
-    <Errors message="An error occurred" style={{ height: "73.8vh" }} />
+    <Errors message="An error occurred" style={{ height: "85vh" }} />
   ) : (
     <Container>
       <OrderContainer>
@@ -171,7 +173,11 @@ const Order = () => {
             <div>
               {loadingPay && <Loading />}
               {isPending ? (
-                <Loading />
+                <Skeleton
+                  count={2}
+                  height={40}
+                  style={{ marginBottom: "2rem" }}
+                />
               ) : (
                 <div>
                   <PayPalButtons
