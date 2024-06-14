@@ -8,7 +8,11 @@ const CartItem = ({ item }) =>
         <ProductImage src={item.image} alt={item.name} />
       </Td>
       <Td>{item.name}</Td>
-      <Td>{item.price * item.quantity}</Td>
+      <Td>
+        {item.quantity}
+        {"×"}
+        {item.price}
+      </Td>
     </tr>
   );
 
