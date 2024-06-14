@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Card from "../card/Card";
 import ShiftingCountdown from "../ui/ShiftingCountdown";
 import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
-import Loading from "../ui/Loading";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
 
 const Container = styled.div`
@@ -55,7 +56,7 @@ const Products = () => {
       </FlashSalesHeader>
       <ProductsGrid>
         {isLoading ? (
-          <Loading height={"80vh"} />
+          <Skeleton count={10} height={50} style={{ marginBottom: "2rem" }} />
         ) : isError ? (
           <Errors message="An error occurred" style={{ height: "20vh" }} />
         ) : (

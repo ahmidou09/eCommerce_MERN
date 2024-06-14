@@ -104,9 +104,8 @@ function Profile() {
             Cancel
           </CancelButton>
           <SaveButton type="button" onClick={handleSaveChanges}>
-            Save Changes
+            {isLoadingProfile ? <Loading height={"0rem"} /> : "Save Changes"}
           </SaveButton>
-          {isLoadingProfile && <Loading />}
         </ButtonGroup>
       </FormBody>
     </Form>
@@ -154,6 +153,10 @@ const CancelButton = styled.button`
 
 const SaveButton = styled.button`
   padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   background: var(--color-primary-1);
   border: none;
   border-radius: 4px;

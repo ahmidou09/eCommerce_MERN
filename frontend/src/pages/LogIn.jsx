@@ -10,8 +10,8 @@ import FormFields from "../components/ui/FormFields"; // Ensure the path is corr
 
 const Login = () => {
   const [formFields, setFormFields] = useState({
-    email: "a@a.com",
-    password: "111111",
+    email: "admin@email.com",
+    password: "123456",
   });
 
   const navigate = useNavigate();
