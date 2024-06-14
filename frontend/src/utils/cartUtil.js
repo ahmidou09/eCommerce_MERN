@@ -33,3 +33,7 @@ export const updateCart = (state) => {
 
   return state;
 };
+
+export const truncateString = (str, num) => {
+  return str.length > num ? str.slice(0, num) + "..." : str;
+};
