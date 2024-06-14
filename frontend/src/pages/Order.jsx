@@ -9,8 +9,8 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import { FaRegCreditCard, FaPaypal } from "react-icons/fa";
 import { truncateString } from "../utils/cartUtil";
-import Loading from "../components/Loading";
-import Errors from "../components/Errors";
+import Loading from "../components/ui/Loading";
+import Errors from "../components/ui/Errors";
 import styled from "styled-components";
 
 const Order = () => {

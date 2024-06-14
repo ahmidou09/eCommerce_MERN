@@ -5,8 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import AppLayout from "./components/AppLayout";
-import PrivateRoute from "./components/PrivateRoute";
+import AppLayout from "./components/ui/AppLayout";
+import PrivateRoute from "./components/ui/PrivateRoute";
 import Products from "./components/products/Products";
 import ProductView from "./components/productView/ProductView";
 import Cart from "./pages/Cart";
@@ -17,10 +17,10 @@ import Order from "./pages/Order";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import MyAccount from "./pages/MyAccount";
-import Profile from "./components/MyAccount/Profile";
-import AddressBook from "./components/MyAccount/AddressBook";
-import MyOrders from "./components/MyAccount/MyOrders";
-import Cancellations from "./components/MyAccount/Cancellations";
+import Profile from "./components/account/Profile";
+import AddressBook from "./components/account/AddressBook";
+import MyOrders from "./components/account/MyOrders";
+import Cancellations from "./components/account/Cancellations";
 
 function App() {
   return (
@@ -43,8 +43,9 @@ function App() {
               <Route path="account" element={<MyAccount />}>
                 <Route path="profile" element={<Profile />} />
                 <Route path="address-book" element={<AddressBook />} />
-                <Route path="my-orders" element={<MyOrders />} />
+                <Route path="orders" element={<MyOrders />} />
                 <Route path="cancellations" element={<Cancellations />} />
+                <Route path="wishList" element={<WishList />} />
               </Route>
               <Route path="checkout" element={<Checkout />} />
               <Route path="cancellations" element={<Cancellations />} />

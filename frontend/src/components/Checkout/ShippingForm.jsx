@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import FormFields from "../FormFields";
+import FormFields from "../ui/FormFields";
 
 const ShippingForm = ({
   formFields,

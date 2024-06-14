@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Rating from "../Rating";
+import Rating from "../ui/Rating";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { truncateString } from "../../utils/cartUtil";
 import {

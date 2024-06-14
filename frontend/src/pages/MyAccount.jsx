@@ -1,12 +1,14 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const MyAccount = () => {
+  const location = useLocation();
+  const path = location.pathname.split("/").pop();
   return (
     <Container>
       <Breadcrumb>
-        <NavLink to="/">Home</NavLink> / <span>My Account</span>
+        <NavLink to="/">Home</NavLink> / {"My Account"} / <span>{path}</span>
       </Breadcrumb>
       <Content>
         <Sidebar>
@@ -17,13 +19,13 @@ const MyAccount = () => {
             <NavLink to="address-book">User Information</NavLink>
           </SidebarItem>
           <SidebarItem>
-            <NavLink to="my-orders">My Orders</NavLink>
+            <NavLink to="orders">My Orders</NavLink>
           </SidebarItem>
           <SidebarItem>
             <NavLink to="cancellations">My Cancellations</NavLink>
           </SidebarItem>
           <SidebarItem>
-            <NavLink to="/wishlist">My Wishlist</NavLink>
+            <NavLink to="wishlist">My Wishlist</NavLink>
           </SidebarItem>
         </Sidebar>
         <Main>

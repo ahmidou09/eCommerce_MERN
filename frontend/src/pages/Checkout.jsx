@@ -7,13 +7,13 @@ import {
   clearCart,
 } from "../redux/slices/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
-import CartTotal from "../components/CartTotal";
-import CartItem from "../components/Checkout/CartItem";
-import ShippingForm from "../components/Checkout/ShippingForm";
-import PaymentForm from "../components/Checkout/PaymentForm";
+import CartTotal from "../components/ui/CartTotal";
+import CartItem from "../components/checkout/CartItem";
+import ShippingForm from "../components/checkout/ShippingForm";
+import PaymentForm from "../components/checkout/PaymentForm";
 import { useCreateOrderMutation } from "../redux/slices/ordersApiSlice";
 import { toast } from "react-toastify";
-import Loading from "../components/Loading";
+import Loading from "../components/ui/Loading";
 
 const Checkout = () => {
   const {

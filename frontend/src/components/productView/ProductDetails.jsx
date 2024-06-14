@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Rating from "../Rating";
+import Rating from "../ui/Rating";
 
 const ProductDetails = ({
   product,

@@ -5,8 +5,8 @@ import { saveSheppingAddress } from "../../redux/slices/cartSlice";
 import { useProfileMutation } from "../../redux/slices/usersApiSlice";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import Loading from "../Loading";
-import FormFields from "../FormFields";
+import Loading from "../ui/Loading";
+import FormFields from "../ui/FormFields";
 
 function Profile() {
   const dispatch = useDispatch();

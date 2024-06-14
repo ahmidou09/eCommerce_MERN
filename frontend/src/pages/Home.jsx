@@ -1,6 +1,6 @@
 import React from "react";
 import Products from "../components/products/Products";
-import Filter from "../components/Filter";
+import Filter from "../components/ui/Filter";
 import styled from "styled-components";
 import Slide from "../components/slide/Slide";
 

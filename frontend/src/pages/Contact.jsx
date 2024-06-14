@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaPhone, FaEnvelope } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import FormFields from "../components/FormFields";
+import FormFields from "../components/ui/FormFields";
 
 const Contact = () => {
   const [formFields, setFormFields] = useState({

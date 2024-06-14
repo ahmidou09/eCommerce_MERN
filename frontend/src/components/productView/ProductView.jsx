@@ -12,8 +12,8 @@ import ImageGallery from "./ImageGallery";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
 import DeliveryInfo from "./DeliveryInfo";
-import Loading from "../Loading";
-import Errors from "../Errors";
+import Loading from "../ui/Loading";
+import Errors from "../ui/Errors";
 
 function ProductView() {
   const { id } = useParams();

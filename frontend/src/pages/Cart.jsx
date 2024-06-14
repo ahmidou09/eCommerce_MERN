@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
-import CartTotal from "../components/CartTotal";
+import CartTotal from "../components/ui/CartTotal";
 
 const Cart = () => {
   const [coupon, setCoupon] = useState("");

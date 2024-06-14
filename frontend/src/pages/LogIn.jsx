@@ -4,9 +4,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../redux/slices/authSlice";
 import { useLoginMutation } from "../redux/slices/usersApiSlice";
-import Loading from "../components/Loading";
+import Loading from "../components/ui/Loading";
 import { toast } from "react-toastify";
-import FormFields from "../components/FormFields"; // Ensure the path is correct
+import FormFields from "../components/ui/FormFields"; // Ensure the path is correct
 
 const Login = () => {
   const [formFields, setFormFields] = useState({
