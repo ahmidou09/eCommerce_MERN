@@ -17,6 +17,10 @@ import Order from "./pages/Order";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import MyAccount from "./pages/MyAccount";
+import Profile from "./components/MyAccount/Profile";
+import AddressBook from "./components/MyAccount/AddressBook";
+import MyOrders from "./components/MyAccount/MyOrders";
+import Cancellations from "./components/MyAccount/Cancellations";
 
 function App() {
   return (
@@ -36,8 +40,15 @@ function App() {
             <Route path="*" element={<NotFound />} />
 
             <Route element={<PrivateRoute />}>
-              <Route path="myAccount" element={<MyAccount />} />
+              <Route path="account" element={<MyAccount />}>
+                <Route path="profile" element={<Profile />} />
+                <Route path="address-book" element={<AddressBook />} />
+                <Route path="my-orders" element={<MyOrders />} />
+                <Route path="cancellations" element={<Cancellations />} />
+              </Route>
               <Route path="checkout" element={<Checkout />} />
+              <Route path="cancellations" element={<Cancellations />} />
+              <Route path="orders" element={<MyOrders />} />
               <Route path="orders/:id" element={<Order />} />
             </Route>
           </Route>

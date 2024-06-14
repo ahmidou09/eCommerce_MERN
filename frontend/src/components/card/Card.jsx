@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "../Rating";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { truncateString } from "../../utils/cartUtil";
 import {
   removeFromWishList,
   addToWishList,
@@ -124,10 +125,6 @@ function Card({ products }) {
 
   const isProductInWishList = (productId) => {
     return wishListItems.some((item) => item._id === productId);
-  };
-
-  const truncateString = (str, num) => {
-    return str.length > num ? str.slice(0, num) + "..." : str;
   };
 
   return (

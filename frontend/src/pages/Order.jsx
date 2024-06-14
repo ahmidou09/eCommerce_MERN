@@ -8,6 +8,7 @@ import {
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import { FaRegCreditCard, FaPaypal } from "react-icons/fa";
+import { truncateString } from "../utils/cartUtil";
 import Loading from "../components/Loading";
 import Errors from "../components/Errors";
 import styled from "styled-components";
@@ -186,10 +187,6 @@ const Order = () => {
       </OrderContainer>
     </Container>
   );
-};
-
-const truncateString = (str, num) => {
-  return str.length > num ? str.slice(0, num) + "..." : str;
 };
 
 const renderStatus = (isDelivered, isPaid) => {
