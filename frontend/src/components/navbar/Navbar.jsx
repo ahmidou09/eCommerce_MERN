@@ -106,7 +106,7 @@ function Navbar() {
                   {dropdownOpen && (
                     <DropdownMenu ref={dropdownRef}>
                       <li>
-                        <DropdownItemLink to="/myAccount">
+                        <DropdownItemLink to="/account/profile">
                           <FaRegUser />
                           Manage My Account
                         </DropdownItemLink>
