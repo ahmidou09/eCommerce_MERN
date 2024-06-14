@@ -29,8 +29,8 @@ const GlobalStyles = createGlobalStyle`
   --color-white-2 : #e5e9f0;
 
   /*color button */
-  --color-red-1 : #f44336b3;
-  --color-green-1 : #78e08f;
+  --color-red-1 : #F04F43;
+  --color-green-1 : #58B15B;
 
   --break-point-mob: 768px;
   --break-point-tab: 1024px;
