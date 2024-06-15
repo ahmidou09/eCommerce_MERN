@@ -14,8 +14,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: `${BASE_URL}${PRODUCTS_URL}/${id}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 5,
     }),
-    keepUnusedDataFor: 5,
   }),
 });
 
