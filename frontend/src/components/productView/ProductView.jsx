@@ -64,47 +64,45 @@ function ProductView() {
     return wishListItems.some((item) => item._id === productId);
   };
 
-  return isLoading ? (
+  return (
     <Container>
-      <Skeleton count={10} height={50} style={{ marginBottom: "2rem" }} />
-    </Container>
-  ) : isError ? (
-    <Container>
-      <Errors message="An error occurred" style={{ height: "50vh" }} />
-    </Container>
-  ) : (
-    <Container>
-      <ProductContainer>
-        <ImageGallery
-          images={product.images}
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-        />
-        <ProductDetailsContainer>
-          <ProductDetails
-            product={product}
-            selectedColor={selectedColor}
-            selectedSize={selectedSize}
-            setSelectedColor={setSelectedColor}
-            setSelectedSize={setSelectedSize}
+      {isLoading ? (
+        <Skeleton count={5} height={50} style={{ marginBottom: "2rem" }} />
+      ) : isError ? (
+        <Errors message="An error occurred" style={{ height: "85vh" }} />
+      ) : (
+        <ProductContainer>
+          <ImageGallery
+            images={product.images}
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
           />
-          {product.countInStock > 0 && (
-            <ProductActions
+          <ProductDetailsContainer>
+            <ProductDetails
               product={product}
-              quantity={quantity}
-              handleDecreaseQuantity={handleDecreaseQuantity}
-              handleIncreaseQuantity={handleIncreaseQuantity}
-              handleAddToCart={handleAddToCart}
-              handleAddToWishList={handleAddToWishList}
-              isProductInWishList={isProductInWishList}
-              setQuantity={setQuantity}
               selectedColor={selectedColor}
               selectedSize={selectedSize}
+              setSelectedColor={setSelectedColor}
+              setSelectedSize={setSelectedSize}
             />
-          )}
-          <DeliveryInfo />
-        </ProductDetailsContainer>
-      </ProductContainer>
+            {product.countInStock > 0 && (
+              <ProductActions
+                product={product}
+                quantity={quantity}
+                handleDecreaseQuantity={handleDecreaseQuantity}
+                handleIncreaseQuantity={handleIncreaseQuantity}
+                handleAddToCart={handleAddToCart}
+                handleAddToWishList={handleAddToWishList}
+                isProductInWishList={isProductInWishList}
+                setQuantity={setQuantity}
+                selectedColor={selectedColor}
+                selectedSize={selectedSize}
+              />
+            )}
+            <DeliveryInfo />
+          </ProductDetailsContainer>
+        </ProductContainer>
+      )}
     </Container>
   );
 }
