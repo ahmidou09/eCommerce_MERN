@@ -4,6 +4,7 @@ import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPaypalClientIdQuery,
+  useUpdateOrderToDeliveredMutation,
 } from "../redux/slices/ordersApiSlice";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
@@ -14,9 +15,11 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../components/ui/Errors";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Order = () => {
   const { id: orderId } = useParams();
+  const { userInfo } = useSelector((state) => state.auth);
 
   const {
     data: order,
@@ -26,8 +29,10 @@ const Order = () => {
   } = useGetOrderDetailsQuery(orderId);
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const [updateOrderToDelivered, { isLoading: loadingDelivered }] =
+    useUpdateOrderToDeliveredMutation();
 
   const {
     data: paypal,
@@ -85,112 +90,142 @@ const Order = () => {
       });
   };
 
-  return isLoading ? (
-    <Loading height={"85vh"} />
-  ) : isError ? (
-    <Errors message="An error occurred" style={{ height: "85vh" }} />
-  ) : (
+  const deliverOrderHandler = async () => {
+    try {
+      await updateOrderToDelivered(orderId);
+      refetch();
+      toast.success("Order is delivered");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
+  return (
     <Container>
-      <OrderContainer>
-        <OrderDetailsWrapper>
-          <OrderHeader>
-            Order: <span>{orderId}</span>{" "}
-          </OrderHeader>
-          <Section>
-            <SectionHeader>Shipping</SectionHeader>
-            <Detail>
-              <strong>Name:</strong> {order.user.name}
-            </Detail>
-            <Detail>
-              <strong>Email:</strong> {order.user.email}
-            </Detail>
-            <Detail>
-              <strong>Address:</strong> {order.shippingAddress.address}{" "}
-              {order.shippingAddress.city} {order.shippingAddress.postalCode}{" "}
-              {order.shippingAddress.country}
-            </Detail>
-          </Section>
-          <Section>{renderStatus(order.isDelivered, order.isPaid)}</Section>
+      {isLoading ? (
+        <Skeleton count={12} height={50} style={{ marginBottom: "2rem" }} />
+      ) : isError ? (
+        <Errors message="An error occurred" style={{ height: "85vh" }} />
+      ) : (
+        <OrderContainer>
+          <OrderDetailsWrapper>
+            <OrderHeader>
+              Order: <span>{orderId}</span>{" "}
+            </OrderHeader>
+            <Section>
+              <SectionHeader>Shipping</SectionHeader>
+              <Detail>
+                <strong>Name:</strong> {order.user.name}
+              </Detail>
+              <Detail>
+                <strong>Email:</strong> {order.user.email}
+              </Detail>
+              <Detail>
+                <strong>Address:</strong> {order.shippingAddress.address}{" "}
+                {order.shippingAddress.city} {order.shippingAddress.postalCode}{" "}
+                {order.shippingAddress.country}
+              </Detail>
+            </Section>
+            <Section>{renderStatus(order.isDelivered, order.isPaid)}</Section>
 
-          <Section>
-            <SectionHeader>Payment Method</SectionHeader>
-            <Detail>
-              <strong>Method:</strong>
-              <span>
-                {order.paymentMethod === "paypal" ? (
-                  <>
-                    Paypal <FaPaypal />
-                  </>
-                ) : null}
-                {order.paymentMethod === "creditCard" ? (
-                  <>
-                    <FaRegCreditCard />
-                    Credit Card
-                  </>
-                ) : null}
-              </span>
-            </Detail>
-          </Section>
-          <Section>
-            <SectionHeader>Order Items</SectionHeader>
-            {order.orderItems.map((item, index) => (
-              <Link to={`/products/${item.product}`} key={index}>
-                <ItemDetail key={index}>
-                  <ItemImg src={item.image} alt={item.name} />
-                  <ItemName>{truncateString(item.name, 18)}</ItemName>
-                  <ItemQuantity>
-                    {item.quantity} x ${item.price.toFixed(2)} = $
-                    {(item.quantity * item.price).toFixed(2)}
-                  </ItemQuantity>
-                </ItemDetail>
-              </Link>
-            ))}
-          </Section>
-        </OrderDetailsWrapper>
+            <Section>
+              <SectionHeader>Payment Method</SectionHeader>
+              <Detail>
+                <strong>Method:</strong>
+                <span>
+                  {order.paymentMethod === "paypal" ? (
+                    <>
+                      Paypal <FaPaypal />
+                    </>
+                  ) : null}
+                  {order.paymentMethod === "creditCard" ? (
+                    <>
+                      <FaRegCreditCard />
+                      Credit Card
+                    </>
+                  ) : null}
+                </span>
+              </Detail>
+            </Section>
+            <Section>
+              <SectionHeader>Order Items</SectionHeader>
+              {order.orderItems.map((item, index) => (
+                <Link to={`/products/${item.product}`} key={index}>
+                  <ItemDetail key={index}>
+                    <ItemImg src={item.image} alt={item.name} />
+                    <ItemName>{truncateString(item.name, 18)}</ItemName>
+                    <ItemQuantity>
+                      {item.quantity} x ${item.price.toFixed(2)} = $
+                      {(item.quantity * item.price).toFixed(2)}
+                    </ItemQuantity>
+                  </ItemDetail>
+                </Link>
+              ))}
+            </Section>
+          </OrderDetailsWrapper>
 
-        <OrderSummaryWrapper>
-          <Section>
-            <OrderSummary>
-              <SummaryHeader>Order Summary</SummaryHeader>
-              <SummaryDetail>
-                <strong>Items:</strong>{" "}
-                <span>${order.itemsPrice.toFixed(2)}</span>
-              </SummaryDetail>
-              <SummaryDetail>
-                <strong>Shipping:</strong>
-                <span>${order.shippingPrice.toFixed(2)}</span>
-              </SummaryDetail>
-              <SummaryDetail>
-                <strong>Tax:</strong> <span>${order.taxPrice.toFixed(2)}</span>
-              </SummaryDetail>
-              <SummaryTotal>
-                <strong>Total:</strong>
-                <span>${order.totalPrice.toFixed(2)}</span>
-              </SummaryTotal>
-            </OrderSummary>
-          </Section>
-          {!order.isPaid && (
+          <OrderSummaryWrapper>
+            <Section>
+              <OrderSummary>
+                <SummaryHeader>Order Summary</SummaryHeader>
+                <SummaryDetail>
+                  <strong>Items:</strong>{" "}
+                  <span>${order.itemsPrice.toFixed(2)}</span>
+                </SummaryDetail>
+                <SummaryDetail>
+                  <strong>Shipping:</strong>
+                  <span>${order.shippingPrice.toFixed(2)}</span>
+                </SummaryDetail>
+                <SummaryDetail>
+                  <strong>Tax:</strong>{" "}
+                  <span>${order.taxPrice.toFixed(2)}</span>
+                </SummaryDetail>
+                <SummaryTotal>
+                  <strong>Total:</strong>
+                  <span>${order.totalPrice.toFixed(2)}</span>
+                </SummaryTotal>
+              </OrderSummary>
+            </Section>
+            {!order.isPaid && (
+              <div>
+                {loadingPay && <Loading />}
+                {isPending ? (
+                  <Skeleton
+                    count={2}
+                    height={40}
+                    style={{ marginBottom: "2rem" }}
+                  />
+                ) : (
+                  <div>
+                    <PayPalButtons
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onError={onError}
+                    ></PayPalButtons>
+                  </div>
+                )}
+              </div>
+            )}
             <div>
-              {loadingPay && <Loading />}
-              {isPending ? (
-                <Skeleton
-                  count={2}
-                  height={40}
-                  style={{ marginBottom: "2rem" }}
-                />
-              ) : (
-                <div>
-                  <PayPalButtons
-                    createOrder={createOrder}
-                    onApprove={onApprove}
-                    onError={onError}
-                  ></PayPalButtons>
-                </div>
-              )}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <Button
+                    onClick={deliverOrderHandler}
+                    disabled={loadingDelivered}
+                  >
+                    {loadingDelivered ? (
+                      <Loading height={"1rem"} />
+                    ) : (
+                      "Marak as delivered"
+                    )}
+                  </Button>
+                )}{" "}
             </div>
-          )}
-        </OrderSummaryWrapper>
-      </OrderContainer>
+          </OrderSummaryWrapper>
+        </OrderContainer>
+      )}
     </Container>
   );
 };
@@ -352,6 +387,20 @@ const SummaryTotal = styled.p`
   margin: 3rem 0;
   display: flex;
   justify-content: space-between;
+`;
+
+const Button = styled.button`
+  padding: 1rem 1.5rem;
+  background-color: var(--color-primary-1);
+  border: none;
+  border-radius: 5px;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: var(--color-primary-2);
+  }
 `;
 
 export default Order;
