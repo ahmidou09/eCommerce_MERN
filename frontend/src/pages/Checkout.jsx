@@ -25,8 +25,6 @@ const Checkout = () => {
     totalPrice,
   } = useSelector((state) => state.cart);
 
-  console.log(shippingAddress);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
