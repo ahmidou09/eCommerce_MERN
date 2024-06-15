@@ -28,13 +28,12 @@ function OrderList() {
           <tr>
             <th>Order ID</th>
             <th>Image</th>
+            <th>Date</th>
             <th>Name</th>
             <th>User</th>
-            <th>Is Paid</th>
-            <th>Is Delivered</th>
-            <th>Items Price</th>
+            <th>Paid</th>
+            <th>Delivered</th>
             <th>Total Price</th>
-            <th>Created At</th>
             <th></th>
           </tr>
         </thead>
@@ -49,13 +48,24 @@ function OrderList() {
                   width="50"
                 />
               </td>
+              <td>{new Date(order.createdAt).toLocaleDateString()}</td>
               <td>{truncateString(order.orderItems[0].name, 10)}</td>
               <td>{truncateString(order.user.name, 10)}</td>
-              <td>{order.isPaid ? "Yes" : "No"}</td>
-              <td>{order.isDelivered ? "Yes" : "No"}</td>
-              <td>${order.itemsPrice.toFixed(2)}</td>
+              <td>
+                {order.isPaid ? (
+                  new Date(order.paidAt).toLocaleDateString()
+                ) : (
+                  <span>✕</span>
+                )}
+              </td>
+              <td>
+                {order.isDelivered ? (
+                  new Date(order.deliveredAt).toLocaleDateString()
+                ) : (
+                  <span>✕</span>
+                )}
+              </td>
               <td>${order.totalPrice.toFixed(2)}</td>
-              <td>{new Date(order.createdAt).toLocaleDateString()}</td>
               <td>
                 <button>
                   <Link to={`/orders/${order._id}`}>detail </Link>
@@ -85,7 +95,12 @@ const OrdersTable = styled.table`
   td {
     border: 1px solid var(--color-grey-1);
     padding: 1rem;
-    text-align: left;
+    text-align: center;
+
+    span {
+      font-weight: 600;
+      color: var(--color-primary-1);
+    }
 
     button {
       background-color: var(--color-grey-2);

@@ -35,11 +35,10 @@ const MyOrders = () => {
             <th>Order ID</th>
             <th>Image</th>
             <th>Name</th>
-            <th>Is Paid</th>
-            <th>Is Delivered</th>
-            <th>Items Price</th>
+            <th>Paid</th>
+            <th>Delivered</th>
             <th>Total Price</th>
-            <th>Created At</th>
+            <th>Date</th>
             <th></th>
           </tr>
         </thead>
@@ -54,10 +53,22 @@ const MyOrders = () => {
                   width="50"
                 />
               </td>
-              <td>{truncateString(order.orderItems[0].name, 10)}</td>
-              <td>{order.isPaid ? "Yes" : "No"}</td>
-              <td>{order.isDelivered ? "Yes" : "No"}</td>
-              <td>${order.itemsPrice.toFixed(2)}</td>
+              <td>{truncateString(order.orderItems[0].name, 15)}</td>
+              <td>
+                {order.isPaid ? (
+                  new Date(order.paidAt).toLocaleDateString()
+                ) : (
+                  <span>✕</span>
+                )}
+              </td>
+              <td>
+                {order.isDelivered ? (
+                  new Date(order.deliveredAt).toLocaleDateString()
+                ) : (
+                  <span>✕</span>
+                )}
+              </td>
+
               <td>${order.totalPrice.toFixed(2)}</td>
               <td>{new Date(order.createdAt).toLocaleDateString()}</td>
               <td>
@@ -97,6 +108,11 @@ const OrdersTable = styled.table`
     border: 1px solid var(--color-grey-1);
     padding: 1rem;
     text-align: left;
+
+    span {
+      font-weight: 600;
+      color: var(--color-primary-1);
+    }
 
     button {
       background-color: var(--color-grey-2);
