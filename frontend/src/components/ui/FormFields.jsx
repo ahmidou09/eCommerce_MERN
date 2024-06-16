@@ -25,8 +25,9 @@ const FormFields = ({ fields, formFields, handleInputChange }) => {
           }
           id={field.id}
           required={field.required}
-          value={formFields[field.id]}
+          value={field.type === "file" ? undefined : formFields[field.id]}
           onChange={handleInputChange}
+          accept={field.type === "file" ? "image/*" : undefined}
         />
         <label htmlFor={field.id}>
           {field.label}{" "}
