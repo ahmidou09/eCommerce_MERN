@@ -25,6 +25,7 @@ import MyAccount from "./pages/MyAccount";
 import ProductList from "./pages/admin/ProductList";
 import OrderList from "./pages/admin/OrderList";
 import UserList from "./pages/admin/UserList";
+import UpdateProduct from "./pages/admin/UpdateProduct";
 
 function App() {
   return (
@@ -61,6 +62,10 @@ function App() {
               <Route path="admin/users" element={<UserList />} />
               <Route path="admin/orders" element={<OrderList />} />
               <Route path="admin/products" element={<ProductList />} />
+              <Route
+                path="admin/product/:id/edit"
+                element={<UpdateProduct />}
+              />
             </Route>
           </Route>
         </Routes>
