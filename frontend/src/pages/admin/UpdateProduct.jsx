@@ -1,0 +1,209 @@
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import FormFields from "../../components/ui/FormFields";
+import Loading from "../../components/ui/Loading";
+import {
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+  useUploadProductImageMutation,
+} from "../../redux/slices/productsApiSlice";
+
+const UpdateProduct = () => {
+  const { id: productId } = useParams();
+  const navigate = useNavigate();
+
+  const {
+    data: product,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetProductByIdQuery(productId);
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const [uploadProductImage, { isLoading: isUploading }] =
+    useUploadProductImageMutation();
+
+  const [formFields, setFormFields] = useState({
+    name: "",
+    image: "",
+    images: [],
+    colors: [],
+    sizes: [],
+    description: "",
+    brand: "",
+    category: "",
+    price: 0,
+    oldPrice: 0,
+    discount: 0,
+    countInStock: 0,
+  });
+
+  useEffect(() => {
+    if (product) {
+      setFormFields({
+        name: product.name || "",
+        image: product.image || "",
+        images: product.images || [],
+        colors: product.colors || [],
+        sizes: product.sizes || [],
+        description: product.description || "",
+        brand: product.brand || "",
+        category: product.category || "",
+        price: product.price || 0,
+        oldPrice: product.oldPrice || 0,
+        discount: product.discount || 0,
+        countInStock: product.countInStock || 0,
+      });
+    }
+  }, [product]);
+
+  const handleInputChange = (e) => {
+    const { id, value, type, files } = e.target;
+    if (type === "file") {
+      if (id === "image") {
+        setFormFields((prevFields) => ({
+          ...prevFields,
+          [id]: files[0],
+        }));
+      } else {
+        setFormFields((prevFields) => ({
+          ...prevFields,
+          [id]: [...files],
+        }));
+      }
+    } else {
+      setFormFields((prevFields) => ({
+        ...prevFields,
+        [id]: type === "number" ? parseFloat(value) : value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      for (const [key, value] of Object.entries(formFields)) {
+        if (Array.isArray(value)) {
+          value.forEach((item) => formData.append(key, item));
+        } else {
+          formData.append(key, value);
+        }
+      }
+      await updateProduct({ id: productId, data: formData }).unwrap();
+      toast.success("Product updated successfully");
+      refetch();
+      navigate("/admin/products");
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      setFormFields((prevFields) => ({ ...prevFields, image: res.image }));
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+
+  const fields = [
+    { id: "name", label: "Name", type: "text", required: true },
+    {
+      id: "image",
+      label: "Image",
+      type: "file",
+      required: false,
+      onChange: handleFileUpload,
+    },
+    {
+      id: "images",
+      label: "Additional Images",
+      type: "file",
+      multiple: false,
+      required: false,
+    },
+    { id: "colors", label: "Colors", type: "text", required: false },
+    { id: "sizes", label: "Sizes", type: "text", required: false },
+    { id: "description", label: "Description", type: "text", required: true },
+    { id: "brand", label: "Brand", type: "text", required: true },
+    { id: "category", label: "Category", type: "text", required: true },
+    { id: "price", label: "Price", type: "number", required: true },
+    { id: "oldPrice", label: "Old Price", type: "number", required: true },
+    { id: "discount", label: "Discount", type: "number", required: false },
+    {
+      id: "countInStock",
+      label: "Count In Stock",
+      type: "number",
+      required: true,
+    },
+  ];
+
+  return (
+    <Container>
+      {isLoading ? (
+        <Loading />
+      ) : isError ? (
+        <div>Error loading product details</div>
+      ) : (
+        <>
+          <Link to="/admin/products">Go Back</Link>
+          <FormContainer onSubmit={handleSubmit}>
+            <h2>Edit Product</h2>
+            <FormFields
+              fields={fields}
+              formFields={formFields}
+              handleInputChange={handleInputChange}
+            />
+            <Button type="submit" disabled={isUpdating}>
+              {isUpdating ? "Updating..." : "Update Product"}
+            </Button>
+          </FormContainer>
+        </>
+      )}
+      {isUploading && <Loading />}
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+`;
+
+const FormContainer = styled.form`
+  max-width: 60rem;
+  padding: 2rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+`;
+
+const Button = styled.button`
+  background-color: var(--color-primary-1);
+  color: var(--color-white);
+  border: none;
+  padding: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: var(--color-primary-2);
+  }
+`;
+
+export default UpdateProduct;
