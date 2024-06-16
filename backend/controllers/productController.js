@@ -37,15 +37,70 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @ access  private/admin
 
 const createProduct = asyncHandler(async (req, res) => {
-  res.send("create product");
+  const product = new Product({
+    name: "Sample name",
+    price: 0,
+    image: "/images/sample.jpg",
+    user: req.user._id,
+    images: [],
+    colors: [],
+    sizes: [],
+    description: "Sample description",
+    brand: "Sample brand",
+    category: "Sample category",
+    countInStock: 0,
+    oldPrice: 0,
+    discount: 0,
+  });
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
 });
 
 // @ desc    update product
 // @ route   PUT /api/products/:id
 // @ access  private/admin
 
+// @desc    Update product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
-  res.send("update product");
+  const {
+    name,
+    price,
+    image,
+    images,
+    colors,
+    sizes,
+    description,
+    brand,
+    category,
+    countInStock,
+    oldPrice,
+    discount,
+  } = req.body;
+
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.image = image || product.image;
+    product.images = images || product.images;
+    product.colors = colors || product.colors;
+    product.sizes = sizes || product.sizes;
+    product.description = description || product.description;
+    product.brand = brand || product.brand;
+    product.category = category || product.category;
+    product.countInStock = countInStock || product.countInStock;
+    product.oldPrice = oldPrice || product.oldPrice;
+    product.discount = discount || product.discount;
+
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
 });
 
 export {
