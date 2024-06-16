@@ -82,18 +82,18 @@ const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    product.name = name || product.name;
-    product.price = price || product.price;
-    product.image = image || product.image;
-    product.images = images || product.images;
-    product.colors = colors || product.colors;
-    product.sizes = sizes || product.sizes;
-    product.description = description || product.description;
-    product.brand = brand || product.brand;
-    product.category = category || product.category;
-    product.countInStock = countInStock || product.countInStock;
-    product.oldPrice = oldPrice || product.oldPrice;
-    product.discount = discount || product.discount;
+    if (name !== undefined) product.name = name;
+    if (price !== undefined) product.price = price;
+    if (image !== undefined) product.image = image;
+    if (images !== undefined) product.images = images;
+    if (colors !== undefined) product.colors = colors;
+    if (sizes !== undefined) product.sizes = sizes;
+    if (description !== undefined) product.description = description;
+    if (brand !== undefined) product.brand = brand;
+    if (category !== undefined) product.category = category;
+    if (countInStock !== undefined) product.countInStock = countInStock;
+    if (oldPrice !== undefined) product.oldPrice = oldPrice;
+    if (discount !== undefined) product.discount = discount;
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);

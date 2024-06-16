@@ -83,15 +83,30 @@ const UpdateProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      for (const [key, value] of Object.entries(formFields)) {
-        if (Array.isArray(value)) {
-          value.forEach((item) => formData.append(key, item));
-        } else {
-          formData.append(key, value);
-        }
+      const updatedProduct = { ...formFields };
+
+      // Handle image and images
+      if (updatedProduct.image instanceof File) {
+        const formData = new FormData();
+        formData.append("image", updatedProduct.image);
+        const res = await uploadProductImage(formData).unwrap();
+        updatedProduct.image = res.image;
       }
-      await updateProduct({ id: productId, data: formData }).unwrap();
+
+      if (
+        Array.isArray(updatedProduct.images) &&
+        updatedProduct.images.length &&
+        updatedProduct.images[0] instanceof File
+      ) {
+        const imagesFormData = new FormData();
+        updatedProduct.images.forEach((file, idx) =>
+          imagesFormData.append(`image${idx}`, file)
+        );
+        const res = await uploadProductImage(imagesFormData).unwrap();
+        updatedProduct.images = res.images;
+      }
+
+      await updateProduct({ id: productId, ...updatedProduct }).unwrap();
       toast.success("Product updated successfully");
       refetch();
       navigate("/admin/products");
@@ -126,7 +141,7 @@ const UpdateProduct = () => {
       id: "images",
       label: "Additional Images",
       type: "file",
-      multiple: false,
+      multiple: true,
       required: false,
     },
     { id: "colors", label: "Colors", type: "text", required: false },
