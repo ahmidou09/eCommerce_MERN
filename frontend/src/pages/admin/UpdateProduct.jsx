@@ -111,6 +111,7 @@ const UpdateProduct = () => {
       refetch();
       navigate("/admin/products");
     } catch (error) {
+      console.error("Upload Error:", error);
       toast.error(error?.data?.message || error.error);
     }
   };
@@ -121,9 +122,11 @@ const UpdateProduct = () => {
     formData.append("image", file);
     try {
       const res = await uploadProductImage(formData).unwrap();
+      console.log("Upload Response:", res);
       setFormFields((prevFields) => ({ ...prevFields, image: res.image }));
       toast.success("Image uploaded successfully");
     } catch (error) {
+      console.error("Upload Error:", error);
       toast.error(error?.data?.message || error.error);
     }
   };
@@ -143,6 +146,7 @@ const UpdateProduct = () => {
       type: "file",
       multiple: true,
       required: false,
+      onChange: handleFileUpload,
     },
     { id: "colors", label: "Colors", type: "text", required: false },
     { id: "sizes", label: "Sizes", type: "text", required: false },
