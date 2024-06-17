@@ -56,10 +56,6 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json(createdProduct);
 });
 
-// @ desc    update product
-// @ route   PUT /api/products/:id
-// @ access  private/admin
-
 // @desc    Update product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
