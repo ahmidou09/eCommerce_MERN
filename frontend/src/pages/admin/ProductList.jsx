@@ -64,7 +64,9 @@ function ProductList() {
           style={{ width: "50px", height: "50px" }}
         />
       </td>
-      <td>{product.name}</td>
+      <td>
+        <Link to={`/products/${product._id}`}>{product.name}</Link>
+      </td>
       <td>{product.price}</td>
       <td>
         {product.countInStock > 0 ? (
