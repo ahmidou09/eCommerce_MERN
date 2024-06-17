@@ -148,7 +148,7 @@ const SwipeCarousel = ({ slideData }) => {
             <ContentContainer>
               <h3>{product.name}</h3>
               <h1>Up to {product.discount}% off Voucher</h1>
-              <button type="button" onClick={() => console.log("Shop Now")}>
+              <button type="button">
                 <Link to={`/products/${product._id}`}>
                   <span>Shop Now</span>
                   <FaArrowRight />

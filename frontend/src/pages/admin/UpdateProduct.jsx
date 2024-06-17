@@ -122,7 +122,6 @@ const UpdateProduct = () => {
     formData.append("image", file);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      console.log("Upload Response:", res);
       setFormFields((prevFields) => ({ ...prevFields, image: res.image }));
       toast.success("Image uploaded successfully");
     } catch (error) {
