@@ -68,7 +68,7 @@ const UpdateProduct = () => {
       [id]:
         type === "file"
           ? id === "images"
-            ? [...files]
+            ? Array.from(files)
             : files[0]
           : type === "number"
           ? parseFloat(value)
