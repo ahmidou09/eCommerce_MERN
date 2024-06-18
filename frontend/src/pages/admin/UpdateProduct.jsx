@@ -7,7 +7,8 @@ import Loading from "../../components/ui/Loading";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
-  useUploadProductImageMutation,
+  useUploadSingleProductImageMutation,
+  useUploadMultipleProductImagesMutation,
 } from "../../redux/slices/productsApiSlice";
 
 const UpdateProduct = () => {
@@ -21,8 +22,10 @@ const UpdateProduct = () => {
     refetch,
   } = useGetProductByIdQuery(productId);
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
-  const [uploadProductImage, { isLoading: isUploading }] =
-    useUploadProductImageMutation();
+  const [uploadSingleProductImage, { isLoading: isUploadingSingle }] =
+    useUploadSingleProductImageMutation();
+  const [uploadMultipleProductImages, { isLoading: isUploadingMultiple }] =
+    useUploadMultipleProductImagesMutation();
 
   const [formFields, setFormFields] = useState({
     name: "",
@@ -60,24 +63,17 @@ const UpdateProduct = () => {
 
   const handleInputChange = (e) => {
     const { id, value, type, files } = e.target;
-    if (type === "file") {
-      if (id === "image") {
-        setFormFields((prevFields) => ({
-          ...prevFields,
-          [id]: files[0],
-        }));
-      } else {
-        setFormFields((prevFields) => ({
-          ...prevFields,
-          [id]: [...files],
-        }));
-      }
-    } else {
-      setFormFields((prevFields) => ({
-        ...prevFields,
-        [id]: type === "number" ? parseFloat(value) : value,
-      }));
-    }
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [id]:
+        type === "file"
+          ? id === "images"
+            ? [...files]
+            : files[0]
+          : type === "number"
+          ? parseFloat(value)
+          : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -85,24 +81,25 @@ const UpdateProduct = () => {
     try {
       const updatedProduct = { ...formFields };
 
-      // Handle image and images
+      // Handle image upload
       if (updatedProduct.image instanceof File) {
         const formData = new FormData();
         formData.append("image", updatedProduct.image);
-        const res = await uploadProductImage(formData).unwrap();
+        const res = await uploadSingleProductImage(formData).unwrap();
         updatedProduct.image = res.image;
       }
 
+      // Handle additional images upload
       if (
         Array.isArray(updatedProduct.images) &&
         updatedProduct.images.length &&
         updatedProduct.images[0] instanceof File
       ) {
         const imagesFormData = new FormData();
-        updatedProduct.images.forEach((file, idx) =>
-          imagesFormData.append(`image${idx}`, file)
+        updatedProduct.images.forEach((file) =>
+          imagesFormData.append("images", file)
         );
-        const res = await uploadProductImage(imagesFormData).unwrap();
+        const res = await uploadMultipleProductImages(imagesFormData).unwrap();
         updatedProduct.images = res.images;
       }
 
@@ -116,36 +113,15 @@ const UpdateProduct = () => {
     }
   };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      setFormFields((prevFields) => ({ ...prevFields, image: res.image }));
-      toast.success("Image uploaded successfully");
-    } catch (error) {
-      console.error("Upload Error:", error);
-      toast.error(error?.data?.message || error.error);
-    }
-  };
-
   const fields = [
     { id: "name", label: "Name", type: "text", required: true },
-    {
-      id: "image",
-      label: "Image",
-      type: "file",
-      required: false,
-      onChange: handleFileUpload,
-    },
+    { id: "image", label: "Image", type: "file", required: false },
     {
       id: "images",
       label: "Additional Images",
       type: "file",
       multiple: true,
       required: false,
-      onChange: handleFileUpload,
     },
     { id: "colors", label: "Colors", type: "text", required: false },
     { id: "sizes", label: "Sizes", type: "text", required: false },
@@ -185,7 +161,7 @@ const UpdateProduct = () => {
           </FormContainer>
         </>
       )}
-      {isUploading && <Loading />}
+      {(isUploadingSingle || isUploadingMultiple) && <Loading />}
     </Container>
   );
 };
