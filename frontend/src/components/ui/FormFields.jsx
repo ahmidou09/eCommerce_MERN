@@ -17,18 +17,28 @@ const FormFields = ({ fields, formFields, handleInputChange }) => {
       <div
         className={`input-wrapper ${formFields[field.id] ? "has-content" : ""}`}
       >
-        <input
-          type={
-            field.type === "password" && showPassword[field.id]
-              ? "text"
-              : field.type
-          }
-          id={field.id}
-          required={field.required}
-          value={field.type === "file" ? undefined : formFields[field.id]}
-          onChange={handleInputChange}
-          accept={field.type === "file" ? "image/*" : undefined}
-        />
+        {field.type === "file" ? (
+          <input
+            type="file"
+            id={field.id}
+            required={field.required}
+            multiple={field.multiple}
+            onChange={handleInputChange}
+            accept="image/*"
+          />
+        ) : (
+          <input
+            type={
+              field.type === "password" && showPassword[field.id]
+                ? "text"
+                : field.type
+            }
+            id={field.id}
+            required={field.required}
+            value={formFields[field.id]}
+            onChange={handleInputChange}
+          />
+        )}
         <label htmlFor={field.id}>
           {field.label}{" "}
           {field.required && (
