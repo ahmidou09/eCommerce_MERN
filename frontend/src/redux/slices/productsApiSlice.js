@@ -25,9 +25,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    uploadProductImage: builder.mutation({
+    uploadSingleProductImage: builder.mutation({
       query: (data) => ({
-        url: `${BASE_URL}${UPLOAD_URL}`,
+        url: `${BASE_URL}${UPLOAD_URL}/single`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    uploadMultipleProductImages: builder.mutation({
+      query: (data) => ({
+        url: `${BASE_URL}${UPLOAD_URL}/multiple`,
         method: "POST",
         body: data,
       }),
@@ -55,5 +62,6 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useCreateProductMutation,
-  useUploadProductImageMutation,
+  useUploadSingleProductImageMutation,
+  useUploadMultipleProductImagesMutation,
 } = productsApiSlice;
