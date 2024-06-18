@@ -18,6 +18,9 @@ import Cart from "./pages/Cart";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import WishList from "./pages/WishList";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfUse from "./pages/TermsOfUse";
+import FAQ from "./pages/FAQ";
 import Order from "./pages/Order";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
@@ -42,6 +45,10 @@ function App() {
             <Route path="wishList" element={<WishList />} />
             <Route path="cart" element={<Cart />} />
             <Route path="login" element={<Login />} />
+            <Route path="privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="terms-of-use" element={<TermsOfUse />} />
+            <Route path="faq" element={<FAQ />} />
+
             <Route path="*" element={<NotFound />} />
 
             <Route element={<PrivateRoute />}>

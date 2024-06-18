@@ -104,7 +104,7 @@ const Login = () => {
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  height: 85vh;
+  height: 64vh;
 `;
 
 const LoginContainer = styled.div`

@@ -125,7 +125,7 @@ const Checkout = () => {
 
 const Container = styled.div`
   max-width: 120rem;
-  min-height: 85vh;
+  min-height: 64vh;
   margin: 0 auto;
   padding: 2rem;
 `;

@@ -6,7 +6,7 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
-  height: 85vh;
+  height: 64vh;
 `;
 
 const Breadcrumb = styled.div`

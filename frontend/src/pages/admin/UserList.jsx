@@ -10,7 +10,7 @@ const UserListContainer = styled.div`
   margin: 0 auto;
   padding: 2rem;
   background-color: var(--color-red-1);
-  min-height: 85vh;
+  min-height: 64vh;
 `;
 
 export default UserList;

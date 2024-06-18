@@ -69,39 +69,41 @@ function ProductView() {
       {isLoading ? (
         <Skeleton count={5} height={50} style={{ marginBottom: "2rem" }} />
       ) : isError ? (
-        <Errors message="An error occurred" style={{ height: "85vh" }} />
+        <Errors message="An error occurred" style={{ height: "64vh" }} />
       ) : (
-        <ProductContainer>
-          <ImageGallery
-            images={product.images}
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
-          />
-          <ProductDetailsContainer>
-            <ProductDetails
-              product={product}
-              selectedColor={selectedColor}
-              selectedSize={selectedSize}
-              setSelectedColor={setSelectedColor}
-              setSelectedSize={setSelectedSize}
+        <>
+          <ProductContainer>
+            <ImageGallery
+              images={product.images}
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
             />
-            {product.countInStock > 0 && (
-              <ProductActions
+            <ProductDetailsContainer>
+              <ProductDetails
                 product={product}
-                quantity={quantity}
-                handleDecreaseQuantity={handleDecreaseQuantity}
-                handleIncreaseQuantity={handleIncreaseQuantity}
-                handleAddToCart={handleAddToCart}
-                handleAddToWishList={handleAddToWishList}
-                isProductInWishList={isProductInWishList}
-                setQuantity={setQuantity}
                 selectedColor={selectedColor}
                 selectedSize={selectedSize}
+                setSelectedColor={setSelectedColor}
+                setSelectedSize={setSelectedSize}
               />
-            )}
-            <DeliveryInfo />
-          </ProductDetailsContainer>
-        </ProductContainer>
+              {product.countInStock > 0 && (
+                <ProductActions
+                  product={product}
+                  quantity={quantity}
+                  handleDecreaseQuantity={handleDecreaseQuantity}
+                  handleIncreaseQuantity={handleIncreaseQuantity}
+                  handleAddToCart={handleAddToCart}
+                  handleAddToWishList={handleAddToWishList}
+                  isProductInWishList={isProductInWishList}
+                  setQuantity={setQuantity}
+                  selectedColor={selectedColor}
+                  selectedSize={selectedSize}
+                />
+              )}
+              <DeliveryInfo />
+            </ProductDetailsContainer>
+          </ProductContainer>
+        </>
       )}
     </Container>
   );
@@ -110,7 +112,7 @@ function ProductView() {
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  height: 85vh;
+  height: 64vh;
   padding: 2rem;
 `;
 

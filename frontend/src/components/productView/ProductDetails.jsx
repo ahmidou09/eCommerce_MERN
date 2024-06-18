@@ -1,60 +1,75 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Rating from "../ui/Rating";
+import { FaRegEdit } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
-const ProductDetails = ({
+function ProductDetails({
   product,
   selectedColor,
   selectedSize,
   setSelectedColor,
   setSelectedSize,
-}) => (
-  <Container>
-    <Title>{product.name}</Title>
-    <Review>
-      <Rating rating={product.rating} totalReviews={product.numReviews} />
-    </Review>
-    <Stock color={product.countInStock > 0 ? "green" : "red"}>
-      {product.countInStock > 0
-        ? ` In Stock : (${product.countInStock})`
-        : "Out of Stock"}
-    </Stock>
-    <Price>${product.price.toFixed(2)}</Price>
-    <Description>{product.description}</Description>
-    {product.colors.length > 0 && (
-      <ColorOptions>
-        <span>Color: </span>
-        {product.colors.map((color, index) => (
-          <ColorOption
-            key={index}
-            color={color}
-            onClick={() => setSelectedColor(color)}
-            style={{
-              border:
-                selectedColor === color
-                  ? "2px solid var(--color-black)"
-                  : "none",
-            }}
-          />
-        ))}
-      </ColorOptions>
-    )}
-    {product.sizes.length > 0 && (
-      <SizeOptions>
-        <span>Size: </span>
-        {product.sizes.map((size, index) => (
-          <SizeOption
-            key={index}
-            selected={selectedSize === size}
-            onClick={() => setSelectedSize(size)}
-          >
-            {size}
-          </SizeOption>
-        ))}
-      </SizeOptions>
-    )}
-  </Container>
-);
+}) {
+  const { userInfo } = useSelector((state) => state.auth);
+
+  return (
+    <Container>
+      <Title>
+        {product.name}
+        {userInfo && userInfo.isAdmin && (
+          <Link to={`/admin/product/${product._id}/edit`}>
+            <FaRegEdit />
+          </Link>
+        )}
+      </Title>
+
+      <Review>
+        <Rating rating={product.rating} totalReviews={product.numReviews} />
+      </Review>
+      <Stock color={product.countInStock > 0 ? "green" : "red"}>
+        {product.countInStock > 0
+          ? ` In Stock : (${product.countInStock})`
+          : "Out of Stock"}
+      </Stock>
+      <Price>${product.price.toFixed(2)}</Price>
+      <Description>{product.description}</Description>
+      {product.colors.length > 0 && (
+        <ColorOptions>
+          <span>Color: </span>
+          {product.colors.map((color, index) => (
+            <ColorOption
+              key={index}
+              color={color}
+              onClick={() => setSelectedColor(color)}
+              style={{
+                border:
+                  selectedColor === color
+                    ? "2px solid var(--color-black)"
+                    : "none",
+              }}
+            />
+          ))}
+        </ColorOptions>
+      )}
+      {product.sizes.length > 0 && (
+        <SizeOptions>
+          <span>Size: </span>
+          {product.sizes.map((size, index) => (
+            <SizeOption
+              key={index}
+              selected={selectedSize === size}
+              onClick={() => setSelectedSize(size)}
+            >
+              {size}
+            </SizeOption>
+          ))}
+        </SizeOptions>
+      )}
+    </Container>
+  );
+}
 
 const Container = styled.div`
   flex: 2;
@@ -63,6 +78,15 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  a {
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+  }
 `;
 
 const Review = styled.div`

@@ -21,7 +21,8 @@ const DeliveryInfo = () => (
       <Info>
         <TextTitle>Return Delivery</TextTitle>
         <Text>
-          Free 30 Days Delivery Returns. <Link to="#">Details</Link>
+          Free 30 Days Delivery Returns.{" "}
+          <Link to="/privacy-policy">Details</Link>
         </Text>
       </Info>
     </InfoContainer>
