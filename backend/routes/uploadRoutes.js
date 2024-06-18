@@ -6,7 +6,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "frontend/public/uploads/");
   },
   filename(req, file, cb) {
     cb(
@@ -32,8 +32,9 @@ function fileFilter(req, file, cb) {
 
 const upload = multer({ storage, fileFilter });
 const uploadSingleImage = upload.single("image");
+const uploadMultipleImages = upload.array("images", 10);
 
-router.post("/", (req, res) => {
+router.post("/single", (req, res) => {
   uploadSingleImage(req, res, function (err) {
     if (err) {
       console.error("Upload Error:", err);
@@ -42,7 +43,22 @@ router.post("/", (req, res) => {
 
     res.status(200).send({
       message: "Image uploaded successfully",
-      image: `http://localhost:5000/uploads/${req.file.filename}`,
+      image: `/uploads/${req.file.filename}`,
+    });
+  });
+});
+
+router.post("/multiple", (req, res) => {
+  uploadMultipleImages(req, res, function (err) {
+    if (err) {
+      console.error("Upload Error:", err);
+      return res.status(400).send({ message: err.message });
+    }
+
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+    res.status(200).send({
+      message: "Images uploaded successfully",
+      images,
     });
   });
 });
