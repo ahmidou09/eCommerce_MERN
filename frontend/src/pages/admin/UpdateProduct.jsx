@@ -70,6 +70,8 @@ const UpdateProduct = () => {
           ? id === "images"
             ? Array.from(files)
             : files[0]
+          : id === "colors" || id === "sizes"
+          ? value.split(",").map((item) => item.trim())
           : type === "number"
           ? parseFloat(value)
           : value,
