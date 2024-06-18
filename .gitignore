@@ -24,8 +24,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 frontend/build
-uploads/*png
-uploads/*jpg
+frontend/public/uploads/*png
+frontend/public/uploads/*jpg
+frontend/public/uploads/*webp
+frontend/public/uploads/*jpeg
 
 # API tests
 http
