@@ -12,6 +12,7 @@ import ImageGallery from "./ImageGallery";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
 import DeliveryInfo from "./DeliveryInfo";
+import ProductReviews from "./ProductReviews";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
@@ -103,6 +104,9 @@ function ProductView() {
               <DeliveryInfo />
             </ProductDetailsContainer>
           </ProductContainer>
+          <ProductReviewsContainer>
+            <ProductReviews productId={id} />
+          </ProductReviewsContainer>
         </>
       )}
     </Container>
@@ -112,7 +116,7 @@ function ProductView() {
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  height: 64vh;
+  min-height: 64vh;
   padding: 2rem;
 `;
 
@@ -128,6 +132,10 @@ const ProductDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+`;
+
+const ProductReviewsContainer = styled.div`
+  margin-top: 2rem;
 `;
 
 export default ProductView;

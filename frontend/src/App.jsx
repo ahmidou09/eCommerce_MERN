@@ -29,6 +29,7 @@ import ProductList from "./pages/admin/ProductList";
 import OrderList from "./pages/admin/OrderList";
 import UserList from "./pages/admin/UserList";
 import UpdateProduct from "./pages/admin/UpdateProduct";
+import EditInfo from "./pages/admin/EditInfo";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
                 path="admin/product/:id/edit"
                 element={<UpdateProduct />}
               />
+              <Route path="admin/users/:id/edit" element={<EditInfo />} />
             </Route>
           </Route>
         </Routes>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "../../redux/slices/productsApiSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -14,6 +15,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 
 function ProductList() {
+  // Fetch products data from the server
   const {
     data: products,
     isLoading: loadingProducts,
@@ -21,24 +23,38 @@ function ProductList() {
     refetch,
   } = useGetProductsQuery();
 
+  // Create product mutation
   const [createProduct, { isLoading: loadingCreateProduct }] =
     useCreateProductMutation();
 
+  // Delete product mutation
+  const [deleteProduct, { isLoading: loadingDeleteProduct }] =
+    useDeleteProductMutation();
+
+  // Handle product creation
   const createProductHandler = async () => {
-    if (!window.confirm("Are you sure you want to create a new product?"))
-      return;
     try {
-      await createProduct();
-      refetch();
-      toast.success("Product created successfully");
+      if (window.confirm("Are you sure you want to create a new product?")) {
+        await createProduct();
+        refetch();
+        toast.success("Product created successfully");
+      }
     } catch (err) {
       toast.error(err?.data?.message || "An error occurred");
     }
   };
 
-  const deleteHandler = (id) => {
-    // Handle product deletion
-    console.log("Delete product with ID:", id);
+  // Handle product deletion
+  const deleteHandler = async (id) => {
+    try {
+      if (window.confirm("Are you sure you want to delete this product?")) {
+        await deleteProduct(id);
+        refetch();
+        toast.success("Product deleted successfully");
+      }
+    } catch (error) {
+      toast.error(error.data.message || "An error occurred");
+    }
   };
 
   const columns = [
@@ -84,7 +100,10 @@ function ProductList() {
               <FaRegEdit />
             </Link>
           </Button>
-          <Button onClick={() => deleteHandler(product._id)}>
+          <Button
+            disabled={loadingDeleteProduct}
+            onClick={() => deleteHandler(product._id)}
+          >
             <MdDeleteOutline />
           </Button>
         </ButtonWrapper>
@@ -99,7 +118,7 @@ function ProductList() {
       ) : error ? (
         <Errors message="An error occurred" />
       ) : (
-        <ProductListContainer>
+        <>
           <Header>
             <h1>Products</h1>
             <Button onClick={createProductHandler}>Add Product</Button>
@@ -110,7 +129,7 @@ function ProductList() {
             renderItem={renderProductRow}
             itemPerPage={8}
           />
-        </ProductListContainer>
+        </>
       )}
 
       {loadingCreateProduct && <Skeleton count={10} height={50} />}
@@ -151,7 +170,5 @@ const Button = styled.button`
     background-color: var(--color-primary-2);
   }
 `;
-
-const ProductListContainer = styled.div``;
 
 export default ProductList;

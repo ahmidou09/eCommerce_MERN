@@ -26,6 +26,14 @@ const FormFields = ({ fields, formFields, handleInputChange }) => {
             onChange={handleInputChange}
             accept="image/*"
           />
+        ) : field.type === "checkbox" ? (
+          <input
+            type="checkbox"
+            id={field.id}
+            required={field.required}
+            checked={formFields[field.id]}
+            onChange={handleInputChange}
+          />
         ) : (
           <input
             type={
@@ -60,12 +68,14 @@ const FormFields = ({ fields, formFields, handleInputChange }) => {
 
 const FormField = styled.div`
   margin-bottom: 3rem;
+
   .input-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
   }
+
   label {
     margin-bottom: 0.5rem;
     font-weight: bold;
@@ -76,6 +86,7 @@ const FormField = styled.div`
     transform: translateY(-50%);
     transition: all 0.3s ease;
   }
+
   input {
     padding: 1rem 0.5rem;
     border: none;
@@ -87,12 +98,23 @@ const FormField = styled.div`
       border-bottom: 1px solid var(--color-primary-2);
     }
   }
+
+  input[type="checkbox"] {
+    width: 20rem;
+  }
+
+  input[type="checkbox"]:checked {
+    padding: 0.5rem;
+    transform: translateY(-80%);
+  }
+
   .input-wrapper:focus-within label,
   .input-wrapper.has-content label {
     color: var(--color-primary-2);
     top: -20%;
     font-size: 1.2rem;
   }
+
   .password-toggle {
     position: absolute;
     right: 10px;

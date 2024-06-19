@@ -44,6 +44,7 @@ router
 // @desc    update user and delete user and get user by id
 // @route   PUT DELETE GET /api/users/:id
 // @access  private/admin
+
 router
   .route("/:id")
   .put(protect, admin, updateUser)

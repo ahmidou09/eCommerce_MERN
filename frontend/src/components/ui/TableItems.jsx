@@ -153,17 +153,33 @@ const TableItems = ({ data, columns, renderItem, itemPerPage = 10 }) => {
         </Thead>
         <Tbody>{currentItems.map((item) => renderItem(item))}</Tbody>
       </TableStyled>
-      <PaginationWrapper>
-        <PaginationNextPrevious
-          onClick={() => currentPage > 1 && paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          <GrPrevious />
-        </PaginationNextPrevious>
-        {Array.from({ length: totalPages }, (_, index) => {
-          const page = index + 1;
-          if (totalPages > 5) {
-            if (page <= 2 || page > totalPages - 2) {
+
+      {data.length > 0 && (
+        <PaginationWrapper>
+          <PaginationNextPrevious
+            onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <GrPrevious />
+          </PaginationNextPrevious>
+          {Array.from({ length: totalPages }, (_, index) => {
+            const page = index + 1;
+            if (totalPages > 5) {
+              if (page <= 2 || page > totalPages - 2) {
+                return (
+                  <PaginationButton
+                    key={page}
+                    $isActive={page === currentPage}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </PaginationButton>
+                );
+              }
+              if (page === 3) {
+                return <span key="ellipsis">...</span>;
+              }
+            } else {
               return (
                 <PaginationButton
                   key={page}
@@ -174,29 +190,18 @@ const TableItems = ({ data, columns, renderItem, itemPerPage = 10 }) => {
                 </PaginationButton>
               );
             }
-            if (page === 3) {
-              return <span key="ellipsis">...</span>;
+            return null;
+          })}
+          <PaginationNextPrevious
+            onClick={() =>
+              currentPage < totalPages && paginate(currentPage + 1)
             }
-          } else {
-            return (
-              <PaginationButton
-                key={page}
-                $isActive={page === currentPage}
-                onClick={() => paginate(page)}
-              >
-                {page}
-              </PaginationButton>
-            );
-          }
-          return null;
-        })}
-        <PaginationNextPrevious
-          onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          <GrNext />
-        </PaginationNextPrevious>
-      </PaginationWrapper>
+            disabled={currentPage === totalPages}
+          >
+            <GrNext />
+          </PaginationNextPrevious>
+        </PaginationWrapper>
+      )}
     </>
   );
 };
