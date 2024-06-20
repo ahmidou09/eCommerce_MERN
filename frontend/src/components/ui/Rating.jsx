@@ -44,7 +44,7 @@ const Rating = ({ rating, totalReviews }) => {
           <EmptyStar key={`empty-${i}`} />
         )
       )}
-      <RatingNumber>({totalReviews} reviews)</RatingNumber>
+      {totalReviews && <RatingNumber>({totalReviews} reviews)</RatingNumber>}
     </StarsContainer>
   );
 };

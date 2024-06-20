@@ -9,6 +9,7 @@ import styled from "styled-components";
 import Rating from "../ui/Rating";
 import Loading from "../ui/Loading";
 import Errors from "../ui/Errors";
+import ReactStars from "react-rating-stars-component";
 
 const ProductReviews = ({ productId }) => {
   const [rating, setRating] = useState(0);
@@ -31,7 +32,7 @@ const ProductReviews = ({ productId }) => {
 
     try {
       await createReview({
-        id: productId, // Ensure the id is passed here
+        id: productId,
         rating,
         comment,
       }).unwrap();
@@ -41,6 +42,8 @@ const ProductReviews = ({ productId }) => {
       setComment("");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
+      setRating(0);
+      setComment("");
     }
   };
 
@@ -56,14 +59,19 @@ const ProductReviews = ({ productId }) => {
           {product?.reviews?.length === 0 && <Errors message="No Reviews" />}
           {product?.reviews?.map((review) => (
             <Review key={review._id}>
-              <strong>{review.name}</strong>
-
-              <Rating
-                rating={review.rating}
-                totalReviews={product.numReviews}
-              />
-              <p>{review.createdAt.substring(0, 10)}</p>
-              <p>{review.comment}</p>
+              <ReviewHeader>
+                <Avatar>{review.name.charAt(0)}</Avatar>
+                <ReviewerDetails>
+                  <strong>{review.name}</strong>
+                  <ReviewDate>
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </ReviewDate>
+                </ReviewerDetails>
+                <ReviewRating>
+                  <Rating rating={review.rating} />
+                </ReviewRating>
+              </ReviewHeader>
+              <ReviewComment>{review.comment}</ReviewComment>
             </Review>
           ))}
           {userInfo ? (
@@ -71,23 +79,17 @@ const ProductReviews = ({ productId }) => {
               <h2>Write a Customer Review</h2>
               {loadingProductReview && <Loading />}
               <FormGroup>
-                <FormLabel htmlFor="rating">Rating</FormLabel>
-                <FormSelect
-                  id="rating"
+                <FormLabel>Rating :</FormLabel>
+                <ReactStars
+                  count={5}
+                  onChange={(newRating) => setRating(newRating)}
+                  size={24}
+                  activeColor="var(--color-accent-4)"
                   value={rating}
-                  onChange={(e) => setRating(Number(e.target.value))}
-                  required
-                >
-                  <option value="">Select...</option>
-                  <option value="1">1 - Poor</option>
-                  <option value="2">2 - Fair</option>
-                  <option value="3">3 - Good</option>
-                  <option value="4">4 - Very Good</option>
-                  <option value="5">5 - Excellent</option>
-                </FormSelect>
+                />
               </FormGroup>
               <FormGroup>
-                <FormLabel htmlFor="comment">Comment</FormLabel>
+                <FormLabel htmlFor="comment">Comment :</FormLabel>
                 <FormTextArea
                   id="comment"
                   rows="3"
@@ -111,11 +113,62 @@ const ProductReviews = ({ productId }) => {
 
 const ReviewsContainer = styled.div`
   margin-top: 2rem;
+  max-width: 60rem;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-grey-5);
+    padding-bottom: 2rem;
+  }
 `;
 
 const Review = styled.div`
+  background-color: var(--color-grey-0);
   border-bottom: 1px solid var(--color-grey-2);
-  padding: 1rem 0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ReviewHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+`;
+
+const Avatar = styled.div`
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--color-primary-2);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+`;
+
+const ReviewerDetails = styled.div`
+  flex: 1;
+`;
+
+const ReviewDate = styled.p`
+  font-size: 1rem;
+  color: var(--color-grey-3);
+  margin: 0;
+`;
+
+const ReviewRating = styled.div`
+  margin-left: auto;
+`;
+
+const ReviewComment = styled.p`
+  margin: 0;
+  padding: 0.5rem 1rem;
 `;
 
 const ReviewForm = styled.form`
@@ -132,29 +185,22 @@ const FormLabel = styled.label`
   font-weight: bold;
 `;
 
-const FormSelect = styled.select`
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--color-grey-2);
-  border-radius: 4px;
-  background: white;
-`;
-
 const FormTextArea = styled.textarea`
   width: 100%;
   padding: 0.5rem;
   border: 1px solid var(--color-grey-2);
   border-radius: 4px;
-  background: white;
+  background: var(--color-white);
 `;
 
 const SubmitButton = styled.button`
   background-color: var(--color-primary-2);
-  color: white;
+  color: var(--color-white);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+
   &:hover {
     background-color: var(--color-primary-1);
   }

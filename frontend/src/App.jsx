@@ -30,6 +30,7 @@ import OrderList from "./pages/admin/OrderList";
 import UserList from "./pages/admin/UserList";
 import UpdateProduct from "./pages/admin/UpdateProduct";
 import EditInfo from "./pages/admin/EditInfo";
+import MyReviews from "./pages/MyReviews";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
               <Route path="cancellations" element={<Cancellations />} />
               <Route path="orders" element={<MyOrders />} />
               <Route path="orders/:id" element={<Order />} />
+              <Route path="myreviews" element={<MyReviews />} />
             </Route>
 
             <Route element={<AdminRoute />}>

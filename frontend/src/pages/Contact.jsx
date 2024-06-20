@@ -91,7 +91,7 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  height: 64vh;
+  min-height: 64vh;
 `;
 
 const Breadcrumb = styled.div`

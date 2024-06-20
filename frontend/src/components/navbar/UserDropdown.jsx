@@ -28,7 +28,7 @@ const UserDropdown = ({ dropdownRef, logoutHandler }) => (
       </DropdownItemLink>
     </li>
     <li>
-      <DropdownItemLink to="/reviews">
+      <DropdownItemLink to="/myreviews">
         <FaRegStar />
         My Reviews
       </DropdownItemLink>

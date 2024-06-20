@@ -60,6 +60,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    myReviews: builder.query({
+      query: () => ({
+        url: `${BASE_URL}${PRODUCTS_URL}/myreviews`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -72,4 +79,6 @@ export const {
   useUploadSingleProductImageMutation,
   useUploadMultipleProductImagesMutation,
   useReviewProductMutation,
+  useGetMyReviewsQuery,
+  useMyReviewsQuery,
 } = productsApiSlice;

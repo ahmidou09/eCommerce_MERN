@@ -66,6 +66,7 @@ const createProduct = asyncHandler(async (req, res) => {
 // @desc    Update product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
+
 const updateProduct = asyncHandler(async (req, res) => {
   const {
     name,
@@ -106,46 +107,73 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Create new review
+// @desc    Create or update review
 // @route   POST /api/products/:id/reviews
 // @access  Private
+
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
 
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    const alreadyReviewed = product.reviews.find(
+    const existingReviewIndex = product.reviews.findIndex(
       (r) => r.user.toString() === req.user._id.toString()
     );
 
-    if (alreadyReviewed) {
-      res.status(400);
-      throw new Error("Product already reviewed");
+    if (existingReviewIndex !== -1) {
+      // Update existing review
+      product.reviews[existingReviewIndex].rating = Number(rating);
+      product.reviews[existingReviewIndex].comment = comment;
+    } else {
+      // Add new review
+      const review = {
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+        user: req.user._id,
+      };
+      product.reviews.push(review);
     }
 
-    const review = {
-      name: req.user.name,
-      rating: Number(rating),
-      comment,
-      user: req.user._id,
-    };
-
-    product.reviews.push(review);
-
+    // Recalculate the overall rating
     product.numReviews = product.reviews.length;
-
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
       product.reviews.length;
 
     await product.save();
 
-    res.status(201).json({ message: "Review added" });
+    res.status(201).json({ message: "Review added or updated" });
   } else {
     res.status(404);
     throw new Error("Product not found");
   }
+});
+
+// @desc    Get My Reviews
+// @route   GET /api/products/myreviews
+// @access  Private
+const getMyReviews = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  // Find products that have reviews from the logged-in user
+  const products = await Product.find({ "reviews.user": userId });
+
+  // Extract only the reviews made by the user
+  const userReviews = products
+    .map((product) => {
+      return {
+        productId: product._id,
+        productName: product.name,
+        reviews: product.reviews.filter(
+          (review) => review.user.toString() === userId.toString()
+        ),
+      };
+    })
+    .filter((product) => product.reviews.length > 0);
+
+  res.json(userReviews);
 });
 
 export {
@@ -155,4 +183,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getMyReviews,
 };
