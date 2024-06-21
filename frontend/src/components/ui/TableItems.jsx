@@ -154,7 +154,7 @@ const TableItems = ({ data, columns, renderItem, itemPerPage = 10 }) => {
         <Tbody>{currentItems.map((item) => renderItem(item))}</Tbody>
       </TableStyled>
 
-      {data.length > 0 && (
+      {data.length > 0 && totalPages > 1 && (
         <PaginationWrapper>
           <PaginationNextPrevious
             onClick={() => currentPage > 1 && paginate(currentPage - 1)}
