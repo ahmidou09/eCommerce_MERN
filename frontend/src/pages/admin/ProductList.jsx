@@ -13,15 +13,18 @@ import { toast } from "react-toastify";
 import TableItems from "../../components/ui/TableItems";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import Paginate from "../../components/ui/Paginate";
 
 function ProductList() {
+  const { pageNumber } = useParams();
   // Fetch products data from the server
   const {
-    data: products,
+    data,
     isLoading: loadingProducts,
     isError: error,
     refetch,
-  } = useGetProductsQuery();
+  } = useGetProductsQuery({ pageNumber });
 
   // Create product mutation
   const [createProduct, { isLoading: loadingCreateProduct }] =
@@ -124,10 +127,15 @@ function ProductList() {
             <Button onClick={createProductHandler}>Add Product</Button>
           </Header>
           <TableItems
-            data={products}
+            data={data.products}
             columns={columns}
             renderItem={renderProductRow}
-            itemPerPage={8}
+            itemPerPage={data.products.length}
+          />
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            root={"admin/products"}
           />
         </>
       )}
@@ -142,7 +150,7 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  min-height: 64vh;
+  min-height: 100vh;
 `;
 
 const Header = styled.div`
