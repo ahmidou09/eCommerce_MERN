@@ -38,11 +38,13 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getOrders: builder.query({
-      query: () => ({
+      query: ({ pageNumber }) => ({
         url: `${BASE_URL}${ORDERS_URL}`,
         method: "GET",
+        params: { pageNumber },
       }),
       keepUnusedDataFor: 5,
+      providesTags: ["Order"],
     }),
     updateOrderToDelivered: builder.mutation({
       query: (id) => ({

@@ -72,7 +72,15 @@ function App() {
 
             <Route element={<AdminRoute />}>
               <Route path="admin/users" element={<UserList />} />
+              <Route
+                path="admin/users/page/:pageNumber"
+                element={<UserList />}
+              />
               <Route path="admin/orders" element={<OrderList />} />
+              <Route
+                path="admin/orders/page/:pageNumber"
+                element={<OrderList />}
+              />
               <Route path="admin/products" element={<ProductList />} />
               <Route
                 path="admin/products/page/:pageNumber"

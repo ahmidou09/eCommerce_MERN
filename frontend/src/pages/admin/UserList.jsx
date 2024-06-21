@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   useGetUsersQuery,
   useDeleteUserMutation,
@@ -12,15 +12,17 @@ import { toast } from "react-toastify";
 import TableItems from "../../components/ui/TableItems";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit, FaCheck, FaTimes } from "react-icons/fa";
+import Paginate from "../../components/ui/Paginate";
 
 function UserList() {
-  // Fetch users data from the server
+  const { pageNumber } = useParams();
+  const basePath = "/admin/users";
   const {
-    data: users,
+    data,
     isLoading: loadingUsers,
     isError: error,
     refetch,
-  } = useGetUsersQuery();
+  } = useGetUsersQuery({ pageNumber });
 
   // Delete user mutation
   const [deleteUser, { isLoading: loadingDeleteUser }] =
@@ -85,11 +87,12 @@ function UserList() {
             <h1>List of Users</h1>
           </Header>
           <TableItems
-            data={users}
+            data={data.users}
             columns={columns}
             renderItem={renderUserRow}
             itemPerPage={8}
           />
+          <Paginate pages={data.pages} page={data.page} basePath={basePath} />
         </>
       )}
 

@@ -4,15 +4,20 @@ import { useGetOrdersQuery } from "../../redux/slices/ordersApiSlice";
 import { truncateString } from "../../utils/utils";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import TableItems from "../../components/ui/TableItems";
+import Paginate from "../../components/ui/Paginate";
 
 function OrderList() {
+  const { pageNumber } = useParams();
+  const basePath = "/admin/orders";
   const {
-    data: orders,
+    data,
     isLoading: loadingOrders,
     error: errorOrders,
-  } = useGetOrdersQuery();
+  } = useGetOrdersQuery({ pageNumber });
+
+  console.log(data);
 
   const columns = [
     { key: "_id", title: "Order ID" },
@@ -72,11 +77,12 @@ function OrderList() {
         <>
           <h2>Orders</h2>
           <TableItems
-            data={orders}
+            data={data.orders}
             columns={columns}
             renderItem={renderItem}
-            itemPerPage={8}
+            itemPerPage={data.orders.length}
           />
+          <Paginate pages={data.pages} page={data.page} basePath={basePath} />
         </>
       )}
     </Container>
