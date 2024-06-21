@@ -4,9 +4,10 @@ import { BASE_URL, PRODUCTS_URL, UPLOAD_URL } from "../../constants";
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => ({
+      query: ({ pageNumber }) => ({
         url: `${BASE_URL}${PRODUCTS_URL}`,
         method: "GET",
+        params: { pageNumber },
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Product"],
@@ -67,6 +68,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getTopProducts: builder.query({
+      query: () => ({
+        url: `${BASE_URL}${PRODUCTS_URL}/top`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -81,4 +89,5 @@ export const {
   useReviewProductMutation,
   useGetMyReviewsQuery,
   useMyReviewsQuery,
+  useGetTopProductsQuery,
 } = productsApiSlice;
