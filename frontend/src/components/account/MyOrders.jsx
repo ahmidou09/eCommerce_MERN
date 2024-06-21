@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useGetMyOrdersQuery } from "../../redux/slices/ordersApiSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { truncateString } from "../../utils/cartUtil";
+import { truncateString } from "../../utils/utils";
 import TableItems from "../ui/TableItems";
 import { Link } from "react-router-dom";
 

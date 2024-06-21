@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useGetOrdersQuery } from "../../redux/slices/ordersApiSlice";
-import { truncateString } from "../../utils/cartUtil";
+import { truncateString } from "../../utils/utils";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";

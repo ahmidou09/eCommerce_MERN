@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateCart } from "../../utils/cartUtil";
+import { updateCart } from "../../utils/utils";
 import { toast } from "react-toastify";
 
 const initialState = () => {

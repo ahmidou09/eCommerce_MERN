@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { generatePaginationPath } from "../../utils/utils";
 
-const Paginate = ({ pages, page, root }) => {
+const Paginate = ({ pages, page, basePath }) => {
   return (
     pages > 1 && (
       <PaginationContainer>
         {[...Array(pages).keys()].map((x) => (
           <PaginationItem
             key={x + 1}
-            to={`/${root}/${x + 1}`}
+            to={generatePaginationPath(basePath, x + 1)}
             className={x + 1 === page ? "active" : ""}
           >
             {x + 1}

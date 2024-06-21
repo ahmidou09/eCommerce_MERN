@@ -9,7 +9,7 @@ import {
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import { FaRegCreditCard, FaPaypal } from "react-icons/fa";
-import { truncateString } from "../utils/cartUtil";
+import { truncateString } from "../utils/utils";
 import Loading from "../components/ui/Loading";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

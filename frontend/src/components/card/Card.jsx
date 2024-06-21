@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "../ui/Rating";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { truncateString } from "../../utils/cartUtil";
+import { truncateString } from "../../utils/utils";
 import {
   removeFromWishList,
   addToWishList,

@@ -11,9 +11,9 @@ import Paginate from "../ui/Paginate";
 
 const Products = () => {
   const { pageNumber } = useParams();
-  const { data, isLoading, isError } = useGetProductsQuery({
-    pageNumber,
-  });
+  const basePath = "/products";
+
+  const { data, isLoading, isError } = useGetProductsQuery({ pageNumber });
 
   return (
     <Container>
@@ -31,7 +31,7 @@ const Products = () => {
         )}
       </ProductsGrid>
       {!isLoading && !isError && data && (
-        <Paginate pages={data.pages} page={data.page} root={"products/page"} />
+        <Paginate pages={data.pages} page={data.page} basePath={basePath} />
       )}
     </Container>
   );

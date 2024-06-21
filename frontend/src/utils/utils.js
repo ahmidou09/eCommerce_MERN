@@ -37,3 +37,7 @@ export const updateCart = (state) => {
 export const truncateString = (str, num) => {
   return str.length > num ? str.slice(0, num) + "..." : str;
 };
+
+export const generatePaginationPath = (basePath, page) => {
+  return `${basePath}${basePath.endsWith("/") ? "" : "/"}page/${page}`;
+};

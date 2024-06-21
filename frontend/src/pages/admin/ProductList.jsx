@@ -1,3 +1,4 @@
+// ProductList.js
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -18,7 +19,8 @@ import Paginate from "../../components/ui/Paginate";
 
 function ProductList() {
   const { pageNumber } = useParams();
-  // Fetch products data from the server
+  const basePath = "/admin/products";
+
   const {
     data,
     isLoading: loadingProducts,
@@ -26,15 +28,12 @@ function ProductList() {
     refetch,
   } = useGetProductsQuery({ pageNumber });
 
-  // Create product mutation
   const [createProduct, { isLoading: loadingCreateProduct }] =
     useCreateProductMutation();
 
-  // Delete product mutation
   const [deleteProduct, { isLoading: loadingDeleteProduct }] =
     useDeleteProductMutation();
 
-  // Handle product creation
   const createProductHandler = async () => {
     try {
       if (window.confirm("Are you sure you want to create a new product?")) {
@@ -47,7 +46,6 @@ function ProductList() {
     }
   };
 
-  // Handle product deletion
   const deleteHandler = async (id) => {
     try {
       if (window.confirm("Are you sure you want to delete this product?")) {
@@ -132,11 +130,7 @@ function ProductList() {
             renderItem={renderProductRow}
             itemPerPage={data.products.length}
           />
-          <Paginate
-            pages={data.pages}
-            page={data.page}
-            root={"admin/products"}
-          />
+          <Paginate pages={data.pages} page={data.page} basePath={basePath} />
         </>
       )}
 

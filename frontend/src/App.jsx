@@ -75,7 +75,7 @@ function App() {
               <Route path="admin/orders" element={<OrderList />} />
               <Route path="admin/products" element={<ProductList />} />
               <Route
-                path="admin/products/:pageNumber"
+                path="admin/products/page/:pageNumber"
                 element={<ProductList />}
               />
               <Route
