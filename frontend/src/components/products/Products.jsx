@@ -3,9 +3,39 @@ import styled from "styled-components";
 import Card from "../card/Card";
 import ShiftingCountdown from "../ui/ShiftingCountdown";
 import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
+import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
+import Paginate from "../ui/Paginate";
+
+const Products = () => {
+  const { pageNumber } = useParams();
+  const { data, isLoading, isError } = useGetProductsQuery({
+    pageNumber,
+  });
+
+  return (
+    <Container>
+      <FlashSalesHeader>
+        <Today>Today’s</Today>
+        <ShiftingCountdown />
+      </FlashSalesHeader>
+      <ProductsGrid>
+        {isLoading ? (
+          <Skeleton count={10} height={50} style={{ marginBottom: "2rem" }} />
+        ) : isError ? (
+          <Errors message="An error occurred" style={{ height: "20vh" }} />
+        ) : (
+          <Card products={data.products} />
+        )}
+      </ProductsGrid>
+      {!isLoading && !isError && data && (
+        <Paginate pages={data.pages} page={data.page} root={"products/page"} />
+      )}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   max-width: 120rem;
@@ -44,27 +74,5 @@ const ProductsGrid = styled.div`
   grid-gap: 4rem;
   align-items: center;
 `;
-
-const Products = () => {
-  const { data: products, isLoading, isError } = useGetProductsQuery();
-
-  return (
-    <Container>
-      <FlashSalesHeader>
-        <Today>Today’s</Today>
-        <ShiftingCountdown />
-      </FlashSalesHeader>
-      <ProductsGrid>
-        {isLoading ? (
-          <Skeleton count={10} height={50} style={{ marginBottom: "2rem" }} />
-        ) : isError ? (
-          <Errors message="An error occurred" style={{ height: "20vh" }} />
-        ) : (
-          <Card products={products} />
-        )}
-      </ProductsGrid>
-    </Container>
-  );
-};
 
 export default Products;
