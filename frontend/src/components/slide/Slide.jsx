@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SwipeCarousel from "./SwipeCarousel";
-import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
+import { useGetTopProductsQuery } from "../../redux/slices/productsApiSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
@@ -12,7 +12,8 @@ const SlideContainer = styled.div`
 `;
 
 function Slide() {
-  const { data: products, isLoading, isError } = useGetProductsQuery();
+  const { data, isLoading, isError } = useGetTopProductsQuery();
+
   return (
     <SlideContainer>
       {isLoading ? (
@@ -20,7 +21,7 @@ function Slide() {
       ) : isError ? (
         <Errors message="An error occurred" />
       ) : (
-        <SwipeCarousel slideData={products} />
+        <SwipeCarousel slideData={data} />
       )}
     </SlideContainer>
   );
