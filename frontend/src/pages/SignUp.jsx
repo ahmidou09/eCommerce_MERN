@@ -118,7 +118,7 @@ const SignUp = () => {
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  height: 64vh;
+  min-height: 65vh;
 `;
 
 const SignUpContainer = styled.div`

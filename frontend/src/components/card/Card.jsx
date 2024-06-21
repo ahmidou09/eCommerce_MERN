@@ -15,6 +15,7 @@ const ProductCard = styled.div`
   position: relative;
   transition: all 0.3s;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  max-width: 30rem;
 
   .button-container {
     position: absolute;
@@ -130,7 +131,7 @@ function Card({ products }) {
   return (
     <>
       {products.map((product) => (
-        <ProductCard key={product.name}>
+        <ProductCard key={product._id}>
           <Link to={`/products/${product._id}`}>
             <ImageContainer>
               {product.discount && (

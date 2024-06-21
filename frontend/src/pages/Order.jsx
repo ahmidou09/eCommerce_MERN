@@ -105,7 +105,7 @@ const Order = () => {
       {isLoading ? (
         <Skeleton count={12} height={50} style={{ marginBottom: "2rem" }} />
       ) : isError ? (
-        <Errors message="An error occurred" style={{ height: "64vh" }} />
+        <Errors message="An error occurred" style={{ height: "65vh" }} />
       ) : (
         <OrderContainer>
           <OrderDetailsWrapper>
@@ -249,7 +249,7 @@ const renderStatus = (isDelivered, isPaid) => {
 
 const Container = styled.div`
   max-width: 120rem;
-  min-height: 64vh;
+  min-height: 65vh;
   margin: 0 auto;
   padding: 2rem;
 `;

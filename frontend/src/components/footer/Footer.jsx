@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { VscSend } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const FooterContainer = styled.footer`
   background-color: var(--color-primary-3);
@@ -130,6 +131,7 @@ const SocialIcons = styled.div`
 `;
 
 const Footer = () => {
+  const { userInfo } = useSelector((state) => state.auth);
   return (
     <FooterContainer>
       <Column>
@@ -154,7 +156,9 @@ const Footer = () => {
       </Column>
       <Column>
         <Title>Account</Title>
-        <InternalLink to="/account/profile">My Account</InternalLink>
+        {userInfo && (
+          <InternalLink to="account/profile">My Account</InternalLink>
+        )}
         <InternalLink to="/login">Login / Register</InternalLink>
         <InternalLink to="/cart">Cart</InternalLink>
         <InternalLink to="/wishlist">Wishlist</InternalLink>

@@ -104,7 +104,7 @@ const EditInfoContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  min-height: 64vh;
+  min-height: 65vh;
 `;
 
 const Form = styled.form`

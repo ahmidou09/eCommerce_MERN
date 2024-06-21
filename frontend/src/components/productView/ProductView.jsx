@@ -70,7 +70,7 @@ function ProductView() {
       {isLoading ? (
         <Skeleton count={5} height={50} style={{ marginBottom: "2rem" }} />
       ) : isError ? (
-        <Errors message="An error occurred" style={{ height: "64vh" }} />
+        <Errors message="An error occurred" style={{ height: "65vh" }} />
       ) : (
         <>
           <ProductContainer>
@@ -116,7 +116,7 @@ function ProductView() {
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 64vh;
+  min-height: 65vh;
   padding: 2rem;
 `;
 

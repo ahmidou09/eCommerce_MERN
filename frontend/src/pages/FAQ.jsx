@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const PageContainer = styled.div`
   padding: 2rem;
-  min-height: 64vh;
+  min-height: 65vh;
 `;
 
 const Title = styled.h1`

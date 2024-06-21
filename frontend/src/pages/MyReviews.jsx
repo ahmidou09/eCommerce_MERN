@@ -72,7 +72,7 @@ const MyReviews = () => {
 const ReviewsContainer = styled.div`
   max-width: 120rem;
   margin: 4rem auto;
-  min-height: 64vh;
+  min-height: 65vh;
 `;
 
 export default MyReviews;
