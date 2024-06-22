@@ -10,7 +10,7 @@ node_modules
 /coverage
 
 # production
-/build
+/dist
 
 # misc
 .DS_Store
@@ -23,7 +23,7 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-frontend/build
+frontend/dist
 frontend/public/uploads/*png
 frontend/public/uploads/*jpg
 frontend/public/uploads/*webp

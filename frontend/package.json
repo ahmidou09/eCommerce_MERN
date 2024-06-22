@@ -13,6 +13,7 @@
     "@paypal/react-paypal-js": "^8.4.0",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.6.8",
+    "ecommerce_mern": "file:..",
     "eslint-config-react-app": "^7.0.1",
     "framer-motion": "^11.2.2",
     "lodash.debounce": "^4.0.8",
