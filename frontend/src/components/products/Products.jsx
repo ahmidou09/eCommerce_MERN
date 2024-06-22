@@ -10,10 +10,13 @@ import Errors from "../ui/Errors";
 import Paginate from "../ui/Paginate";
 
 const Products = () => {
-  const { pageNumber } = useParams();
+  const { keyword, pageNumber } = useParams();
   const basePath = "/products";
 
-  const { data, isLoading, isError } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, isError } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
 
   return (
     <Container>
@@ -31,7 +34,12 @@ const Products = () => {
         )}
       </ProductsGrid>
       {!isLoading && !isError && data && (
-        <Paginate pages={data.pages} page={data.page} basePath={basePath} />
+        <Paginate
+          pages={data.pages}
+          page={data.page}
+          basePath={basePath}
+          keyword={keyword ? keyword : ""}
+        />
       )}
     </Container>
   );
