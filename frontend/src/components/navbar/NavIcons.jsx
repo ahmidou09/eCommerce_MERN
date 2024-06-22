@@ -6,6 +6,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import UserDropdown from "./UserDropdown";
 import AdminDropdown from "./AdminDropdown";
+import SearchBox from "./SearchBox";
 
 const NavIcons = ({
   cartItems,
@@ -22,6 +23,7 @@ const NavIcons = ({
   logoutHandler,
 }) => (
   <NavIconsContainer>
+    <SearchBox />
     <IconContainer>
       <Link to="/wishList">
         {wishListItems.length > 0 && (

@@ -7,7 +7,6 @@ import { useLogoutMutation } from "../../redux/slices/usersApiSlice";
 import NavLinks from "./NavLinks";
 import NavIcons from "./NavIcons";
 
-
 function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
