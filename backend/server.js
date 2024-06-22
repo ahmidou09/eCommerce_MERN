@@ -27,7 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // cors middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(
+  cors({
+    origin: "https://ecommerce-mern-1-b1ux.onrender.com",
+    credentials: true,
+  })
+);
 
 // routes
 app.use("/api/products", productRoutes);
