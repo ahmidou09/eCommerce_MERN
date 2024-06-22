@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
+import debounce from "lodash.debounce";
 
 const StyledForm = styled.form`
   display: flex;
@@ -32,20 +33,32 @@ const StyledButton = styled.button`
   margin-left: -4rem;
 `;
 
-const SearchBox = () => {
-  const navigate = useNavigate();
-  const { keyword: urlKeyword } = useParams();
-
-  const [keyword, setKeyword] = useState(urlKeyword || "");
-
-  const submitHandler = (e) => {
-    e.preventDefault();
+const debouncedNavigateFn = (navigate) =>
+  debounce((keyword) => {
     if (keyword) {
       navigate(`/search/${keyword.trim()}`);
-      setKeyword("");
     } else {
       navigate("/");
     }
+  }, 500);
+
+const SearchBox = () => {
+  const navigate = useNavigate();
+  const { keyword: urlKeyword } = useParams();
+  const [keyword, setKeyword] = useState(urlKeyword || "");
+  const debouncedNavigate = useRef(debouncedNavigateFn(navigate)).current;
+
+  useEffect(() => {
+    debouncedNavigate(keyword);
+  }, [keyword, debouncedNavigate]);
+
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    debouncedNavigate(keyword);
   };
 
   return (
@@ -53,7 +66,7 @@ const SearchBox = () => {
       <StyledInput
         type="text"
         name="q"
-        onChange={(e) => setKeyword(e.target.value)}
+        onChange={handleChange}
         value={keyword}
         placeholder="What are you looking for?"
       />
