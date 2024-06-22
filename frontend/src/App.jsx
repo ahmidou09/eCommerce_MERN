@@ -39,10 +39,20 @@ function App() {
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
+            <Route path="/search/:keyword" element={<Home />} />
             <Route path="/page/:pageNumber" element={<Home />} />
+            <Route
+              path="/search/:keyword/page/:pageNumber"
+              element={<Home />}
+            />
             <Route path="about" element={<About />} />
             <Route path="products/" element={<Products />} />
+            <Route path="products/search/:keyword" element={<Products />} />
             <Route path="products/page/:pageNumber" element={<Products />} />
+            <Route
+              path="products/search/:keyword/page/:pageNumber"
+              element={<Products />}
+            />
             <Route path="products/:id" element={<ProductView />} />
             <Route path="contact" element={<Contact />} />
             <Route path="signup" element={<SignUp />} />
