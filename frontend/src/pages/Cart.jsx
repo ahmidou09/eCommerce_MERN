@@ -5,6 +5,7 @@ import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import CartTotal from "../components/ui/CartTotal";
+import Meta from "../components/ui/Meta";
 
 const Cart = () => {
   const [coupon, setCoupon] = useState("");
@@ -37,6 +38,7 @@ const Cart = () => {
 
   return (
     <Container>
+      <Meta title="Cart" />
       <Breadcrumb>
         <Link to="/">Home</Link> / <span>Cart</span>
       </Breadcrumb>

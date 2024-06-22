@@ -14,6 +14,8 @@ import PaymentForm from "../components/checkout/PaymentForm";
 import { useCreateOrderMutation } from "../redux/slices/ordersApiSlice";
 import { toast } from "react-toastify";
 import Loading from "../components/ui/Loading";
+import Meta from "../components/ui/Meta";
+
 
 const Checkout = () => {
   const {
@@ -83,6 +85,7 @@ const Checkout = () => {
 
   return (
     <Container>
+      <Meta title="Checkout" />
       <Breadcrumb>
         <Link to="/">Home</Link> / <span>Checkout</span>
       </Breadcrumb>

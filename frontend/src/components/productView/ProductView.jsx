@@ -16,6 +16,7 @@ import ProductReviews from "./ProductReviews";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
+import Meta from "../ui/Meta";
 
 function ProductView() {
   const { id } = useParams();
@@ -74,6 +75,11 @@ function ProductView() {
       ) : (
         <>
           <ProductContainer>
+            <Meta
+              title={product?.name}
+              description={product?.description}
+              keywords={product?.keywords}
+            />
             <ImageGallery
               images={product.images}
               selectedImage={selectedImage}

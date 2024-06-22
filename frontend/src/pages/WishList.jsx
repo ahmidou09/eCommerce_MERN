@@ -8,6 +8,8 @@ import {
 } from "../redux/slices/wishListSlice";
 import { Link } from "react-router-dom";
 import { FaTrash, FaCartPlus } from "react-icons/fa";
+import Meta from "../components/ui/Meta";
+
 
 const WishList = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const WishList = () => {
   return (
     <Container>
       <Header>
+        <Meta title="Wish List" />
         <h2>Wishlist ({wishListItems.length})</h2>
         <MoveAllButton onClick={handleMoveAllToCart}>
           clear wish list <FaTrash />

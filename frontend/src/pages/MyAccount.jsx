@@ -1,22 +1,24 @@
 import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import Meta from "../components/ui/Meta";
 
 const MyAccount = () => {
   const location = useLocation();
   const path = location.pathname.split("/").pop();
   return (
     <Container>
+      <Meta title="My Account" />
       <Breadcrumb>
         <NavLink to="/">Home</NavLink> / {"My Account"} / <span>{path}</span>
       </Breadcrumb>
       <Content>
         <Sidebar>
           <SidebarItem>
-            <NavLink to="profile">My Profile</NavLink>
+            <NavLink to="my-profile">My Profile</NavLink>
           </SidebarItem>
           <SidebarItem>
-            <NavLink to="address-book">User Information</NavLink>
+            <NavLink to="Update-profile">Update My Profile</NavLink>
           </SidebarItem>
           <SidebarItem>
             <NavLink to="orders">My Orders</NavLink>

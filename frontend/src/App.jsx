@@ -67,8 +67,8 @@ function App() {
 
             <Route element={<PrivateRoute />}>
               <Route path="account" element={<MyAccount />}>
-                <Route path="profile" element={<Profile />} />
-                <Route path="address-book" element={<AddressBook />} />
+                <Route path="update-profile" element={<Profile />} />
+                <Route path="my-profile" element={<AddressBook />} />
                 <Route path="orders" element={<MyOrders />} />
                 <Route path="cancellations" element={<Cancellations />} />
                 <Route path="wishList" element={<WishList />} />

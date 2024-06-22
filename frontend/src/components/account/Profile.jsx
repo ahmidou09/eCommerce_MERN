@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import Loading from "../ui/Loading";
 import FormFields from "../ui/FormFields";
+import Meta from "../ui/Meta";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -93,6 +94,7 @@ function Profile() {
   return (
     <Form>
       <FormHeader>Edit Your Profile</FormHeader>
+      <Meta title="Edit Profile" />
       <FormBody>
         <FormFields
           fields={fields}

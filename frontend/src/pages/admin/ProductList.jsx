@@ -16,6 +16,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import Paginate from "../../components/ui/Paginate";
+import Meta from "../../components/ui/Meta";
 
 function ProductList() {
   const { pageNumber } = useParams();
@@ -122,6 +123,7 @@ function ProductList() {
         <>
           <Header>
             <h1>Products</h1>
+            <Meta title="Admin | Products List" />
             <Button onClick={createProductHandler}>Add Product</Button>
           </Header>
           <TableItems

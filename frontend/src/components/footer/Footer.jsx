@@ -157,7 +157,7 @@ const Footer = () => {
       <Column>
         <Title>Account</Title>
         {userInfo && (
-          <InternalLink to="account/profile">My Account</InternalLink>
+          <InternalLink to="account/my-profile">My Account</InternalLink>
         )}
         <InternalLink to="/login">Login / Register</InternalLink>
         <InternalLink to="/cart">Cart</InternalLink>

@@ -7,6 +7,8 @@ import { useRegisterMutation } from "../redux/slices/usersApiSlice";
 import Loading from "../components/ui/Loading";
 import { toast } from "react-toastify";
 import FormFields from "../components/ui/FormFields";
+import Meta from "../components/ui/Meta";
+
 
 const SignUp = () => {
   const [formFields, setFormFields] = useState({
@@ -88,6 +90,7 @@ const SignUp = () => {
 
   return (
     <Container>
+      <Meta title="Sign Up" />
       <SignUpContainer>
         <ImageContainer>
           <SVGImage src="/loginImage.svg" alt="SignUp Illustration" />

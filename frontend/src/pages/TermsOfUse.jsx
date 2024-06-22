@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import Meta from "../components/ui/Meta";
+
 
 const PageContainer = styled.div`
   padding: 2rem;
@@ -20,6 +22,7 @@ const Paragraph = styled.p`
 const TermsOfUse = () => {
   return (
     <PageContainer>
+      <Meta title="Terms of Use" />
       <Title>Terms of Use</Title>
       <Paragraph>This is where the terms of use content will go.</Paragraph>
       <Paragraph>

@@ -13,6 +13,7 @@ import TableItems from "../../components/ui/TableItems";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit, FaCheck, FaTimes } from "react-icons/fa";
 import Paginate from "../../components/ui/Paginate";
+import Meta from "../../components/ui/Meta";
 
 function UserList() {
   const { pageNumber } = useParams();
@@ -85,6 +86,7 @@ function UserList() {
         <>
           <Header>
             <h1>List of Users</h1>
+            <Meta title="Admin | User List" description="List of all users" />
           </Header>
           <TableItems
             data={data.users}

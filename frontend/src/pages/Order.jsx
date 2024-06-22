@@ -16,6 +16,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../components/ui/Errors";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import Meta from "../components/ui/Meta";
 
 const Order = () => {
   const { id: orderId } = useParams();
@@ -108,6 +109,7 @@ const Order = () => {
         <Errors message="An error occurred" style={{ height: "65vh" }} />
       ) : (
         <OrderContainer>
+          <Meta title={`Order ${orderId}`} />
           <OrderDetailsWrapper>
             <OrderHeader>
               Order: <span>{orderId}</span>{" "}

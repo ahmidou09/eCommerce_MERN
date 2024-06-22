@@ -6,6 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { truncateString } from "../../utils/utils";
 import TableItems from "../ui/TableItems";
 import { Link } from "react-router-dom";
+import Meta from "../ui/Meta";
 
 const MyOrders = () => {
   const {
@@ -67,7 +68,10 @@ const MyOrders = () => {
       ) : errorOrders ? (
         <div>Error: {errorOrders.message}</div>
       ) : (
-        <TableItems data={orders} columns={columns} renderItem={renderItem} />
+        <>
+          <Meta title="My Orders" />
+          <TableItems data={orders} columns={columns} renderItem={renderItem} />
+        </>
       )}
     </Container>
   );

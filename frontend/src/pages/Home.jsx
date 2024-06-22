@@ -3,8 +3,11 @@ import Products from "../components/products/Products";
 import Filter from "../components/ui/Filter";
 import styled from "styled-components";
 import Slide from "../components/slide/Slide";
+import Meta from "../components/ui/Meta";
 
-const HomeContainer = styled.div``;
+const HomeContainer = styled.div`
+  min-height: 120vh;
+`;
 
 const Herder = styled.header`
   display: flex;
@@ -20,6 +23,7 @@ const Container = styled.div`
 function Home() {
   return (
     <HomeContainer>
+      <Meta title="eCommerceShop" />
       <Container>
         <Herder>
           <Filter />

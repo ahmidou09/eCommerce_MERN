@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FaPhone, FaEnvelope } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FormFields from "../components/ui/FormFields";
+import Meta from "../components/ui/Meta";
 
 const Contact = () => {
   const [formFields, setFormFields] = useState({
@@ -48,6 +49,7 @@ const Contact = () => {
 
   return (
     <Container>
+      <Meta title="Contact Us" />
       <Breadcrumb>
         <Link to="/">Home</Link> / <span>Contact</span>
       </Breadcrumb>

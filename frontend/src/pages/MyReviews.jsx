@@ -6,6 +6,8 @@ import Errors from "../components/ui/Errors";
 import TableItems from "../components/ui/TableItems";
 import Rating from "../components/ui/Rating";
 import { Link } from "react-router-dom";
+import Meta from "../components/ui/Meta";
+
 
 const MyReviews = () => {
   const { data: reviews, isLoading, error } = useMyReviewsQuery();
@@ -48,6 +50,7 @@ const MyReviews = () => {
   return (
     <ReviewsContainer>
       <h2>My Reviews</h2>
+      <Meta title="My Reviews" />
       {isLoading ? (
         <Loading />
       ) : error ? (

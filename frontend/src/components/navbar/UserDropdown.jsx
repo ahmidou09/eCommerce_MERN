@@ -10,7 +10,7 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 const UserDropdown = ({ dropdownRef, logoutHandler }) => (
   <DropdownMenu ref={dropdownRef}>
     <li>
-      <DropdownItemLink to="/account/profile">
+      <DropdownItemLink to="/account/my-profile">
         <FaRegUser />
         Manage My Account
       </DropdownItemLink>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Meta from "../components/ui/Meta";
 
 const PageContainer = styled.div`
   padding: 2rem;
@@ -26,6 +27,7 @@ const Answer = styled.p`
 const FAQ = () => {
   return (
     <PageContainer>
+      <Meta title="FAQ" />
       <Title>FAQ</Title>
       <Question>What is your return policy?</Question>
       <Answer>

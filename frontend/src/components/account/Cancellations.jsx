@@ -6,6 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { truncateString } from "../../utils/utils";
 import TableItems from "../ui/TableItems";
 import { Link } from "react-router-dom";
+import Meta from "../ui/Meta";
 
 const Cancellations = () => {
   const {
@@ -71,6 +72,7 @@ const Cancellations = () => {
       ) : (
         <>
           <h1>Cancellations</h1>
+          <Meta title="My Cancellations" />
           <TableItems
             data={filteredOrders}
             columns={columns}

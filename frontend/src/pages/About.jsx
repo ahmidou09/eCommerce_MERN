@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Meta from "../components/ui/Meta";
 
 const Container = styled.div`
   max-width: 1200px;
@@ -45,6 +46,7 @@ const Text = styled.p`
 const About = () => {
   return (
     <Container>
+      <Meta title="About Us" />
       <Breadcrumb>
         <Link to="/">Home</Link> / <span>About Us</span>
       </Breadcrumb>

@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Link, useParams } from "react-router-dom";
 import TableItems from "../../components/ui/TableItems";
 import Paginate from "../../components/ui/Paginate";
+import Meta from "../../components/ui/Meta";
 
 function OrderList() {
   const { pageNumber } = useParams();
@@ -76,6 +77,7 @@ function OrderList() {
       ) : (
         <>
           <h2>Orders</h2>
+          <Meta title="Admin | Orders List" />
           <TableItems
             data={data.orders}
             columns={columns}

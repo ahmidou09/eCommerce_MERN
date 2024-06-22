@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Meta from "../components/ui/Meta";
+
 
 const Container = styled.div`
   max-width: 1200px;
@@ -58,6 +60,7 @@ const Button = styled(Link)`
 const NotFound = () => {
   return (
     <Container>
+      <Meta title="Page Not Found" />
       <Breadcrumb>
         Home / <span>404 Error</span>{" "}
       </Breadcrumb>
