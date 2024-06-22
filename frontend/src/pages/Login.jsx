@@ -11,8 +11,8 @@ import Meta from "../components/ui/Meta";
 
 const Login = () => {
   const [formFields, setFormFields] = useState({
-    email: "admin@email.com",
-    password: "123456",
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
