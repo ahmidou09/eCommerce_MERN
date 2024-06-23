@@ -31,6 +31,7 @@ import UpdateProduct from "./pages/admin/UpdateProduct";
 import EditInfo from "./pages/admin/EditInfo";
 import MyReviews from "./pages/MyReviews";
 import Category from "./components/products/Category";
+import Products from "./components/products/Products";
 
 function App() {
   return (
@@ -39,9 +40,11 @@ function App() {
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
-            <Route path="/search/:keyword" element={<Home />} />
-            <Route path="/page/:pageNumber" element={<Home />} />
-            <Route path="search/:keyword/page/:pageNumber" element={<Home />} />
+            <Route path="/search/:keyword" element={<Products />} />
+            <Route
+              path="search/:keyword/page/:pageNumber"
+              element={<Products />}
+            />
             <Route path="about" element={<About />} />
             <Route path="category/:category" element={<Category />} />
             <Route
@@ -49,6 +52,8 @@ function App() {
               element={<Category />}
             />
             <Route path="products/:id" element={<ProductView />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/page/:pageNumber" element={<Products />} />
             <Route path="contact" element={<Contact />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="wishList" element={<WishList />} />
