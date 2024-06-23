@@ -3,23 +3,29 @@ import styled from "styled-components";
 import Card from "../card/Card";
 import ShiftingCountdown from "../ui/ShiftingCountdown";
 import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
 import Paginate from "../ui/Paginate";
 
-const Products = () => {
+const Products = ({ category }) => {
   const { keyword, pageNumber } = useParams();
-  const basePath = "/products";
+  const basePath = category ? `/category/${category}` : "/";
 
   const { data, isLoading, isError } = useGetProductsQuery({
     keyword,
+    category,
     pageNumber,
   });
 
   return (
     <Container>
+      {category && (
+        <Breadcrumb>
+          <Link to="/">Home</Link> / <span>{category}</span>
+        </Breadcrumb>
+      )}
       <FlashSalesHeader>
         <Today>Today’s</Today>
         <ShiftingCountdown />
@@ -49,6 +55,16 @@ const Container = styled.div`
   max-width: 120rem;
   margin: 0 auto;
   padding: 2rem;
+`;
+
+const Breadcrumb = styled.div`
+  margin-bottom: 4rem;
+  padding: 1rem;
+  color: var(--color-grey-1);
+
+  span {
+    color: var(--color-black);
+  }
 `;
 
 const FlashSalesHeader = styled.div`
