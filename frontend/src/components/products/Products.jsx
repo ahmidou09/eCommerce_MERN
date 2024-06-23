@@ -11,7 +11,7 @@ import Paginate from "../ui/Paginate";
 
 const Products = ({ category }) => {
   const { keyword, pageNumber } = useParams();
-  const basePath = category ? `/category/${category}` : "/";
+  const basePath = category ? `/category/${category}` : "/products";
 
   const { data, isLoading, isError } = useGetProductsQuery({
     keyword,
@@ -35,11 +35,14 @@ const Products = ({ category }) => {
           <Skeleton count={10} height={50} style={{ marginBottom: "2rem" }} />
         ) : isError ? (
           <Errors message="An error occurred" style={{ height: "20vh" }} />
+        ) : data && data.products.length === 0 ? (
+          <NoProductsMessage>No products found</NoProductsMessage>
         ) : (
           <Card products={data.products} />
         )}
       </ProductsGrid>
-      {!isLoading && !isError && data && (
+
+      {!isLoading && !isError && data && data.products.length > 0 && (
         <Paginate
           pages={data.pages}
           page={data.page}
@@ -97,6 +100,16 @@ const ProductsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   grid-gap: 4rem;
   align-items: center;
+`;
+
+const NoProductsMessage = styled.div`
+  min-height: 35vh;
+  grid-column: 1 / -1;
+  font-size: 2.2rem;
+  color: var(--color-grey-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default Products;
