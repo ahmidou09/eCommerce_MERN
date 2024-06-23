@@ -1,12 +1,12 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 
-// @ desc    get all products
+// @ desc    get all products or products by category
 // @ route   GET /api/products
 // @ access  public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = process.env.PAGE_SIZE || 8;
+  const pageSize = Number(process.env.PAGE_SIZE) || 8;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
@@ -18,11 +18,20 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const count = await Product.countDocuments({ ...keyword });
+  const category = req.query.category
+    ? {
+        category: {
+          $regex: req.query.category,
+          $options: "i",
+        },
+      }
+    : {};
 
-  const products = await Product.find({
-    ...keyword,
-  })
+  const filter = { ...keyword, ...category };
+
+  const count = await Product.countDocuments(filter);
+
+  const products = await Product.find(filter)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
