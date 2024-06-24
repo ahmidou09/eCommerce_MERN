@@ -175,7 +175,7 @@ const Footer = () => {
         <Title>Download App</Title>
         <p className="paragraph">Save $3 with App New User Only</p>
         <ImgContainer>
-          <Img src="/images/app.png" alt="App Store" loading="lazy" />
+          <Img src="/app.png" alt="App Store" loading="lazy" />
         </ImgContainer>
         <SocialIcons>
           <Link to="https://www.facebook.com/" rel="noreferrer" target="_blank">

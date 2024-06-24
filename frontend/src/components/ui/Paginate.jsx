@@ -12,7 +12,7 @@ const Paginate = ({ pages, page, basePath, keyword = "" }) => {
             key={x + 1}
             to={
               keyword
-                ? `${basePath}/search/${keyword}/page/${x + 1}`
+                ? `/search/${keyword}/page/${x + 1}`
                 : generatePaginationPath(basePath, x + 1)
             }
             className={x + 1 === page ? "active" : ""}

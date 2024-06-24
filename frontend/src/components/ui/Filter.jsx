@@ -23,17 +23,33 @@ function Filter() {
   return (
     <FilterContainer>
       <ul className="filter_list">
-        <li>Woman’s Fashion</li>
-        <li>Man’s Fashion</li>
         <li>
-          <Link to="/products">Electronics</Link>
+          <Link to="/category/women">Woman’s Fashion </Link>
         </li>
-        <li>Home & Lifestyle</li>
-        <li>Medicine</li>
-        <li>Sports & Outdoor</li>
-        <li>Baby’s & Toys</li>
-        <li>Groceries & Pets</li>
-        <li>Health & Beauty</li>
+        <li>
+          <Link to="/category/man">Man’s Fashion </Link>
+        </li>
+        <li>
+          <Link to="/category/electronics">Electronics</Link>
+        </li>
+        <li>
+          <Link to="/category/lifestyle">Home & Lifestyle</Link>
+        </li>
+        <li>
+          <Link to="/category/medicine">Medicine</Link>
+        </li>
+        <li>
+          <Link to="/category/sports">Sports & Outdoor</Link>
+        </li>
+        <li>
+          <Link to="/category/baby">Baby’s & Toys</Link>
+        </li>
+        <li>
+          <Link to="/category/groceries">Groceries & Pets</Link>
+        </li>
+        <li>
+          <Link to="/category/health">Health & Beauty</Link>
+        </li>
       </ul>
     </FilterContainer>
   );

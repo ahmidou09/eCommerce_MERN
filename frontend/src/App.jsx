@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AppLayout from "./components/ui/AppLayout";
 import PrivateRoute from "./components/ui/PrivateRoute";
-import Products from "./components/products/Products";
 import ProductView from "./components/productView/ProductView";
 import Profile from "./components/account/Profile";
 import AddressBook from "./components/account/AddressBook";
@@ -31,6 +30,8 @@ import UserList from "./pages/admin/UserList";
 import UpdateProduct from "./pages/admin/UpdateProduct";
 import EditInfo from "./pages/admin/EditInfo";
 import MyReviews from "./pages/MyReviews";
+import Category from "./components/products/Category";
+import Products from "./components/products/Products";
 
 function App() {
   return (
@@ -39,21 +40,20 @@ function App() {
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
-            <Route path="/search/:keyword" element={<Home />} />
-            <Route path="/page/:pageNumber" element={<Home />} />
+            <Route path="/search/:keyword" element={<Products />} />
             <Route
-              path="/search/:keyword/page/:pageNumber"
-              element={<Home />}
-            />
-            <Route path="about" element={<About />} />
-            <Route path="products/" element={<Products />} />
-            <Route path="products/search/:keyword" element={<Products />} />
-            <Route path="products/page/:pageNumber" element={<Products />} />
-            <Route
-              path="products/search/:keyword/page/:pageNumber"
+              path="search/:keyword/page/:pageNumber"
               element={<Products />}
             />
+            <Route path="about" element={<About />} />
+            <Route path="category/:category" element={<Category />} />
+            <Route
+              path="category/:category/page/:pageNumber"
+              element={<Category />}
+            />
             <Route path="products/:id" element={<ProductView />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/page/:pageNumber" element={<Products />} />
             <Route path="contact" element={<Contact />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="wishList" element={<WishList />} />
@@ -62,7 +62,6 @@ function App() {
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="terms-of-use" element={<TermsOfUse />} />
             <Route path="faq" element={<FAQ />} />
-
             <Route path="*" element={<NotFound />} />
 
             <Route element={<PrivateRoute />}>

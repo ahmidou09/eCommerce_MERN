@@ -14,12 +14,6 @@ const Container = styled.div`
   gap: 8rem;
   align-items: center;
   width: 100%;
-  padding: 2rem 0;
-`;
-
-const Title = styled.h2`
-  font-size: 3.4rem;
-  color: var(--color-black);
 `;
 
 const CountdownWrapper = styled.div`
@@ -100,7 +94,6 @@ const ShiftingCountdown = () => {
 
   return (
     <Container>
-      <Title>Flash Sales</Title>
       <CountdownWrapper>
         <CountdownItem num={remaining.days} text="days" />
         <CountdownItem num={remaining.hours} text="hours" />
