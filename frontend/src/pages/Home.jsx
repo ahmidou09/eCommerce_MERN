@@ -6,7 +6,10 @@ import Meta from "../components/ui/Meta";
 import FlashSales from "../components/products/FlashSales";
 import CategoryCarousel from "../components/products/CategoryCarousel";
 import BestSellingProducts from "../components/products/BestSellingProducts";
-import BestProduct from "../components/products/BestProfuct";
+import BestProduct from "../components/products/BestProduct";
+import ProductSection from "../components/products/ProductSection";
+import GuaranteeSection from "../components/products/GuaranteeSection";
+import ScrollUpButton from "../components/ui/ScrollUpButton";
 
 const HomeContainer = styled.div`
   min-height: 120vh;
@@ -14,7 +17,7 @@ const HomeContainer = styled.div`
   overflow-x: hidden;
 `;
 
-const Herder = styled.header`
+const Header = styled.header`
   display: flex;
   gap: 2rem;
   margin-bottom: 12rem;
@@ -36,10 +39,10 @@ function Home() {
     <HomeContainer>
       <Meta title="eCommerceShop" />
       <Container>
-        <Herder>
+        <Header>
           <Filter />
           <Slide />
-        </Herder>
+        </Header>
         <FlashSales
           title={"Today's"}
           title2={"Flash Sales"}
@@ -58,6 +61,10 @@ function Home() {
           itemsPerSlide={5}
           displayCountdown={false}
         />
+        <Hr />
+        <ProductSection />
+        <GuaranteeSection />
+        <ScrollUpButton />
       </Container>
     </HomeContainer>
   );
