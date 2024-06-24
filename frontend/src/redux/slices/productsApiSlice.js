@@ -75,6 +75,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getBestSellingProducts: builder.query({
+      query: () => ({
+        url: `${BASE_URL}${PRODUCTS_URL}/bestselling`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -90,4 +97,5 @@ export const {
   useGetMyReviewsQuery,
   useMyReviewsQuery,
   useGetTopProductsQuery,
+  useGetBestSellingProductsQuery,
 } = productsApiSlice;

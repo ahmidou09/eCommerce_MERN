@@ -1,35 +1,40 @@
 import React from "react";
-import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
+import { useGetBestSellingProductsQuery } from "../../redux/slices/productsApiSlice";
 import Carousel from "../ui/Carousel";
 import FlashSalesHeader from "./FlashSalesHeader";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Card from "../card/Card";
 
-function FlashSales({ title, title2, itemsPerSlide, displayCountdown }) {
-  const { data, isLoading, isError } = useGetProductsQuery({
-    category: "",
-    keyword: "",
-    pageNumber: 1,
-  });
+function BestSellingProducts() {
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useGetBestSellingProductsQuery();
 
   return (
     <Container>
-      <FlashSalesHeader title={title} title2={title2} displayCountdown={displayCountdown} />
+      <FlashSalesHeader
+        title="This Month"
+        title2="Best Selling Products"
+        displayCountdown={false}
+      />
+      <ButtonContainer>
+        <Button>
+          <Link to="/products">View All</Link>
+        </Button>
+      </ButtonContainer>
       <Carousel
-        data={data?.products}
+        data={products}
         isLoading={isLoading}
         isError={isError}
-        itemsPerSlide={itemsPerSlide}
+        itemsPerSlide={4}
+        displayButtons={false}
         renderCard={(product) => (
           <Card key={product._id} products={[product]} />
         )}
       />
-      <ButtonContainer>
-        <Button>
-          <Link to="/products">View All Products</Link>
-        </Button>
-      </ButtonContainer>
     </Container>
   );
 }
@@ -47,8 +52,8 @@ const Container = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+  justify-content: flex-end;
+  margin-right: 3rem;
 `;
 
 const Button = styled.button`
@@ -71,4 +76,4 @@ const Button = styled.button`
   }
 `;
 
-export default FlashSales;
+export default BestSellingProducts;

@@ -212,6 +212,17 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(topProducts);
 });
 
+// @desc    Get best selling products
+// @route   GET /api/products/bestselling
+// @access  Public
+const getBestSellingProducts = asyncHandler(async (req, res) => {
+  const bestSellingProducts = await Product.find({})
+    .sort({ salesCount: -1 })
+    .limit(4);
+
+  res.json(bestSellingProducts);
+});
+
 export {
   getProducts,
   getProductById,
@@ -221,4 +232,5 @@ export {
   createProductReview,
   getMyReviews,
   getTopProducts,
+  getBestSellingProducts,
 };

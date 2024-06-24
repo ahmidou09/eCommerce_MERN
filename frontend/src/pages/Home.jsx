@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Slide from "../components/slide/Slide";
 import Meta from "../components/ui/Meta";
 import FlashSales from "../components/products/FlashSales";
+import CategoryCarousel from "../components/products/CategoryCarousel";
+import BestSellingProducts from "../components/products/BestSellingProducts";
+import BestProduct from "../components/products/BestProfuct";
 
 const HomeContainer = styled.div`
   min-height: 120vh;
@@ -20,6 +23,12 @@ const Herder = styled.header`
 const Container = styled.div`
   max-width: 120rem;
   margin: 0 auto;
+  overflow-x: hidden;
+`;
+
+const Hr = styled.hr`
+  margin: 4rem 0;
+  border: 1px solid var(--color-grey-2);
 `;
 
 function Home() {
@@ -31,7 +40,24 @@ function Home() {
           <Filter />
           <Slide />
         </Herder>
-        <FlashSales />
+        <FlashSales
+          title={"Today's"}
+          title2={"Flash Sales"}
+          itemsPerSlide={4}
+          displayCountdown={true}
+        />
+        <Hr />
+        <CategoryCarousel />
+        <Hr />
+        <BestSellingProducts />
+        <BestProduct />
+        <Hr />
+        <FlashSales
+          title={"Our Products"}
+          title2={"Explore Our Products"}
+          itemsPerSlide={5}
+          displayCountdown={false}
+        />
       </Container>
     </HomeContainer>
   );
