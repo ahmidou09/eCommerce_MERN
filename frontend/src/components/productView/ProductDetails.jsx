@@ -26,7 +26,10 @@ function ProductDetails({
       </Title>
 
       <Review>
-        <Rating rating={product.rating} totalReviews={product.numReviews} />
+        <Rating
+          rating={product.rating}
+          totalReviews={product.numReviews > 0 ? product.numReviews : ""}
+        />
       </Review>
       <Stock color={product.countInStock > 0 ? "green" : "red"}>
         {product.countInStock > 0
