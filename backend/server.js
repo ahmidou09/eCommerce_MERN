@@ -47,6 +47,13 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // serve frontend
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+  // This should come before your catch-all route
+  app.get("/api/config/paypal", (req, res) => {
+    res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
+  });
+
+  // Catch all route to serve index.html for any other routes
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
@@ -54,12 +61,11 @@ if (process.env.NODE_ENV === "production") {
   app.get("/", (req, res) => {
     res.send("API is running...");
   });
-}
 
-// payment route
-app.get("/api/config/paypal", (req, res) => {
-  res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
-});
+  app.get("/api/config/paypal", (req, res) => {
+    res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
+  });
+}
 
 // error middleware
 app.use(notFound);
