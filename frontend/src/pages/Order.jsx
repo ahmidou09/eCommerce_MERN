@@ -260,6 +260,10 @@ const OrderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 8rem;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const OrderDetailsWrapper = styled.div`

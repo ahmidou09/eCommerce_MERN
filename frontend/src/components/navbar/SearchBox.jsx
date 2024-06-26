@@ -7,7 +7,6 @@ import debounce from "lodash.debounce";
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
-  margin-right: 1rem;
 `;
 
 const StyledInput = styled.input`

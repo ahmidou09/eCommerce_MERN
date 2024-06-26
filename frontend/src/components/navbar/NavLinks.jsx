@@ -2,16 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const NavLinks = () => (
+const NavLinks = ({ closeNav }) => (
   <NavLinksContainer>
     <li>
-      <Link to="/">Home</Link>
+      <Link to="/" onClick={closeNav}>
+        Home
+      </Link>
     </li>
     <li>
-      <Link to="/contact">Contact</Link>
+      <Link to="/contact" onClick={closeNav}>Contact</Link>
     </li>
     <li>
-      <Link to="/about">About</Link>
+      <Link to="/about" onClick={closeNav}>About</Link>
     </li>
   </NavLinksContainer>
 );
@@ -20,6 +22,10 @@ const NavLinksContainer = styled.ul`
   display: flex;
   align-items: center;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 
   a {
     text-decoration: none;

@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import Loading from "../components/ui/Loading";
 import Meta from "../components/ui/Meta";
 
-
 const Checkout = () => {
   const {
     cartItems,

@@ -21,7 +21,7 @@ const categories = [
   { name: "Gaming", icon: <FaGamepad /> },
 ];
 
-const CategoryCarousel = () => {
+const CategoryCarousel = ({ itemsPerSlide }) => {
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryName) => {
@@ -39,7 +39,7 @@ const CategoryCarousel = () => {
         data={categories}
         isLoading={false}
         isError={false}
-        itemsPerSlide={6}
+        itemsPerSlide={itemsPerSlide}
         renderCard={(category) => (
           <CategoryCard
             key={category.name}

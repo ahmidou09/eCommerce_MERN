@@ -15,7 +15,11 @@ function FlashSales({ title, title2, itemsPerSlide, displayCountdown }) {
 
   return (
     <Container>
-      <FlashSalesHeader title={title} title2={title2} displayCountdown={displayCountdown} />
+      <FlashSalesHeader
+        title={title}
+        title2={title2}
+        displayCountdown={displayCountdown}
+      />
       <Carousel
         data={data?.products}
         isLoading={isLoading}

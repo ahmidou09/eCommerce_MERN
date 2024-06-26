@@ -6,6 +6,7 @@ import { logout } from "../../redux/slices/authSlice";
 import { useLogoutMutation } from "../../redux/slices/usersApiSlice";
 import NavLinks from "./NavLinks";
 import NavIcons from "./NavIcons";
+import SearchBox from "./SearchBox";
 
 function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -13,6 +14,7 @@ function Navbar() {
   const { wishListItems } = useSelector((state) => state.wishList);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpenAdmin, setDropdownOpenAdmin] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const userIconRef = useRef(null);
   const dropdownRef = useRef(null);
   const userIconRefAdmin = useRef(null);
@@ -74,16 +76,20 @@ function Navbar() {
     };
   }, [handleClickOutside]);
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prevState) => !prevState);
+  };
+
   return (
     <NavBar>
       <Container>
         <NavbarContainer>
           <Logo>
             <Link to="/">
-              <span>eCommerceShop</span>
+              <img src="/logo.png" alt="logo" />
             </Link>
           </Logo>
-          <NavLinks />
+          <SearchBox />
           <NavIcons
             cartItems={cartItems}
             wishListItems={wishListItems}
@@ -98,6 +104,14 @@ function Navbar() {
             dropdownRefAdmin={dropdownRefAdmin}
             logoutHandler={logoutHandler}
           />
+          <MenuToggle onClick={toggleMobileMenu}>
+            <span />
+            <span />
+            <span />
+          </MenuToggle>
+          <NavContent mobileMenuOpen={mobileMenuOpen}>
+            <NavLinks closeNav={toggleMobileMenu} />
+          </NavContent>
         </NavbarContainer>
       </Container>
     </NavBar>
@@ -111,21 +125,73 @@ const NavBar = styled.div`
 
 const NavbarContainer = styled.nav`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 4rem;
   padding: 2.5rem 2rem;
+
+  @media (max-width: 768px) {
+    margin-top: 8rem;
+    padding: 0;
+    width: 80%;
+  }
 `;
 
 const Logo = styled.div`
-  span {
-    font-size: 1.8rem;
-    font-weight: bold;
+  padding: 1rem;
+  margin-right: auto;
+
+  img {
+    width: 3rem;
+    object-fit: cover;
   }
 `;
 
 const Container = styled.div`
   max-width: 120rem;
   margin: 0 auto;
+`;
+
+const MenuToggle = styled.div`
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  position: absolute;
+  right: 3rem;
+  span {
+    height: 0.2rem;
+    width: 2rem;
+    background: var(--color-black);
+    margin-bottom: 0.4rem;
+    border-radius: 0.1rem;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    z-index: 999;
+  }
+`;
+
+const NavContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background-color: var(--color-grey-0);
+    z-index: 10;
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    width: ${({ mobileMenuOpen }) => (mobileMenuOpen ? "100%" : "0")};
+    padding: ${({ mobileMenuOpen }) => (mobileMenuOpen ? "8rem" : "0")};
+    transform: ${({ mobileMenuOpen }) =>
+      mobileMenuOpen ? "translateX(0)" : "translateX(100%)"};
+  }
 `;
 
 export default Navbar;

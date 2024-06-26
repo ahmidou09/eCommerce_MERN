@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Card from "../card/Card";
 
-function BestSellingProducts() {
+function BestSellingProducts({ itemsPerSlide }) {
   const {
     data: products,
     isLoading,
@@ -29,7 +29,7 @@ function BestSellingProducts() {
         data={products}
         isLoading={isLoading}
         isError={isError}
-        itemsPerSlide={4}
+        itemsPerSlide={itemsPerSlide}
         displayButtons={false}
         renderCard={(product) => (
           <Card key={product._id} products={[product]} />

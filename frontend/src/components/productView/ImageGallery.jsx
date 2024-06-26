@@ -22,6 +22,10 @@ const Container = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Thumbnail = styled.img`

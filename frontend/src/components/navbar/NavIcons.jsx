@@ -6,7 +6,6 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import UserDropdown from "./UserDropdown";
 import AdminDropdown from "./AdminDropdown";
-import SearchBox from "./SearchBox";
 
 const NavIcons = ({
   cartItems,
@@ -23,8 +22,7 @@ const NavIcons = ({
   logoutHandler,
 }) => (
   <NavIconsContainer>
-    <SearchBox />
-    <IconContainer>
+    <IconContainer className="order">
       <Link to="/wishList">
         {wishListItems.length > 0 && (
           <IconCount>{wishListItems.length}</IconCount>
@@ -32,7 +30,7 @@ const NavIcons = ({
         <FaRegHeart />
       </Link>
     </IconContainer>
-    <IconContainer>
+    <IconContainer className="order margin">
       <Link to="/cart">
         {cartItems.length > 0 && <IconCount>{cartItems.length}</IconCount>}
         <AiOutlineShoppingCart />
@@ -41,7 +39,7 @@ const NavIcons = ({
 
     {userInfo ? (
       <>
-        <span>{userInfo.name}</span>
+        <NameOfUser>{userInfo.name}</NameOfUser>
         <UserIcon ref={userIconRef} onClick={toggleDropdown}>
           <FaRegUser />
           {dropdownOpen && (
@@ -74,6 +72,30 @@ const NavIconsContainer = styled.ul`
   align-items: center;
   gap: 2rem;
   z-index: 10;
+  order: 1;
+  .order {
+    @media (max-width: 768px) {
+      order: -1;
+    }
+  }
+
+  .margin {
+    margin-right: 0;
+
+    @media (max-width: 768px) {
+      margin-right: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 2rem;
+    width: 100%;
+    padding: 0 3rem 0 1.25rem;
+  }
 `;
 
 const IconContainer = styled.li`
@@ -106,10 +128,17 @@ const UserIcon = styled(IconContainer)`
   justify-content: center;
   align-items: center;
   transform: translateY(-4px);
-
   svg {
     color: var(--color-white);
-    font-size: 1.6rem !important;
+    font-size: 1.6rem;
+  }
+`;
+
+const NameOfUser = styled.span`
+  display: block;
+  font-size: 1.4rem;
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 

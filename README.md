@@ -1,1 +1,1 @@
-# welcome to eCommerce platform
+# welcome to EazyMart eCommerce platform

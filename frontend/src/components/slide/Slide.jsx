@@ -9,6 +9,11 @@ import Errors from "../ui/Errors";
 const SlideContainer = styled.div`
   width: 80%;
   padding-top: 2rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-top: 0;
+  }
 `;
 
 function Slide() {

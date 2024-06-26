@@ -124,6 +124,10 @@ const Container = styled.div`
   margin: 0 auto;
   min-height: 65vh;
   padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const ProductContainer = styled.div`
@@ -131,6 +135,12 @@ const ProductContainer = styled.div`
   gap: 8rem;
   padding: 2rem;
   background-color: var(--color-grey-0);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
 `;
 
 const ProductDetailsContainer = styled.div`
