@@ -41,7 +41,6 @@ const Hr = styled.hr`
 
 function Home() {
   const ismobile = useIsMobile();
-  console.log(ismobile);
   return (
     <HomeContainer>
       <Meta title="EazyMart" />

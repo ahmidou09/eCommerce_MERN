@@ -8,7 +8,7 @@ const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
-const MAX_DAYS = 5;
+const MAX_DAYS = 1;
 
 const Container = styled.div`
   background-color: var(--color-black);
@@ -68,6 +68,11 @@ const CountdownItemWrapper = styled.div`
   width: 8rem;
   height: 8rem;
   padding: 1rem;
+
+  @media (max-width: 768px) {
+    width: 6rem;
+    height: 6rem;
+  }
 `;
 
 const NumberWrapper = styled.div`
@@ -79,6 +84,10 @@ const Number = styled.span`
   font-size: 2.5rem;
   color: var(--color-black);
   font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const Text = styled.span`
@@ -86,6 +95,10 @@ const Text = styled.span`
   text-transform: capitalize;
   font-weight: 700;
   color: var(--color-black);
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const Button = styled.button`

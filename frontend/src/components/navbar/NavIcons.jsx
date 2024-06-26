@@ -6,8 +6,11 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import UserDropdown from "./UserDropdown";
 import AdminDropdown from "./AdminDropdown";
+import NavLinksDropdown from "./NavLinksDropdown";
+import useIsMobile from "../../hooks/useIsMobile";
+import { CiMenuFries } from "react-icons/ci";
 
-const NavIcons = ({
+function NavIcons({
   cartItems,
   wishListItems,
   userInfo,
@@ -20,82 +23,73 @@ const NavIcons = ({
   dropdownOpenAdmin,
   dropdownRefAdmin,
   logoutHandler,
-}) => (
-  <NavIconsContainer>
-    <IconContainer className="order">
-      <Link to="/wishList">
-        {wishListItems.length > 0 && (
-          <IconCount>{wishListItems.length}</IconCount>
-        )}
-        <FaRegHeart />
-      </Link>
-    </IconContainer>
-    <IconContainer className="order margin">
-      <Link to="/cart">
-        {cartItems.length > 0 && <IconCount>{cartItems.length}</IconCount>}
-        <AiOutlineShoppingCart />
-      </Link>
-    </IconContainer>
+  navLinksIconRef,
+  dropdownRefNavLinks,
+  toggleDropdownNavLinks,
+  dropdownOpenNavLinks,
+}) {
+  const isMobile = useIsMobile();
 
-    {userInfo ? (
-      <>
-        <NameOfUser>{userInfo.name}</NameOfUser>
-        <UserIcon ref={userIconRef} onClick={toggleDropdown}>
-          <FaRegUser />
-          {dropdownOpen && (
-            <UserDropdown
-              dropdownRef={dropdownRef}
-              logoutHandler={logoutHandler}
-            />
+  return (
+    <NavIconsContainer>
+      <IconContainer className="order">
+        <Link to="/wishList">
+          {wishListItems.length > 0 && (
+            <IconCount>{wishListItems.length}</IconCount>
+          )}
+          <FaRegHeart />
+        </Link>
+      </IconContainer>
+      <IconContainer className="order margin">
+        <Link to="/cart">
+          {cartItems.length > 0 && <IconCount>{cartItems.length}</IconCount>}
+          <AiOutlineShoppingCart />
+        </Link>
+      </IconContainer>
+      {userInfo ? (
+        <>
+          <NameOfUser>{userInfo.name}</NameOfUser>
+          <UserIcon ref={userIconRef} onClick={toggleDropdown}>
+            <FaRegUser />
+            {dropdownOpen && (
+              <UserDropdown
+                dropdownRef={dropdownRef}
+                logoutHandler={logoutHandler}
+              />
+            )}
+          </UserIcon>
+        </>
+      ) : (
+        <li>
+          <Link to="/signup">Sign Up</Link>
+        </li>
+      )}
+      {userInfo && userInfo.isAdmin && (
+        <UserIcon ref={userIconRefAdmin} onClick={toggleDropdownAdmin}>
+          <MdAdminPanelSettings />
+          {dropdownOpenAdmin && (
+            <AdminDropdown dropdownRef={dropdownRefAdmin} />
           )}
         </UserIcon>
-      </>
-    ) : (
-      <li>
-        <Link to="/signup">Sign Up</Link>
-      </li>
-    )}
+      )}
 
-    {userInfo && userInfo.isAdmin && (
-      <UserIcon ref={userIconRefAdmin} onClick={toggleDropdownAdmin}>
-        <MdAdminPanelSettings />
-        {dropdownOpenAdmin && (
-          <AdminDropdown dropdownRefAdmin={dropdownRefAdmin} />
-        )}
-      </UserIcon>
-    )}
-  </NavIconsContainer>
-);
+      {isMobile && (
+        <UserIcon ref={navLinksIconRef} onClick={toggleDropdownNavLinks}>
+          <CiMenuFries />
+          {dropdownOpenNavLinks && (
+            <NavLinksDropdown dropdownRef={dropdownRefNavLinks} />
+          )}
+        </UserIcon>
+      )}
+    </NavIconsContainer>
+  );
+}
 
 const NavIconsContainer = styled.ul`
   display: flex;
   align-items: center;
   gap: 2rem;
   z-index: 10;
-  order: 1;
-  .order {
-    @media (max-width: 768px) {
-      order: -1;
-    }
-  }
-
-  .margin {
-    margin-right: 0;
-
-    @media (max-width: 768px) {
-      margin-right: auto;
-    }
-  }
-
-  @media (max-width: 768px) {
-    position: absolute;
-    top: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 2rem;
-    width: 100%;
-    padding: 0 3rem 0 1.25rem;
-  }
 `;
 
 const IconContainer = styled.li`
