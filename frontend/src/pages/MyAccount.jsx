@@ -64,6 +64,10 @@ const Breadcrumb = styled.div`
 const Content = styled.div`
   display: flex;
   gap: 4rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Sidebar = styled.ul`
@@ -73,6 +77,10 @@ const Sidebar = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SidebarItem = styled.li`

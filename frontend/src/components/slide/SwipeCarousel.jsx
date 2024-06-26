@@ -13,6 +13,10 @@ const Container = styled.div`
   background-color: var(--color-black);
   color: var(--color-white-2);
   z-index: 1;
+
+  @media (max-width: 560px) {
+    padding: 5rem 1rem;
+  }
 `;
 
 const CarouselMotionDiv = styled(motion.div)`
@@ -32,10 +36,22 @@ const SlideContainer = styled(motion.div)`
   justify-content: space-around;
   gap: 1rem;
 
+  @media (max-width: 560px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
   img {
     width: 30rem;
     height: 30rem;
     object-fit: cover;
+
+    @media (max-width: 560px) {
+      width: 80%;
+      height: 100%;
+    }
   }
 `;
 
@@ -47,8 +63,12 @@ const ContentContainer = styled.div`
   gap: 16px;
   width: 30rem;
 
+  @media (max-width: 560px) {
+    width: 100%;
+  }
+
   h3 {
-    font-size: 1.8rem;
+    font-size: 2.4rem;
   }
 
   h1 {
@@ -60,6 +80,10 @@ const ContentContainer = styled.div`
     background-color: transparent;
     border: none;
     cursor: pointer;
+
+    @media (max-width: 560px) {
+      display: none;
+    }
 
     a {
       text-transform: capitalize;

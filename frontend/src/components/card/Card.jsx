@@ -134,7 +134,7 @@ function Card({ products }) {
         <ProductCard key={product._id}>
           <Link to={`/products/${product._id}`}>
             <ImageContainer>
-              {product.discount && (
+              {product.discount > 0 && (
                 <ProductDiscount>-{product.discount}%</ProductDiscount>
               )}
               <ProductImage src={product.image} alt={product.name} />
@@ -150,7 +150,10 @@ function Card({ products }) {
               ${product.price}{" "}
               <ProductOldPrice>${product.oldPrice}</ProductOldPrice>
             </ProductPrice>
-            <Rating rating={product.rating} totalReviews={product.numReviews} />
+            <Rating
+              rating={product.rating}
+              totalReviews={product.numReviews > 0 ? product.numReviews : ""}
+            />
           </ProductDetails>
           <HeartButton onClick={() => handleAddToWishList(product)}>
             {isProductInWishList(product._id) ? (

@@ -18,8 +18,6 @@ function OrderList() {
     error: errorOrders,
   } = useGetOrdersQuery({ pageNumber });
 
-  console.log(data);
-
   const columns = [
     { key: "_id", title: "Order ID" },
     { key: "image", title: "Image" },

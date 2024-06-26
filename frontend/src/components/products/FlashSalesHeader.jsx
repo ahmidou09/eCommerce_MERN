@@ -44,12 +44,20 @@ const Title = styled.h2`
   font-size: 3.4rem;
   color: var(--color-black);
   width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Countdown = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem;
+  }
 `;
 
 export default FlashSalesHeader;

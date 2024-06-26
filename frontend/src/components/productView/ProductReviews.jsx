@@ -115,6 +115,10 @@ const ReviewsContainer = styled.div`
   margin-top: 2rem;
   max-width: 60rem;
 
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+
   h2 {
     font-size: 2rem;
     margin-bottom: 2rem;

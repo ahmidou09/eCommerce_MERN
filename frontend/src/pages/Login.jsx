@@ -114,6 +114,10 @@ const LoginContainer = styled.div`
   align-items: center;
   padding: 2rem;
   gap: 5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -134,6 +138,12 @@ const LoginFormContainer = styled.div`
   background-color: var(--color-white);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    width: 100%;
+    padding: 1rem;
+  }
 `;
 
 const Title = styled.h1`

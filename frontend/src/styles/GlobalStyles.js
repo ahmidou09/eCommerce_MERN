@@ -48,11 +48,16 @@ const GlobalStyles = createGlobalStyle`
 
 html {
   font-size: 62.5%;
+
+  @media only screen and (max-width: 1024px) {
+    font-size: 50%;
+  }
 }
 
 body {
   font-size: 1.6rem;
   font-family: "Poppins", sans-serif;
+
 }
 
 

@@ -10,11 +10,16 @@ import BestProduct from "../components/products/BestProduct";
 import ProductSection from "../components/products/ProductSection";
 import GuaranteeSection from "../components/products/GuaranteeSection";
 import ScrollUpButton from "../components/ui/ScrollUpButton";
+import useIsMobile from "../hooks/useIsMobile";
 
 const HomeContainer = styled.div`
   min-height: 120vh;
   padding: 2rem 2rem 10rem 2rem;
   overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const Header = styled.header`
@@ -35,9 +40,10 @@ const Hr = styled.hr`
 `;
 
 function Home() {
+  const ismobile = useIsMobile();
   return (
     <HomeContainer>
-      <Meta title="eCommerceShop" />
+      <Meta title="EazyMart" />
       <Container>
         <Header>
           <Filter />
@@ -46,19 +52,19 @@ function Home() {
         <FlashSales
           title={"Today's"}
           title2={"Flash Sales"}
-          itemsPerSlide={4}
+          itemsPerSlide={ismobile ? 2 : 4}
           displayCountdown={true}
         />
         <Hr />
-        <CategoryCarousel />
+        <CategoryCarousel itemsPerSlide={ismobile ? 2 : 4} />
         <Hr />
-        <BestSellingProducts />
+        <BestSellingProducts itemsPerSlide={ismobile ? 2 : 5} />
         <BestProduct />
         <Hr />
         <FlashSales
           title={"Our Products"}
           title2={"Explore Our Products"}
-          itemsPerSlide={5}
+          itemsPerSlide={ismobile === true ? 2 : 5}
           displayCountdown={false}
         />
         <Hr />

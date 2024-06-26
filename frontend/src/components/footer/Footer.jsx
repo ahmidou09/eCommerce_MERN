@@ -18,6 +18,10 @@ const FooterContainer = styled.footer`
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
 `;
 
 const Column = styled.div`
@@ -113,6 +117,11 @@ const SocialIcons = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    margin-top: 2rem;
+  }
 
   a {
     color: var(--color-white);

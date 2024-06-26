@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import CartTotal from "../components/ui/CartTotal";
 import Meta from "../components/ui/Meta";
+import TableItems from "../components/ui/TableItems";
 
 const Cart = () => {
   const [coupon, setCoupon] = useState("");
@@ -24,6 +25,7 @@ const Cart = () => {
       }
     }
   };
+
   const handleRemoveItem = (id) => {
     dispatch(removeFromCart(id));
   };
@@ -35,6 +37,61 @@ const Cart = () => {
   const decrementQuantity = (id, currentQuantity) => {
     handleQuantityChange(id, currentQuantity - 1);
   };
+
+  const columns = [
+    { key: "image", title: "Image" },
+    { key: "name", title: "Product" },
+    { key: "price", title: "Price" },
+    { key: "quantity", title: "Quantity" },
+    { key: "subtotal", title: "Subtotal" },
+    { key: "remove", title: "Remove" },
+  ];
+
+  const renderItem = (item) => (
+    <tr key={item._id}>
+      <Td>
+        <ProductImage src={item.image} alt={item.name} />
+      </Td>
+      <Td>
+        <Link to={`/products/${item._id}`} key={item._id}>
+          {item.name}
+        </Link>
+      </Td>
+      <Td>{item.countInStock > 0 ? `$${item.price}` : "-"}</Td>
+      <Td>
+        {item.countInStock > 0 ? (
+          <QuantityControl>
+            <QuantityButton
+              onClick={() => decrementQuantity(item._id, item.quantity)}
+            >
+              <FaMinus />
+            </QuantityButton>
+            <QuantityValue>{item.quantity}</QuantityValue>
+            <QuantityButton
+              onClick={() => incrementQuantity(item._id, item.quantity)}
+              disabled={
+                item.quantity >= item.countInStock || item.quantity >= 10
+              }
+            >
+              <FaPlus />
+            </QuantityButton>
+          </QuantityControl>
+        ) : (
+          "out of stock"
+        )}
+      </Td>
+      <Td>
+        {item.countInStock > 0
+          ? `$${(item.price * item.quantity).toFixed(2)}`
+          : "-"}
+      </Td>
+      <Td>
+        <RemoveButton onClick={() => handleRemoveItem(item._id)}>
+          <FaTrash />
+        </RemoveButton>
+      </Td>
+    </tr>
+  );
 
   return (
     <Container>
@@ -51,70 +108,12 @@ const Cart = () => {
         </EmptyCart>
       ) : (
         <>
-          <Table>
-            <thead>
-              <tr>
-                <Th>Image</Th>
-                <Th>Product</Th>
-                <Th>Price</Th>
-                <Th>Quantity</Th>
-                <Th>Subtotal</Th>
-                <Th>Remove</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartItems.map((item) => (
-                <tr key={item._id}>
-                  <Td>
-                    <ProductImage src={item.image} alt={item.name} />
-                  </Td>
-                  <Td>
-                    <Link to={`/products/${item._id}`} key={item._id}>
-                      {item.name}
-                    </Link>
-                  </Td>
-                  <Td>{item.countInStock > 0 ? `$${item.price}` : "-"}</Td>
-                  <Td>
-                    {item.countInStock > 0 ? (
-                      <QuantityControl>
-                        <QuantityButton
-                          onClick={() =>
-                            decrementQuantity(item._id, item.quantity)
-                          }
-                        >
-                          <FaMinus />
-                        </QuantityButton>
-                        <QuantityValue>{item.quantity}</QuantityValue>
-                        <QuantityButton
-                          onClick={() =>
-                            incrementQuantity(item._id, item.quantity)
-                          }
-                          disabled={
-                            item.quantity >= item.countInStock ||
-                            item.quantity >= 10
-                          }
-                        >
-                          <FaPlus />
-                        </QuantityButton>
-                      </QuantityControl>
-                    ) : (
-                      "out of stock"
-                    )}
-                  </Td>
-                  <Td>
-                    {item.countInStock > 0
-                      ? `$${(item.price * item.quantity).toFixed(2)}`
-                      : "-"}
-                  </Td>
-                  <Td>
-                    <RemoveButton onClick={() => handleRemoveItem(item._id)}>
-                      <FaTrash />
-                    </RemoveButton>
-                  </Td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <TableItems
+            data={cartItems}
+            columns={columns}
+            renderItem={renderItem}
+            itemPerPage={10}
+          />
           <Actions>
             <Button>
               <Link to="/products">Return To Shop</Link>
@@ -193,18 +192,6 @@ const EmptyCart = styled.div`
   }
 `;
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-`;
-
-const Th = styled.th`
-  text-align: left;
-  padding: 1rem;
-  border-bottom: 1px solid var(--color-grey-2);
-`;
-
 const Td = styled.td`
   padding: 1rem;
   border-bottom: 1px solid var(--color-grey-2);
@@ -264,6 +251,9 @@ const CartWrapper = styled.div`
   justify-content: space-between;
   gap: 4rem;
 
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
   .wrapper {
     display: flex;
     flex-direction: column;
@@ -277,6 +267,12 @@ const CouponSection = styled.div`
   gap: 1rem;
   margin-bottom: 2rem;
   align-self: flex-start;
+
+  @media screen and (max-width: 768px) {
+    align-self: center;
+    margin-bottom: 1rem;
+    gap: 4rem;
+  }
 `;
 
 const CouponInput = styled.input`
