@@ -8,6 +8,7 @@ const SectionContainer = styled.div`
   align-items: center;
   padding: 2rem;
   background-color: #f9f9f9;
+  margin-bottom: 4rem;
 `;
 
 const Item = styled.div`

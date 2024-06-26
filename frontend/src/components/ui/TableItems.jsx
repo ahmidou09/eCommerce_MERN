@@ -4,6 +4,11 @@ import { useState } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { MdArrowDropUp, MdArrowDropDown } from "react-icons/md";
 
+const Container = styled.div`
+  margin: 2.5rem 0;
+  overflow-x: scroll;
+`;
+
 const TableStyled = styled.table`
   width: 100%;
   min-height: min-content;
@@ -134,7 +139,7 @@ const TableItems = ({ data, columns, renderItem, itemPerPage = 10 }) => {
   };
 
   return (
-    <>
+    <Container>
       <TableStyled>
         <Thead>
           <tr>
@@ -202,7 +207,7 @@ const TableItems = ({ data, columns, renderItem, itemPerPage = 10 }) => {
           </PaginationNextPrevious>
         </PaginationWrapper>
       )}
-    </>
+    </Container>
   );
 };
 

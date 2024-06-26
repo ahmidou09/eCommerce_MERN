@@ -10,13 +10,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  margin-bottom: 8rem;
+  margin-bottom: 4rem;
 `;
 const SectionContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 30rem);
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 30rem);
+  }
 `;
 
 const Item = styled.div`
@@ -41,16 +46,29 @@ const Item = styled.div`
 const LargeItem = styled(Item)`
   grid-column: 1 / span 2;
   grid-row: 1 / -1;
+
+  @media (max-width: 768px) {
+    grid-column: 1 / -1;
+    grid-row: 1 / 3;
+  }
 `;
 
 const MediumItem = styled(Item)`
   grid-column: 3 / span 2;
   grid-row: span 1;
+
+  @media (max-width: 768px) {
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
+  }
 `;
 
 const SmallItem = styled(Item)`
   grid-column: span 1;
-  grid-row: 2 / -1;
+
+  @media (max-width: 768px) {
+    grid-column: 1 / -1;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -79,6 +97,7 @@ const TextContainer = styled.div`
     z-index: 1;
     transition: top 0.3s, opacity 0.3s;
   }
+
   ${Item}:hover & {
     &:before {
       opacity: 1;

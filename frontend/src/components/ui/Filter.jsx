@@ -7,6 +7,10 @@ const FilterContainer = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 2rem 4rem 0 0;
 
+  @media (max-width: 768px) {
+    display: none;
+  }
+
   .filter_list {
     display: flex;
     flex-direction: column;

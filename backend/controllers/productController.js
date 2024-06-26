@@ -73,7 +73,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample name",
-    price: 0,
+    price: Number(0),
     image: "/images/sample.jpg",
     user: req.user._id,
     images: [],
@@ -82,9 +82,9 @@ const createProduct = asyncHandler(async (req, res) => {
     description: "Sample description",
     brand: "Sample brand",
     category: "Sample category",
-    countInStock: 0,
-    oldPrice: 0,
-    discount: 0,
+    countInStock: Number(0),
+    oldPrice: Number(0),
+    discount: Number(0),
   });
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);

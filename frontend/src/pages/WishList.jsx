@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { FaTrash, FaCartPlus } from "react-icons/fa";
 import Meta from "../components/ui/Meta";
 
-
 const WishList = () => {
   const dispatch = useDispatch();
   const { wishListItems } = useSelector((state) => state.wishList);
@@ -116,6 +115,7 @@ const EmptyMessage = styled.p`
 
 const ItemsGrid = styled.div`
   display: grid;
+  justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
   grid-gap: 6rem;
   align-items: center;
