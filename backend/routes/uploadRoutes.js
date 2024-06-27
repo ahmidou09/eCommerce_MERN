@@ -1,51 +1,66 @@
-// uploadRoutes.js
+import path from "path";
 import express from "express";
+import multer from "multer";
 
 const router = express.Router();
 
-const uploadRoutes = (upload, gfs) => {
-  // Upload a single image
-  router.post("/single", (req, res) => {
-    upload.single("image")(req, res, (err) => {
-      if (err) {
-        console.error("Upload Error:", err);
-        return res.status(400).send({ message: err.message });
-      }
-      res.status(200).send({
-        message: "Image uploaded successfully",
-        file: req.file,
-      });
-    });
-  });
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename(req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
 
-  // Upload multiple images
-  router.post("/multiple", (req, res) => {
-    upload.array("images", 10)(req, res, (err) => {
-      if (err) {
-        console.error("Upload Error:", err);
-        return res.status(400).send({ message: err.message });
-      }
-      res.status(200).send({
-        message: "Images uploaded successfully",
-        files: req.files,
-      });
-    });
-  });
+function fileFilter(req, file, cb) {
+  const filetypes = /jpe?g|png|webp/;
+  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
 
-  // Retrieve an image
-  router.get("/:filename", async (req, res) => {
-    try {
-      const file = await gfs.find({ filename: req.params.filename }).toArray();
-      if (!file || file.length === 0) {
-        return res.status(404).send({ message: "File not found" });
-      }
-      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-    } catch (error) {
-      res.status(500).send({ message: error.message });
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = mimetypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    cb(null, true);
+  } else {
+    cb(new Error("Images only!"), false);
+  }
+}
+
+const upload = multer({ storage, fileFilter });
+const uploadSingleImage = upload.single("image");
+const uploadMultipleImages = upload.array("images", 10);
+
+router.post("/single", (req, res) => {
+  uploadSingleImage(req, res, function (err) {
+    if (err) {
+      console.error("Upload Error:", err);
+      return res.status(400).send({ message: err.message });
     }
+
+    res.status(200).send({
+      message: "Image uploaded successfully",
+      image: `/uploads/${req.file.filename}`,
+    });
   });
+});
 
-  return router;
-};
+router.post("/multiple", (req, res) => {
+  uploadMultipleImages(req, res, function (err) {
+    if (err) {
+      console.error("Upload Error:", err);
+      return res.status(400).send({ message: err.message });
+    }
 
-export default uploadRoutes;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+    res.status(200).send({
+      message: "Images uploaded successfully",
+      images,
+    });
+  });
+});
+
+export default router;
