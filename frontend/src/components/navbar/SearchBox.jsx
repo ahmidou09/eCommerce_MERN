@@ -43,8 +43,6 @@ const debouncedNavigateFn = (navigate) =>
   debounce((keyword) => {
     if (keyword) {
       navigate(`/search/${keyword.trim()}`);
-    } else {
-      navigate("/");
     }
   }, 500);
 
