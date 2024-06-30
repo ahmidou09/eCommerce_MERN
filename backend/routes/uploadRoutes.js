@@ -1,65 +1,92 @@
-import path from "path";
 import express from "express";
 import multer from "multer";
+import { GridFSBucket } from "mongodb";
+import dotenv from "dotenv";
+import path from "path";
+import mongoose from "mongoose";
+
+dotenv.config();
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, "frontend/public/uploads/");
-  },
-  filename(req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
+// Mongo URI
+const mongoURI = process.env.MONGO_URI;
+
+// Create mongo connection
+const conn = mongoose.createConnection(mongoURI);
+
+// Init gfs
+let gfs;
+let gridFSBucket;
+
+conn.once("open", () => {
+  console.log("MongoDB connection opened for GridFS");
+  gridFSBucket = new GridFSBucket(conn.db, {
+    bucketName: "uploads",
+  });
+  gfs = gridFSBucket;
 });
 
-function fileFilter(req, file, cb) {
-  const filetypes = /jpe?g|png|webp/;
-  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
+// Create storage engine
+const storage = multer.memoryStorage();
 
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = mimetypes.test(file.mimetype);
+const upload = multer({ storage });
 
-  if (extname && mimetype) {
-    cb(null, true);
-  } else {
-    cb(new Error("Images only!"), false);
+// Single file upload route
+router.post("/single", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: "No file uploaded" });
   }
-}
 
-const upload = multer({ storage, fileFilter });
-const uploadSingleImage = upload.single("image");
-const uploadMultipleImages = upload.array("images", 10);
+  const filename = `${req.file.fieldname}-${Date.now()}${path.extname(
+    req.file.originalname
+  )}`;
+  const stream = gridFSBucket.openUploadStream(filename, {
+    contentType: req.file.mimetype,
+  });
 
-router.post("/single", (req, res) => {
-  uploadSingleImage(req, res, function (err) {
+  stream.end(req.file.buffer, (err) => {
     if (err) {
-      console.error("Upload Error:", err);
-      return res.status(400).send({ message: err.message });
+      console.error("Error uploading file:", err);
+      return res.status(500).send({ message: "Error uploading file" });
     }
 
     res.status(200).send({
       message: "Image uploaded successfully",
-      image: `/uploads/${req.file.filename}`,
+      image: filename,
     });
   });
 });
 
-router.post("/multiple", (req, res) => {
-  uploadMultipleImages(req, res, function (err) {
-    if (err) {
-      console.error("Upload Error:", err);
-      return res.status(400).send({ message: err.message });
-    }
+// Multiple files upload route
+router.post("/multiple", upload.array("images", 10), (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).send({ message: "No files uploaded" });
+  }
 
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-    res.status(200).send({
-      message: "Images uploaded successfully",
-      images,
+  const uploadedFiles = [];
+
+  req.files.forEach((file) => {
+    const filename = `${file.fieldname}-${Date.now()}${path.extname(
+      file.originalname
+    )}`;
+    const stream = gridFSBucket.openUploadStream(filename, {
+      contentType: file.mimetype,
     });
+
+    stream.end(file.buffer, (err) => {
+      if (err) {
+        console.error("Error uploading file:", err);
+        return res.status(500).send({ message: "Error uploading file" });
+      }
+
+      uploadedFiles.push(filename);
+    });
+  });
+
+  res.status(200).send({
+    message: "Images uploaded successfully",
+    images: uploadedFiles,
   });
 });
 
