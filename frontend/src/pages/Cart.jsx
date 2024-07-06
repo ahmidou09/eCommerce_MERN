@@ -7,6 +7,7 @@ import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import CartTotal from "../components/ui/CartTotal";
 import Meta from "../components/ui/Meta";
 import TableItems from "../components/ui/TableItems";
+import { BASE_URL, UPLOAD_URL } from "../constants";
 
 const Cart = () => {
   const [coupon, setCoupon] = useState("");
@@ -51,7 +52,7 @@ const Cart = () => {
     <tr key={item._id}>
       <Td>
         <ProductImage
-          src={`http://localhost:5000/api/upload/${item.image}`}
+          src={`${BASE_URL}${UPLOAD_URL}${item.image}`}
           alt={item.name}
         />
       </Td>

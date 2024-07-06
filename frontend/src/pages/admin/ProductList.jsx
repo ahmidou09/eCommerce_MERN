@@ -17,6 +17,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import Paginate from "../../components/ui/Paginate";
 import Meta from "../../components/ui/Meta";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 function ProductList() {
   const { pageNumber } = useParams();
@@ -77,7 +78,7 @@ function ProductList() {
       <td>{new Date(product.createdAt).toLocaleDateString()}</td>
       <td>
         <img
-          src={`http://localhost:5000/api/upload/${product.image}`}
+          src={`${BASE_URL}${UPLOAD_URL}/${product.image}`}
           alt={product.name}
           style={{ width: "50px", height: "50px" }}
         />

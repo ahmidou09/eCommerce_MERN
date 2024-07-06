@@ -108,7 +108,7 @@ const UpdateProduct = () => {
       await updateProduct({ id: productId, ...updatedProduct }).unwrap();
       toast.success("Product updated successfully");
       refetch();
-      navigate(`/products/${productId}`);
+      navigate(`/admin/products`);
     } catch (error) {
       console.error("Upload Error:", error);
       toast.error(error?.data?.message || error.error);

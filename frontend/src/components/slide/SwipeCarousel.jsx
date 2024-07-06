@@ -3,6 +3,7 @@ import { motion, useMotionValue } from "framer-motion";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 const Container = styled.div`
   position: relative;
@@ -180,7 +181,7 @@ const SwipeCarousel = ({ slideData }) => {
               </button>
             </ContentContainer>
             <img
-              src={`http://localhost:5000/api/upload/${product.image}`}
+              src={`${BASE_URL}${UPLOAD_URL}${product.image}`}
               alt="Product"
             />
           </SlideContainer>

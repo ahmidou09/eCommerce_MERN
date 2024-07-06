@@ -9,6 +9,7 @@ import {
   removeFromWishList,
   addToWishList,
 } from "../../redux/slices/wishListSlice";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 const ProductCard = styled.div`
   border-radius: 0.5rem;
@@ -138,7 +139,7 @@ function Card({ products }) {
                 <ProductDiscount>-{product.discount}%</ProductDiscount>
               )}
               <ProductImage
-                src={`http://localhost:5000/api/upload/${product.image}`}
+                src={`${BASE_URL}${UPLOAD_URL}${product.image}`}
                 alt={product.name}
               />
             </ImageContainer>

@@ -8,6 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import TableItems from "../../components/ui/TableItems";
 import Paginate from "../../components/ui/Paginate";
 import Meta from "../../components/ui/Meta";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 function OrderList() {
   const { pageNumber } = useParams();
@@ -35,7 +36,7 @@ function OrderList() {
       <td>{truncateString(order._id, 10)}</td>
       <td>
         <img
-          src={order.orderItems[0].image}
+          src={`${BASE_URL}${UPLOAD_URL}${order.orderItems[0].image}`}
           alt={order.orderItems[0].name}
           width="50"
         />

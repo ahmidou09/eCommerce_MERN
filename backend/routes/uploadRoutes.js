@@ -3,6 +3,7 @@ import multer from "multer";
 import dotenv from "dotenv";
 import path from "path";
 import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ router.post("/single", upload.single("image"), (req, res) => {
     return res.status(400).send({ message: "No file uploaded" });
   }
 
-  const filename = `${req.file.fieldname}-${Date.now()}${path.extname(
+  const filename = `${uuidv4()}-${Date.now()}${path.extname(
     req.file.originalname
   )}`;
   const stream = gridFSBucket.openUploadStream(filename, {
@@ -58,7 +59,7 @@ router.post("/multiple", upload.array("images", 10), (req, res) => {
   let filesProcessed = 0;
 
   req.files.forEach((file) => {
-    const filename = `${file.fieldname}-${Date.now()}${path.extname(
+    const filename = `${uuidv4()}-${Date.now()}${path.extname(
       file.originalname
     )}`;
     const stream = gridFSBucket.openUploadStream(filename, {

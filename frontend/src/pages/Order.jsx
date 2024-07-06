@@ -17,6 +17,7 @@ import Errors from "../components/ui/Errors";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Meta from "../components/ui/Meta";
+import { BASE_URL, UPLOAD_URL } from "../constants";
 
 const Order = () => {
   const { id: orderId } = useParams();
@@ -154,7 +155,10 @@ const Order = () => {
               {order.orderItems.map((item, index) => (
                 <Link to={`/products/${item.product}`} key={index}>
                   <ItemDetail key={index}>
-                    <ItemImg src={item.image} alt={item.name} />
+                    <ItemImg
+                      src={`${BASE_URL}${UPLOAD_URL}${item.image}`}
+                      alt={item.name}
+                    />
                     <ItemName>{truncateString(item.name, 18)}</ItemName>
                     <ItemQuantity>
                       {item.quantity} x ${item.price.toFixed(2)} = $
