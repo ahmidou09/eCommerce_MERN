@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 const CartItem = ({ item }) =>
   item.countInStock > 0 && (
     <tr key={item._id}>
       <Td>
-        <ProductImage src={item.image} alt={item.name} />
+        <ProductImage
+          src={`${BASE_URL}${UPLOAD_URL}${item.image}`}
+          alt={item.name}
+        />
       </Td>
       <Td>{item.name}</Td>
       <Td>

@@ -28,14 +28,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     uploadSingleProductImage: builder.mutation({
       query: (data) => ({
-        url: `${BASE_URL}${UPLOAD_URL}/single`,
+        url: `${BASE_URL}${UPLOAD_URL}single`,
         method: "POST",
         body: data,
       }),
     }),
     uploadMultipleProductImages: builder.mutation({
       query: (data) => ({
-        url: `${BASE_URL}${UPLOAD_URL}/multiple`,
+        url: `${BASE_URL}${UPLOAD_URL}multiple`,
         method: "POST",
         body: data,
       }),
