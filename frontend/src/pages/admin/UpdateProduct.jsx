@@ -46,8 +46,8 @@ const UpdateProduct = () => {
     if (product) {
       setFormFields({
         name: product.name || "",
-        image: product.image || "",
-        images: product.images || [],
+        image: product.image ? product.image : "",
+        images: product.images?.map((file) => file) || [],
         colors: product.colors || [],
         sizes: product.sizes || [],
         description: product.description || "",
@@ -108,7 +108,7 @@ const UpdateProduct = () => {
       await updateProduct({ id: productId, ...updatedProduct }).unwrap();
       toast.success("Product updated successfully");
       refetch();
-      navigate(`/products/${productId}`);
+      navigate(`/admin/products`);
     } catch (error) {
       console.error("Upload Error:", error);
       toast.error(error?.data?.message || error.error);

@@ -7,6 +7,7 @@ import { truncateString } from "../../utils/utils";
 import TableItems from "../ui/TableItems";
 import { Link } from "react-router-dom";
 import Meta from "../ui/Meta";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 const Cancellations = () => {
   const {
@@ -33,7 +34,7 @@ const Cancellations = () => {
       <td>{truncateString(order._id, 10)}</td>
       <td>
         <img
-          src={order.orderItems[0].image}
+          src={`${BASE_URL}${UPLOAD_URL}${order.orderItems[0].image}`}
           alt={order.orderItems[0].name}
           width="50"
         />

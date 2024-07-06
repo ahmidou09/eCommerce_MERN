@@ -17,6 +17,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Errors from "../ui/Errors";
 import Meta from "../ui/Meta";
+import { BASE_URL, UPLOAD_URL } from "../../constants";
 
 function ProductView() {
   const { id } = useParams();
@@ -30,7 +31,7 @@ function ProductView() {
 
   useEffect(() => {
     if (product) {
-      setSelectedImage(product.images[0]);
+      setSelectedImage(`${BASE_URL}${UPLOAD_URL}${product.images[0]}`);
       setSelectedColor(product.colors[0]);
       setSelectedSize(product.sizes[0]);
     }
@@ -81,7 +82,9 @@ function ProductView() {
               keywords={product?.keywords}
             />
             <ImageGallery
-              images={product.images}
+              images={product?.images.map(
+                (image) => `${BASE_URL}${UPLOAD_URL}${image}`
+              )}
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage}
             />

@@ -7,6 +7,7 @@ import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import CartTotal from "../components/ui/CartTotal";
 import Meta from "../components/ui/Meta";
 import TableItems from "../components/ui/TableItems";
+import { BASE_URL, UPLOAD_URL } from "../constants";
 
 const Cart = () => {
   const [coupon, setCoupon] = useState("");
@@ -50,7 +51,10 @@ const Cart = () => {
   const renderItem = (item) => (
     <tr key={item._id}>
       <Td>
-        <ProductImage src={item.image} alt={item.name} />
+        <ProductImage
+          src={`${BASE_URL}${UPLOAD_URL}${item.image}`}
+          alt={item.name}
+        />
       </Td>
       <Td>
         <Link to={`/products/${item._id}`} key={item._id}>
