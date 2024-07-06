@@ -137,7 +137,10 @@ function Card({ products }) {
               {product.discount > 0 && (
                 <ProductDiscount>-{product.discount}%</ProductDiscount>
               )}
-              <ProductImage src={product.image} alt={product.name} />
+              <ProductImage
+                src={`http://localhost:5000/api/upload/${product.image}`}
+                alt={product.name}
+              />
             </ImageContainer>
 
             <div className="button-container">

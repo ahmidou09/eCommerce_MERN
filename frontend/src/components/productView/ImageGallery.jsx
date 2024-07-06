@@ -8,8 +8,8 @@ const ImageGallery = ({ images, selectedImage, setSelectedImage }) => (
         <Thumbnail
           key={index}
           src={image}
+          alt={`Thumbnail ${index}`}
           onClick={() => setSelectedImage(image)}
-          selected={selectedImage === image}
         />
       ))}
     </div>

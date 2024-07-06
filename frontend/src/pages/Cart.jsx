@@ -50,7 +50,10 @@ const Cart = () => {
   const renderItem = (item) => (
     <tr key={item._id}>
       <Td>
-        <ProductImage src={item.image} alt={item.name} />
+        <ProductImage
+          src={`http://localhost:5000/api/upload/${item.image}`}
+          alt={item.name}
+        />
       </Td>
       <Td>
         <Link to={`/products/${item._id}`} key={item._id}>

@@ -46,8 +46,8 @@ const UpdateProduct = () => {
     if (product) {
       setFormFields({
         name: product.name || "",
-        image: product.image || "",
-        images: product.images || [],
+        image: product.image ? product.image : "",
+        images: product.images?.map((file) => file) || [],
         colors: product.colors || [],
         sizes: product.sizes || [],
         description: product.description || "",

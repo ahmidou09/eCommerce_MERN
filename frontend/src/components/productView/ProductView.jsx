@@ -30,7 +30,7 @@ function ProductView() {
 
   useEffect(() => {
     if (product) {
-      setSelectedImage(product.images[0]);
+      setSelectedImage(`http://localhost:5000/api/upload/${product.images[0]}`);
       setSelectedColor(product.colors[0]);
       setSelectedSize(product.sizes[0]);
     }
@@ -81,7 +81,9 @@ function ProductView() {
               keywords={product?.keywords}
             />
             <ImageGallery
-              images={product.images}
+              images={product?.images.map(
+                (image) => `http://localhost:5000/api/upload/${image}`
+              )}
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage}
             />

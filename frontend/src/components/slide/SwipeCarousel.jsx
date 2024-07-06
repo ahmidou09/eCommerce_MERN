@@ -179,7 +179,10 @@ const SwipeCarousel = ({ slideData }) => {
                 </Link>
               </button>
             </ContentContainer>
-            <img src={product.image} alt="Product" />
+            <img
+              src={`http://localhost:5000/api/upload/${product.image}`}
+              alt="Product"
+            />
           </SlideContainer>
         ))}
       </CarouselMotionDiv>

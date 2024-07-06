@@ -77,7 +77,7 @@ function ProductList() {
       <td>{new Date(product.createdAt).toLocaleDateString()}</td>
       <td>
         <img
-          src={product.image}
+          src={`http://localhost:5000/api/upload/${product.image}`}
           alt={product.name}
           style={{ width: "50px", height: "50px" }}
         />
