@@ -9,20 +9,21 @@ dotenv.config();
 
 const router = express.Router();
 
-const mongoURI = process.env.MONGO_URI;
-
-const conn = mongoose.createConnection(mongoURI);
-
-let gfs;
 let gridFSBucket;
 
-conn.once("open", () => {
-  console.log("MongoDB connection opened for GridFS");
-  gridFSBucket = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: "uploads",
-  });
-  gfs = gridFSBucket;
-});
+// Helper to ensure GridFSBucket is initialized
+const getGridFSBucket = () => {
+  if (gridFSBucket) return gridFSBucket;
+
+  if (mongoose.connection.readyState === 1 && mongoose.connection.db) {
+    gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+      bucketName: "uploads",
+    });
+    console.log("GridFSBucket initialized");
+    return gridFSBucket;
+  }
+  throw new Error("MongoDB not connected or GridFS not initialized");
+};
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -32,22 +33,28 @@ router.post("/single", upload.single("image"), (req, res) => {
     return res.status(400).send({ message: "No file uploaded" });
   }
 
-  const filename = `${uuidv4()}-${Date.now()}${path.extname(
-    req.file.originalname
-  )}`;
-  const stream = gridFSBucket.openUploadStream(filename, {
-    contentType: req.file.mimetype,
-  });
+  try {
+    const bucket = getGridFSBucket();
+    const filename = `${uuidv4()}-${Date.now()}${path.extname(
+      req.file.originalname
+    )}`;
+    const stream = bucket.openUploadStream(filename, {
+      contentType: req.file.mimetype,
+    });
 
-  stream.end(req.file.buffer, (err) => {
-    if (err) {
-      console.error("Error uploading file:", err);
-      return res.status(500).send({ message: "Error uploading file" });
-    }
-    res
-      .status(200)
-      .send({ message: "Image uploaded successfully", image: filename });
-  });
+    stream.end(req.file.buffer, (err) => {
+      if (err) {
+        console.error("Error uploading file:", err);
+        return res.status(500).send({ message: "Error uploading file" });
+      }
+      res
+        .status(200)
+        .send({ message: "Image uploaded successfully", image: filename });
+    });
+  } catch (error) {
+    console.error("GridFS Error:", error);
+    res.status(500).send({ message: "Server Error: Database connection issue" });
+  }
 });
 
 router.post("/multiple", upload.array("images", 10), (req, res) => {
@@ -55,35 +62,41 @@ router.post("/multiple", upload.array("images", 10), (req, res) => {
     return res.status(400).send({ message: "No files uploaded" });
   }
 
-  const uploadedFiles = [];
-  let filesProcessed = 0;
+  try {
+    const bucket = getGridFSBucket();
+    const uploadedFiles = [];
+    let filesProcessed = 0;
 
-  req.files.forEach((file) => {
-    const filename = `${uuidv4()}-${Date.now()}${path.extname(
-      file.originalname
-    )}`;
-    const stream = gridFSBucket.openUploadStream(filename, {
-      contentType: file.mimetype,
-    });
+    req.files.forEach((file) => {
+      const filename = `${uuidv4()}-${Date.now()}${path.extname(
+        file.originalname
+      )}`;
+      const stream = bucket.openUploadStream(filename, {
+        contentType: file.mimetype,
+      });
 
-    stream.end(file.buffer, (err) => {
-      filesProcessed += 1;
-      if (err) {
-        console.error("Error uploading file:", err);
-        if (filesProcessed === req.files.length) {
-          return res.status(500).send({ message: "Error uploading files" });
+      stream.end(file.buffer, (err) => {
+        filesProcessed += 1;
+        if (err) {
+          console.error("Error uploading file:", err);
+          if (filesProcessed === req.files.length) {
+            return res.status(500).send({ message: "Error uploading files" });
+          }
+        } else {
+          uploadedFiles.push(filename);
+          if (filesProcessed === req.files.length) {
+            res.status(200).send({
+              message: "Images uploaded successfully",
+              images: uploadedFiles,
+            });
+          }
         }
-      } else {
-        uploadedFiles.push(filename);
-        if (filesProcessed === req.files.length) {
-          res.status(200).send({
-            message: "Images uploaded successfully",
-            images: uploadedFiles,
-          });
-        }
-      }
+      });
     });
-  });
+  } catch (error) {
+    console.error("GridFS Error:", error);
+    res.status(500).send({ message: "Server Error: Database connection issue" });
+  }
 });
 
 router.get("/:filename", async (req, res) => {
@@ -91,13 +104,14 @@ router.get("/:filename", async (req, res) => {
   console.log(`Fetching file: ${filename}`);
 
   try {
-    const files = await gfs.find({ filename }).toArray();
+    const bucket = getGridFSBucket();
+    const files = await bucket.find({ filename }).toArray();
     if (!files || files.length === 0) {
       return res.status(404).send({ message: "No files found" });
     }
 
     console.log(`File found: ${filename}`);
-    const readStream = gfs.openDownloadStreamByName(filename);
+    const readStream = bucket.openDownloadStreamByName(filename);
     readStream.on("error", (error) => {
       console.error("Error streaming file:", error);
       res.status(500).send({ message: "Error streaming file" });
