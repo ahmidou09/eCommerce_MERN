@@ -14,8 +14,6 @@ dotenv.config();
 
 const port = process.env.PORT || 5000;
 
-connectDB();
-
 const app = express();
 
 app.use(express.json());
@@ -56,6 +54,16 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(port, () => {
+            console.log(`Server started on port ${port}`);
+        });
+    } catch (error) {
+        console.error(`Error starting server: ${error.message}`);
+        process.exit(1);
+    }
+};
+
+startServer();

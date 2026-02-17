@@ -43,7 +43,7 @@ function OrderList() {
       </td>
       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
       <td>{truncateString(order.orderItems[0].name, 10)}</td>
-      <td>{truncateString(order.user.name, 10)}</td>
+      <td>{order.user ? truncateString(order.user.name, 10) : "Deleted User"}</td>
       <td>
         {order.isPaid ? (
           new Date(order.paidAt).toLocaleDateString()
