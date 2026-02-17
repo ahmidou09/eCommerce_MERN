@@ -23,7 +23,7 @@ app.use(cookieParser());
 // cors
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://ecommercemern-orpin.vercel.app",
     credentials: true,
   })
 );
