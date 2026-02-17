@@ -47,7 +47,7 @@ EazyMart is a ecommerce platform built with React.js, Node.js, Express.js, Mongo
 
 ### 🚀 Live Demo <a name="live-demo"></a>
 
-[Visit the live demo](https://ecommerce-mern-1-b1ux.onrender.com/)
+[Visit the live demo](https://ecommercemern-orpin.vercel.app/)
 
 ## 💻 Getting Started <a name="getting-started"></a>
 
